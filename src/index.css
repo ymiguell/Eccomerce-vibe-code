@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+/* Identidade visual: vermelho forte + branco, com texto em quase preto neutro.
+   Contraste do texto branco: primary 4.97:1 · primary-hover 6.86:1 · footer 8.14:1 (WCAG AA).
+   Cada token vira classe do Tailwind: bg-primary, text-muted-foreground, border-border... */
+@theme {
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Cormorant", ui-serif, Georgia, serif;
+
+  --color-background: #ffffff;
+  --color-foreground: #171717;
+  --color-surface: #ffffff;
+  --color-muted: #f5f5f5;
+  --color-muted-foreground: #525252;
+  --color-border: #e5e5e5;
+
+  --color-primary: #e10600;
+  --color-primary-hover: #b80500;
+  --color-on-primary: #ffffff;
+
+  --color-accent: #e10600;
+  --color-sale: #e10600;
+  --color-footer: #a30500;
+}
+
+/* O preflight do Tailwind já zera margin/padding e aplica box-sizing: border-box.
+   Aqui ficam só os padrões globais do projeto. */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Desconta a NavBar fixa (h-16) ao rolar até uma âncora, para o título não ficar escondido */
+    scroll-padding-top: 4rem;
+  }
+
+  body {
+    @apply min-h-screen bg-background font-sans text-foreground antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-serif;
+  }
+
+  a {
+    @apply transition-colors duration-200;
+  }
+
+  button {
+    @apply cursor-pointer;
+  }
+
+  img {
+    @apply max-w-full;
+  }
+
+  ::selection {
+    @apply bg-primary text-on-primary;
+  }
+
+  /* Foco visível e consistente para navegação por teclado */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-accent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
