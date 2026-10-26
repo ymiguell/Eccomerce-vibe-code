@@ -1,22 +1,33 @@
 import { useEffect, useState } from 'react'
 import { addItem, calculateTotals, changeQuantity, countItems, removeItem } from '../../domain/entities/Cart.js'
 
-/** Estado do carrinho na tela. As regras (limites, totais, frete) vêm do domínio. */
-export function useCart(getCart, applyCoupon) {
+/**
+ * Estado do carrinho na tela. As regras (limites, totais, frete) vêm do domínio.
+ * Começa com o que estava guardado e salva de novo a cada mudança.
+ */
+export function useCart(getCart, saveCart, applyCoupon) {
   const [items, setItems] = useState([])
+  const [isLoaded, setLoaded] = useState(false)
   const [coupon, setCoupon] = useState(null)
 
   useEffect(() => {
     let active = true
 
-    getCart().then((data) => {
-      if (active) setItems(data)
+    getCart().then((saved) => {
+      if (!active) return
+      setItems(saved)
+      setLoaded(true)
     })
 
     return () => {
       active = false
     }
   }, [getCart])
+
+  // Só salva depois de carregar: a lista vazia inicial não pode apagar a sacola guardada
+  useEffect(() => {
+    if (isLoaded) saveCart(items)
+  }, [items, isLoaded, saveCart])
 
   const totals = calculateTotals(items, coupon)
 
@@ -28,6 +39,7 @@ export function useCart(getCart, applyCoupon) {
 
   return {
     items,
+    isLoaded,
     coupon,
     totals,
     count: countItems(items),
@@ -39,5 +51,10 @@ export function useCart(getCart, applyCoupon) {
     remove: (itemKey) => setItems((current) => removeItem(current, itemKey)),
     redeemCoupon,
     removeCoupon: () => setCoupon(null),
+    // Depois de finalizar o pedido
+    clear: () => {
+      setItems([])
+      setCoupon(null)
+    },
   }
 }

@@ -21,6 +21,11 @@ function clampQuantity(quantity) {
   return Math.min(Math.max(quantity, 1), MAX_QUANTITY)
 }
 
+/** O que basta guardar para remontar a linha depois: preço, foto etc. sempre vêm do catálogo atualizado. */
+export function toCartEntry(item) {
+  return { productId: item.product.id, size: item.size, color: item.color, quantity: item.quantity }
+}
+
 /** Identifica a linha da sacola: produto + tamanho + cor. */
 export function getItemKey(item) {
   return [item.product.id, item.size ?? '', item.color ?? ''].join('|')

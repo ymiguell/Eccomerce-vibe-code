@@ -8,11 +8,13 @@ Loja virtual de moda, casa, tecnologia e saúde feita com **React + Tailwind CSS
 - Páginas de nicho (Moda, Casa, Tecnologia, Saúde) com filtros, ordenação e "Carregar mais"
 - Outlet com todos os produtos em promoção, separados por nicho
 - Página do produto: galeria, tamanho/cor, cálculo de frete por CEP, avaliações e dúvidas frequentes
-- Sacola lateral com quantidade, cupom de desconto, frete grátis progressivo e parcelamento
+- Sacola lateral com quantidade, cupom de desconto, frete grátis progressivo e parcelamento, salva no navegador
+- Checkout em 3 etapas (identificação, entrega com busca de endereço pelo CEP, pagamento via Pix ou cartão) e página de pedido confirmado
 - Faixa com contagem regressiva para a Black Friday
 - Layout responsivo (celular, tablet e desktop) e cuidados de acessibilidade
 
 > Os produtos, avaliações e cupons são dados de exemplo (mock). Cupons para testar: `BEMVINDO10` e `VERAO20`.
+> O checkout é de demonstração: nenhum valor é cobrado e nenhum dado de cartão é pedido.
 
 ## Como rodar
 

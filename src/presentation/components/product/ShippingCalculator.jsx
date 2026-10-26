@@ -1,12 +1,6 @@
 import { useId, useState } from 'react'
-import { normalizeCep } from '../../../domain/services/shipping.js'
 import { formatPrice } from '../../formatters/currency.js'
-
-// "01310100" → "01310-100" enquanto a pessoa digita
-const formatCep = (value) => {
-  const digits = normalizeCep(value)
-  return digits.length > 5 ? `${digits.slice(0, 5)}-${digits.slice(5)}` : digits
-}
+import { formatCep } from '../../formatters/masks.js'
 
 /** "Quando chega na sua casa?": prazo e valor do frete a partir do CEP. */
 function ShippingCalculator({ subtotal, estimateShipping }) {

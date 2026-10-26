@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { Link } from 'react-router'
 import { FREE_SHIPPING_THRESHOLD, getItemKey } from '../../domain/entities/Cart.js'
 import { formatPrice } from '../formatters/currency.js'
 import CartItem from './CartItem.jsx'
@@ -181,13 +182,13 @@ function Cart({ isOpen, onClose, cart }) {
                 ou {totals.installments}x de {formatPrice(totals.installmentValue)} sem juros
               </p>
 
-              <a
-                href="#checkout"
+              <Link
+                to="/checkout"
                 onClick={onClose}
                 className="mt-4 block rounded-sm bg-primary px-6 py-3.5 text-center text-sm font-semibold tracking-wide text-on-primary uppercase transition-colors duration-200 hover:bg-primary-hover"
               >
                 Finalizar compra
-              </a>
+              </Link>
               <button
                 type="button"
                 onClick={onClose}

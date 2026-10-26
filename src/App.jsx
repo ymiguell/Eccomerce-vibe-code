@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from 'react-router'
 import { makeApplyCoupon } from './application/useCases/applyCoupon.js'
 import { makeGetBanners } from './application/useCases/getBanners.js'
 import { makeEstimateShipping } from './application/useCases/estimateShipping.js'
+import { makeFindAddressByCep } from './application/useCases/findAddressByCep.js'
 import { makeGetCart } from './application/useCases/getCart.js'
 import { makeGetFeaturedProducts } from './application/useCases/getFeaturedProducts.js'
 import { makeGetProducts } from './application/useCases/getProducts.js'
@@ -11,14 +12,18 @@ import { makeGetProductById } from './application/useCases/getProductById.js'
 import { makeGetProductReviews } from './application/useCases/getProductReviews.js'
 import { makeGetProductsByNiche } from './application/useCases/getProductsByNiche.js'
 import { makeGetRelatedProducts } from './application/useCases/getRelatedProducts.js'
+import { makePlaceOrder } from './application/useCases/placeOrder.js'
+import { makeSaveCart } from './application/useCases/saveCart.js'
 import { makeSubmitReview } from './application/useCases/submitReview.js'
 import { makeSubscribeToNewsletter } from './application/useCases/subscribeToNewsletter.js'
+import { LocalStorageCartRepository } from './infrastructure/repositories/LocalStorageCartRepository.js'
 import { MockBannerRepository } from './infrastructure/repositories/MockBannerRepository.js'
-import { MockCartRepository } from './infrastructure/repositories/MockCartRepository.js'
 import { MockCouponRepository } from './infrastructure/repositories/MockCouponRepository.js'
 import { MockNewsletterRepository } from './infrastructure/repositories/MockNewsletterRepository.js'
+import { MockOrderRepository } from './infrastructure/repositories/MockOrderRepository.js'
 import { MockProductRepository } from './infrastructure/repositories/MockProductRepository.js'
 import { MockReviewRepository } from './infrastructure/repositories/MockReviewRepository.js'
+import { ViaCepAddressLookup } from './infrastructure/services/ViaCepAddressLookup.js'
 import AnnouncementBar from './presentation/components/AnnouncementBar.jsx'
 import Cart from './presentation/components/Cart.jsx'
 import Footer from './presentation/components/Footer.jsx'
@@ -26,8 +31,10 @@ import NavBar from './presentation/components/NavBar.jsx'
 import { CartContext } from './presentation/context/cartContext.js'
 import { useCart } from './presentation/hooks/useCart.js'
 import { useScrollOnNavigate } from './presentation/hooks/useScrollOnNavigate.js'
+import CheckoutPage from './presentation/pages/CheckoutPage.jsx'
 import HomePage from './presentation/pages/HomePage.jsx'
 import NichePage from './presentation/pages/NichePage.jsx'
+import OrderConfirmationPage from './presentation/pages/OrderConfirmationPage.jsx'
 import OutletPage from './presentation/pages/OutletPage.jsx'
 import ProductPage from './presentation/pages/ProductPage.jsx'
 import { NICHE_PAGES } from './presentation/pages/nichePages.js'
@@ -39,7 +46,10 @@ const getFeaturedProducts = makeGetFeaturedProducts(productRepository)
 const getProducts = makeGetProducts(productRepository)
 const getProductsByNiche = makeGetProductsByNiche(productRepository)
 const getOnSaleProducts = makeGetOnSaleProducts(productRepository)
-const getCart = makeGetCart({ cartRepository: new MockCartRepository(), productRepository })
+// Sacola guardada no navegador
+const cartRepository = new LocalStorageCartRepository()
+const getCart = makeGetCart({ cartRepository, productRepository })
+const saveCart = makeSaveCart(cartRepository)
 const applyCoupon = makeApplyCoupon(new MockCouponRepository())
 const subscribeToNewsletter = makeSubscribeToNewsletter(new MockNewsletterRepository())
 // Página do produto
@@ -49,12 +59,15 @@ const getRelatedProducts = makeGetRelatedProducts(productRepository)
 const getProductReviews = makeGetProductReviews(reviewRepository)
 const submitReview = makeSubmitReview(reviewRepository)
 const estimateShipping = makeEstimateShipping()
+// Checkout
+const placeOrder = makePlaceOrder(new MockOrderRepository())
+const findAddressByCep = makeFindAddressByCep(new ViaCepAddressLookup())
 
 function App() {
   useScrollOnNavigate()
 
   // A sacola fica fora das rotas: o mesmo carrinho acompanha o usuário em todas as páginas
-  const cart = useCart(getCart, applyCoupon)
+  const cart = useCart(getCart, saveCart, applyCoupon)
   const [isCartOpen, setCartOpen] = useState(false)
   // Estável para não reexecutar o efeito do Cart a cada render
   const closeCart = useCallback(() => setCartOpen(false), [])
@@ -103,6 +116,13 @@ function App() {
             />
           }
         />
+        <Route
+          path="/checkout"
+          element={
+            <CheckoutPage placeOrder={placeOrder} findAddressByCep={findAddressByCep} estimateShipping={estimateShipping} />
+          }
+        />
+        <Route path="/pedido-confirmado" element={<OrderConfirmationPage />} />
         {/* Endereço desconhecido volta para a Home */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
