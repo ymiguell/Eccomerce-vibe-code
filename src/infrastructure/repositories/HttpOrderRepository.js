@@ -2,8 +2,8 @@ import { toCartEntry } from '../../domain/entities/Cart.js'
 import { resolveProductImage } from '../assets/catalogImages.js'
 import { ApiError } from '../http/apiClient.js'
 
-// Pedido da API → formato usado pelas telas (o mesmo do MockOrderRepository)
-function toOrder(data) {
+// Pedido da API → formato usado pelas telas (o mesmo do MockOrderRepository). Também usado em "Minha conta".
+export function toOrder(data) {
   return {
     ...data,
     coupon: data.couponCode ? { code: data.couponCode } : null,

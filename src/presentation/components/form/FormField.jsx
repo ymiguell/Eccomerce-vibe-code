@@ -1,5 +1,5 @@
 import { useId } from 'react'
-import { fieldClass } from './checkoutStyles.js'
+import { fieldClass } from './formStyles.js'
 
 /**
  * Campo de formulário ligado ao useForm: rótulo visível, máscara opcional (`format`) e erro logo abaixo.

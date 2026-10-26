@@ -1,6 +1,7 @@
 import { OutOfStockError } from '../../domain/entities/Order.js'
 
 const money = (decimal) => decimal.toNumber()
+const ITEMS = { items: { orderBy: { id: 'asc' } } }
 
 // Linhas do banco (pedido + itens) → pedido no formato da API
 function toOrder(row) {
@@ -77,6 +78,7 @@ export class PrismaOrderRepository {
       const row = await tx.order.create({
         data: {
           status: order.status,
+          customerId: order.customerId,
           customerName: customer.name,
           customerEmail: customer.email,
           customerPhone: customer.phone,
@@ -100,10 +102,20 @@ export class PrismaOrderRepository {
           deliveryMaxDays: delivery.maxDays,
           items: { create: order.items.map((item) => ({ ...item })) },
         },
-        include: { items: { orderBy: { id: 'asc' } } },
+        include: ITEMS,
       })
 
       return toOrder(row)
     })
+  }
+
+  /** Pedidos de uma conta, dos mais recentes para os mais antigos. */
+  async findByCustomer(customerId) {
+    const rows = await this.#prisma.order.findMany({
+      where: { customerId },
+      orderBy: { number: 'desc' },
+      include: ITEMS,
+    })
+    return rows.map(toOrder)
   }
 }

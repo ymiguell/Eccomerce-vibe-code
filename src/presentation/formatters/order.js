@@ -22,3 +22,23 @@ export function formatPayment(payment) {
   if (payment.installments === 1) return 'Cartão de crédito à vista'
   return `Cartão de crédito em ${payment.installments}x de ${formatPrice(payment.installmentValue)} sem juros`
 }
+
+const ORDER_STATUS_LABELS = {
+  pending_payment: 'Aguardando pagamento',
+  paid: 'Pagamento aprovado',
+  shipped: 'Enviado',
+  delivered: 'Entregue',
+  canceled: 'Cancelado',
+}
+
+/** Situação do pedido em português (ex.: pending_payment → "Aguardando pagamento"). */
+export function formatOrderStatus(status) {
+  return ORDER_STATUS_LABELS[status] ?? status
+}
+
+const orderDateFormatter = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })
+
+/** Ex.: "26 de out. de 2026" */
+export function formatOrderDate(isoDate) {
+  return orderDateFormatter.format(new Date(isoDate))
+}

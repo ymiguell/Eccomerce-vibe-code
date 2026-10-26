@@ -1,4 +1,4 @@
-import { CHECKOUT_STEPS } from './checkoutStyles.js'
+import { CHECKOUT_STEPS } from './checkoutSteps.js'
 
 function CheckIcon({ className }) {
   return (

@@ -6,12 +6,14 @@ import AddressForm from '../components/checkout/AddressForm.jsx'
 import LoadError from '../components/LoadError.jsx'
 import CheckoutSection from '../components/checkout/CheckoutSection.jsx'
 import CheckoutSteps from '../components/checkout/CheckoutSteps.jsx'
+import { CHECKOUT_STEPS } from '../components/checkout/checkoutSteps.js'
 import CustomerForm from '../components/checkout/CustomerForm.jsx'
 import OrderSummary from '../components/checkout/OrderSummary.jsx'
 import PaymentForm from '../components/checkout/PaymentForm.jsx'
-import { CHECKOUT_STEPS } from '../components/checkout/checkoutStyles.js'
+import { useAuthContext } from '../context/authContext.js'
 import { useCartContext } from '../context/cartContext.js'
 import { formatPrice } from '../formatters/currency.js'
+import { formatPhone } from '../formatters/masks.js'
 import { formatAddressLines, formatDeliveryWindow } from '../formatters/order.js'
 import { usePageTitle } from '../hooks/usePageTitle.js'
 
@@ -66,6 +68,8 @@ function EmptyCheckout() {
 function CheckoutPage({ placeOrder, findAddressByCep, estimateShipping }) {
   usePageTitle('Finalizar compra')
   const cart = useCartContext()
+  const auth = useAuthContext() // null quando as contas estão desligadas
+  const accountCustomer = auth?.customer ?? null
   const navigate = useNavigate()
 
   const [step, setStep] = useState(1)
@@ -155,6 +159,29 @@ function CheckoutPage({ placeOrder, findAddressByCep, estimateShipping }) {
         <CheckoutSteps current={step} />
       </div>
 
+      {auth && auth.status === 'ready' && (
+        <p className="mt-5 rounded-sm bg-muted px-4 py-3 text-sm text-muted-foreground">
+          {accountCustomer ? (
+            <>
+              Comprando como <strong className="text-foreground">{accountCustomer.name}</strong>. O pedido vai aparecer
+              em{' '}
+              <Link to="/minha-conta" className="font-semibold text-primary underline underline-offset-4">
+                Minha conta
+              </Link>
+              .
+            </>
+          ) : (
+            <>
+              Já tem conta?{' '}
+              <Link to="/entrar?voltar=/checkout" className="font-semibold text-primary underline underline-offset-4">
+                Entrar
+              </Link>{' '}
+              para acompanhar este pedido em Minha conta.
+            </>
+          )}
+        </p>
+      )}
+
       <div className="mt-6 grid grid-cols-1 gap-6 lg:mt-8 lg:grid-cols-[minmax(0,1fr)_24rem] lg:gap-10">
         <div className="lg:sticky lg:top-24 lg:order-last lg:self-start">
           <OrderSummary cart={cart} totals={totals} payment={effectivePayment} />
@@ -176,7 +203,17 @@ function CheckoutPage({ placeOrder, findAddressByCep, estimateShipping }) {
               )
             }
           >
-            <CustomerForm initialValues={customer ?? undefined} onSubmit={handleCustomerSubmit} />
+            {/* Logado: já vem com os dados da conta. A `key` refaz o formulário quando a conta termina de carregar */}
+            <CustomerForm
+              key={accountCustomer?.id ?? 'visitante'}
+              initialValues={
+                customer ??
+                (accountCustomer
+                  ? { name: accountCustomer.name, email: accountCustomer.email, phone: formatPhone(accountCustomer.phone) }
+                  : undefined)
+              }
+              onSubmit={handleCustomerSubmit}
+            />
           </CheckoutSection>
 
           <CheckoutSection

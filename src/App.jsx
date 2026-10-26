@@ -5,18 +5,25 @@ import { makeGetBanners } from './application/useCases/getBanners.js'
 import { makeEstimateShipping } from './application/useCases/estimateShipping.js'
 import { makeFindAddressByCep } from './application/useCases/findAddressByCep.js'
 import { makeGetCart } from './application/useCases/getCart.js'
+import { makeGetCurrentCustomer } from './application/useCases/getCurrentCustomer.js'
 import { makeGetFeaturedProducts } from './application/useCases/getFeaturedProducts.js'
+import { makeGetMyOrders } from './application/useCases/getMyOrders.js'
 import { makeGetProducts } from './application/useCases/getProducts.js'
 import { makeGetOnSaleProducts } from './application/useCases/getOnSaleProducts.js'
 import { makeGetProductById } from './application/useCases/getProductById.js'
 import { makeGetProductReviews } from './application/useCases/getProductReviews.js'
 import { makeGetProductsByNiche } from './application/useCases/getProductsByNiche.js'
 import { makeGetRelatedProducts } from './application/useCases/getRelatedProducts.js'
+import { makeLoginCustomer } from './application/useCases/loginCustomer.js'
+import { makeLogoutCustomer } from './application/useCases/logoutCustomer.js'
 import { makePlaceOrder } from './application/useCases/placeOrder.js'
+import { makeRegisterCustomer } from './application/useCases/registerCustomer.js'
 import { makeSaveCart } from './application/useCases/saveCart.js'
 import { makeSubmitReview } from './application/useCases/submitReview.js'
 import { makeSubscribeToNewsletter } from './application/useCases/subscribeToNewsletter.js'
+import { makeUpdateProfile } from './application/useCases/updateProfile.js'
 import { createApiClient } from './infrastructure/http/apiClient.js'
+import { HttpAccountRepository } from './infrastructure/repositories/HttpAccountRepository.js'
 import { HttpBannerRepository } from './infrastructure/repositories/HttpBannerRepository.js'
 import { HttpCouponRepository } from './infrastructure/repositories/HttpCouponRepository.js'
 import { HttpNewsletterRepository } from './infrastructure/repositories/HttpNewsletterRepository.js'
@@ -31,25 +38,34 @@ import { MockOrderRepository } from './infrastructure/repositories/MockOrderRepo
 import { MockProductRepository } from './infrastructure/repositories/MockProductRepository.js'
 import { MockReviewRepository } from './infrastructure/repositories/MockReviewRepository.js'
 import { ViaCepAddressLookup } from './infrastructure/services/ViaCepAddressLookup.js'
+import { LocalStorageSessionStore } from './infrastructure/storage/LocalStorageSessionStore.js'
 import AnnouncementBar from './presentation/components/AnnouncementBar.jsx'
 import Cart from './presentation/components/Cart.jsx'
 import Footer from './presentation/components/Footer.jsx'
 import NavBar from './presentation/components/NavBar.jsx'
+import { AuthContext } from './presentation/context/authContext.js'
 import { CartContext } from './presentation/context/cartContext.js'
+import { useAuth } from './presentation/hooks/useAuth.js'
 import { useCart } from './presentation/hooks/useCart.js'
 import { useScrollOnNavigate } from './presentation/hooks/useScrollOnNavigate.js'
+import AccountPage from './presentation/pages/AccountPage.jsx'
 import CheckoutPage from './presentation/pages/CheckoutPage.jsx'
 import HomePage from './presentation/pages/HomePage.jsx'
+import LoginPage from './presentation/pages/LoginPage.jsx'
 import NichePage from './presentation/pages/NichePage.jsx'
 import OrderConfirmationPage from './presentation/pages/OrderConfirmationPage.jsx'
 import OutletPage from './presentation/pages/OutletPage.jsx'
 import ProductPage from './presentation/pages/ProductPage.jsx'
+import RegisterPage from './presentation/pages/RegisterPage.jsx'
 import { NICHE_PAGES } from './presentation/pages/nichePages.js'
 
 // Composição: liga a infraestrutura aos casos de uso. Fora do componente para ser estável.
-// Catálogo, cupons, pedidos, avaliações e newsletter: com VITE_API_URL (ex.: no .env.local) usam a API em server/;
-// sem ela, dados de exemplo.
-const api = import.meta.env.VITE_API_URL ? createApiClient(import.meta.env.VITE_API_URL) : null
+// Catálogo, cupons, pedidos, avaliações, newsletter e contas: com VITE_API_URL (ex.: no .env.local) usam a API
+// em server/; sem ela, dados de exemplo — e as contas ficam desligadas (não há onde guardá-las).
+const sessionStore = new LocalStorageSessionStore()
+const api = import.meta.env.VITE_API_URL
+  ? createApiClient(import.meta.env.VITE_API_URL, { getToken: () => sessionStore.get() })
+  : null
 const productRepository = api ? new HttpProductRepository(api) : new MockProductRepository()
 const getBanners = makeGetBanners(api ? new HttpBannerRepository(api) : new MockBannerRepository())
 const getFeaturedProducts = makeGetFeaturedProducts(productRepository)
@@ -74,6 +90,16 @@ const estimateShipping = makeEstimateShipping()
 // Checkout
 const placeOrder = makePlaceOrder(api ? new HttpOrderRepository(api) : new MockOrderRepository())
 const findAddressByCep = makeFindAddressByCep(new ViaCepAddressLookup())
+// Contas de cliente (só com a API)
+const accountRepository = api ? new HttpAccountRepository(api) : null
+const account = accountRepository && {
+  getCurrentCustomer: makeGetCurrentCustomer({ accountRepository, sessionStore }),
+  loginCustomer: makeLoginCustomer({ accountRepository, sessionStore }),
+  registerCustomer: makeRegisterCustomer({ accountRepository, sessionStore }),
+  logoutCustomer: makeLogoutCustomer({ accountRepository, sessionStore }),
+  updateProfile: makeUpdateProfile(accountRepository),
+  getMyOrders: makeGetMyOrders(accountRepository),
+}
 
 function App() {
   useScrollOnNavigate()
@@ -85,65 +111,81 @@ function App() {
   const closeCart = useCallback(() => setCartOpen(false), [])
   // A sacola + como abrir a gaveta (a página do produto abre a sacola depois de adicionar)
   const cartWithDrawer = { ...cart, openCart: () => setCartOpen(true) }
+  // Conta do cliente (null quando as contas estão desligadas)
+  const auth = useAuth(account)
 
   return (
-    // Todos os componentes dentro daqui podem usar a sacola (ex.: o botão do ProductCard)
-    <CartContext value={cartWithDrawer}>
-      {/* Faixa de urgência (Black Friday) acima da NavBar; rola junto com a página, a NavBar continua fixa */}
-      <AnnouncementBar />
-      <NavBar cartCount={cart.count} onCartClick={() => setCartOpen(true)} />
-
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <HomePage
-              getBanners={getBanners}
-              getFeaturedProducts={getFeaturedProducts}
-              getProducts={getProducts}
-            />
-          }
+    // Todos os componentes dentro daqui podem usar a sacola (ex.: o botão do ProductCard) e a conta
+    <AuthContext value={auth}>
+      <CartContext value={cartWithDrawer}>
+        {/* Faixa de urgência (Black Friday) acima da NavBar; rola junto com a página, a NavBar continua fixa */}
+        <AnnouncementBar />
+        <NavBar
+          cartCount={cart.count}
+          onCartClick={() => setCartOpen(true)}
+          account={auth && { name: auth.customer?.name ?? null }}
         />
-        {/* Moda, Casa, Tecnologia, Saúde: mesma página, configurada em nichePages.js.
-            A `key` faz cada nicho começar com os próprios filtros, sem herdar os da página anterior. */}
-        {NICHE_PAGES.map((page) => (
+
+        <Routes>
           <Route
-            key={page.slug}
-            path={`/${page.slug}`}
+            path="/"
             element={
-              <NichePage key={page.slug} page={page} getBanners={getBanners} getProductsByNiche={getProductsByNiche} />
+              <HomePage
+                getBanners={getBanners}
+                getFeaturedProducts={getFeaturedProducts}
+                getProducts={getProducts}
+              />
             }
           />
-        ))}
-        <Route path="/outlet" element={<OutletPage getBanners={getBanners} getOnSaleProducts={getOnSaleProducts} />} />
-        <Route
-          path="/produto/:productId"
-          element={
-            <ProductPage
-              getProductById={getProductById}
-              getRelatedProducts={getRelatedProducts}
-              getProductReviews={getProductReviews}
-              submitReview={submitReview}
-              estimateShipping={estimateShipping}
+          {/* Moda, Casa, Tecnologia, Saúde: mesma página, configurada em nichePages.js.
+              A `key` faz cada nicho começar com os próprios filtros, sem herdar os da página anterior. */}
+          {NICHE_PAGES.map((page) => (
+            <Route
+              key={page.slug}
+              path={`/${page.slug}`}
+              element={
+                <NichePage key={page.slug} page={page} getBanners={getBanners} getProductsByNiche={getProductsByNiche} />
+              }
             />
-          }
-        />
-        <Route
-          path="/checkout"
-          element={
-            <CheckoutPage placeOrder={placeOrder} findAddressByCep={findAddressByCep} estimateShipping={estimateShipping} />
-          }
-        />
-        <Route path="/pedido-confirmado" element={<OrderConfirmationPage />} />
-        {/* Endereço desconhecido volta para a Home */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+          ))}
+          <Route path="/outlet" element={<OutletPage getBanners={getBanners} getOnSaleProducts={getOnSaleProducts} />} />
+          <Route
+            path="/produto/:productId"
+            element={
+              <ProductPage
+                getProductById={getProductById}
+                getRelatedProducts={getRelatedProducts}
+                getProductReviews={getProductReviews}
+                submitReview={submitReview}
+                estimateShipping={estimateShipping}
+              />
+            }
+          />
+          <Route
+            path="/checkout"
+            element={
+              <CheckoutPage placeOrder={placeOrder} findAddressByCep={findAddressByCep} estimateShipping={estimateShipping} />
+            }
+          />
+          <Route path="/pedido-confirmado" element={<OrderConfirmationPage />} />
+          {/* Conta: só existem com a API (sem ela, caem no "*" e voltam para a Home) */}
+          {auth && (
+            <>
+              <Route path="/entrar" element={<LoginPage />} />
+              <Route path="/cadastro" element={<RegisterPage />} />
+              <Route path="/minha-conta" element={<AccountPage />} />
+            </>
+          )}
+          {/* Endereço desconhecido volta para a Home */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
 
-      {/* Rodapé fora das rotas: aparece em todas as páginas, como a NavBar */}
-      <Footer onSubscribe={subscribeToNewsletter} />
+        {/* Rodapé fora das rotas: aparece em todas as páginas, como a NavBar */}
+        <Footer onSubscribe={subscribeToNewsletter} />
 
-      <Cart isOpen={isCartOpen} onClose={closeCart} cart={cart} />
-    </CartContext>
+        <Cart isOpen={isCartOpen} onClose={closeCart} cart={cart} />
+      </CartContext>
+    </AuthContext>
   )
 }
 

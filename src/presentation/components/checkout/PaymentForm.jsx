@@ -6,7 +6,7 @@ import {
   validatePayment,
 } from '../../../domain/services/payment.js'
 import { formatPrice } from '../../formatters/currency.js'
-import { fieldClass, primaryButtonClass } from './checkoutStyles.js'
+import { fieldClass, primaryButtonClass } from '../form/formStyles.js'
 
 const optionClass =
   'flex cursor-pointer items-start gap-3 rounded-sm border border-border p-4 transition-colors duration-200 hover:border-foreground has-checked:border-primary has-checked:bg-primary/5'

@@ -5,8 +5,8 @@ import { formatPrice } from '../../formatters/currency.js'
 import { formatCep } from '../../formatters/masks.js'
 import { formatDeliveryWindow } from '../../formatters/order.js'
 import { useForm } from '../../hooks/useForm.js'
-import { primaryButtonClass } from './checkoutStyles.js'
-import FormField from './FormField.jsx'
+import FormField from '../form/FormField.jsx'
+import { primaryButtonClass } from '../form/formStyles.js'
 
 const EMPTY_ADDRESS = { cep: '', street: '', number: '', complement: '', neighborhood: '', city: '', state: '' }
 

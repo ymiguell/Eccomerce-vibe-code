@@ -26,7 +26,11 @@ function MenuLink({ link, className, activeClassName, onClick }) {
   )
 }
 
-function NavBar({ cartCount = 0, onCartClick }) {
+/**
+ * `account`: null quando as contas estão desligadas (site sem API) — o ícone de conta some.
+ * Com contas: { name } do cliente logado, ou { name: null } para quem ainda não entrou.
+ */
+function NavBar({ cartCount = 0, onCartClick, account = null }) {
   const [menuOpen, setMenuOpen] = useState(false)
 
   const closeMenu = () => setMenuOpen(false)
@@ -60,6 +64,20 @@ function NavBar({ cartCount = 0, onCartClick }) {
         </ul>
 
         <div className="-mr-2.5 flex items-center justify-self-end">
+          {account && (
+            <Link
+              to={account.name ? '/minha-conta' : '/entrar'}
+              onClick={closeMenu}
+              aria-label={account.name ? `Minha conta (${account.name.split(' ')[0]})` : 'Entrar na sua conta'}
+              className="flex size-11 items-center justify-center rounded-sm text-foreground transition-colors duration-200 hover:bg-muted"
+            >
+              <svg className="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 21c0-4 3.6-7 8-7s8 3 8 7" />
+              </svg>
+            </Link>
+          )}
+
           <button
             type="button"
             onClick={() => {

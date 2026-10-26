@@ -34,7 +34,7 @@ const errorSchema = {
   },
 }
 
-const orderSchema = {
+export const orderSchema = {
   type: 'object',
   properties: {
     id: { type: 'string' },

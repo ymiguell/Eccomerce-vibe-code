@@ -1,6 +1,8 @@
 import cors from '@fastify/cors'
 import rateLimit from '@fastify/rate-limit'
 import Fastify from 'fastify'
+import { addAuthentication } from './authentication.js'
+import { accountRoutes } from './routes/accountRoutes.js'
 import { catalogRoutes } from './routes/catalogRoutes.js'
 import { engagementRoutes } from './routes/engagementRoutes.js'
 import { healthRoutes } from './routes/healthRoutes.js'
@@ -35,7 +37,10 @@ export async function buildApp({ corsOrigins, useCases, logger = true, trustProx
   )
 
   // Só o site da loja (e o ambiente local) pode chamar a API pelo navegador
-  await app.register(cors, { origin: corsOrigins })
+  await app.register(cors, { origin: corsOrigins, methods: ['GET', 'HEAD', 'POST', 'PATCH'] })
+
+  // Quem está logado (request.customer), a partir do token de sessão
+  if (useCases.authenticate) addAuthentication(app, useCases.authenticate)
 
   // Limite de envios por visitante: só nas rotas que pedem (config.rateLimit), as que gravam dados
   if (rateLimits) {
@@ -60,6 +65,13 @@ export async function buildApp({ corsOrigins, useCases, logger = true, trustProx
     listProductReviews: useCases.listProductReviews,
     submitReview: useCases.submitReview,
     subscribeToNewsletter: useCases.subscribeToNewsletter,
+  })
+  await app.register(accountRoutes, {
+    registerCustomer: useCases.registerCustomer,
+    loginCustomer: useCases.loginCustomer,
+    logoutCustomer: useCases.logoutCustomer,
+    updateProfile: useCases.updateProfile,
+    listCustomerOrders: useCases.listCustomerOrders,
   })
 
   return app

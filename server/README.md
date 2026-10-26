@@ -32,9 +32,9 @@ Teste: abra http://localhost:3333/health → `{"status":"ok","database":"up",...
 
 ```
 src/
-├── domain/          regras de negócio: produto, banner, cupom, itens e pedido, pagamento, frete, avaliação
-├── application/     casos de uso: catálogo, getCoupon, placeOrder, avaliações, newsletter, checkHealth
-├── infrastructure/  banco de dados (Prisma): conexão e repositórios
+├── domain/          regras de negócio: produto, banner, cupom, itens e pedido, pagamento, frete, avaliação, conta
+├── application/     casos de uso: catálogo, getCoupon, placeOrder, avaliações, newsletter, contas, checkHealth
+├── infrastructure/  banco de dados (Prisma): conexão e repositórios; security/ (senhas e tokens de sessão)
 ├── http/            Fastify: app.js (CORS, erros), routes/ e schemas/ (validação e formato das respostas)
 ├── config/          leitura das variáveis de ambiente
 └── server.js        liga tudo e sobe a API (como o App.jsx do front)
@@ -56,7 +56,23 @@ test/                testes com node:test
 | POST | `/products/:id/reviews` | Publica avaliação `{ author, rating, comment }` (201); 422 `invalid_data` com `fields` |
 | POST | `/newsletter` | Inscreve `{ email }` (201); 409 `already_subscribed`; 422 `invalid_email` |
 
-**Limite de envios por visitante (IP):** `POST /orders` 10 por minuto; avaliações e newsletter 5 por minuto.
+| POST | `/auth/register` | Cria a conta `{ name, email, password }` e já entra (201 `{ customer, token }`); 409 `email_taken` |
+| POST | `/auth/login` | Entra `{ email, password }` (200 `{ customer, token }`); 401 `invalid_credentials` |
+| POST | `/auth/logout` | Sai: apaga a sessão do token enviado (204) |
+| GET | `/me` | Conta logada; 401 `unauthorized` sem login |
+| PATCH | `/me` | Atualiza `{ name, phone }` |
+| GET | `/me/orders` | Pedidos feitos com a conta, do mais recente ao mais antigo |
+
+### Contas e login
+
+- O site manda o token no cabeçalho `Authorization: Bearer <token>`. Com ele, `POST /orders` liga o pedido à conta.
+- Senhas guardadas com **scrypt** (nunca em texto). O banco guarda só o **hash SHA-256 do token** de sessão;
+  a sessão vale 30 dias e sair a apaga.
+- Login com e-mail inexistente ou senha errada dá a mesma resposta (e leva o mesmo tempo).
+- Pedidos feitos sem login **não** são ligados à conta pelo e-mail: sem confirmação de e-mail, alguém poderia
+  criar conta com o e-mail de outra pessoa e ver os pedidos dela.
+
+**Limite de envios por visitante (IP):** `POST /orders` 10 por minuto; login 10; cadastro, avaliações e newsletter 5.
 Acima disso a resposta é 429 `too_many_requests`. Na hospedagem, use `TRUST_PROXY=true` para o limite enxergar o IP real.
 
 ### POST /orders

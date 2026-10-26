@@ -29,7 +29,8 @@ export async function orderRoutes(app, { getCoupon, placeOrder }) {
   const orderLimit = { rateLimit: { max: 10, timeWindow: '1 minute' } }
 
   app.post('/orders', { schema: placeOrderSchema, config: orderLimit }, async (request, reply) => {
-    const { order, error, ...details } = await placeOrder(request.body)
+    // Logado: o pedido fica ligado à conta e aparece em "Minha conta"
+    const { order, error, ...details } = await placeOrder({ ...request.body, customerId: request.customer?.id ?? null })
     if (order) return reply.code(201).send(order)
 
     const [status, message] = ORDER_ERRORS[error]

@@ -16,13 +16,22 @@ const hasErrors = (errors) => Object.keys(errors).length > 0
  * o navegador manda só produtos, variações, quantidades, cupom, dados de entrega e forma de pagamento;
  * preços, desconto, frete e total são recalculados aqui com os dados do banco.
  * `expectedTotal` é o total que o cliente viu: se não bater (ex.: o preço mudou), o pedido não é gravado.
+ * `customerId`: conta de quem está logado (null em compra sem login), para o pedido aparecer em "Minha conta".
  *
  * Retorna { order } ou { error, ...detalhes }:
  * empty_cart · invalid_data { fields } · product_not_found { productId } · invalid_item { productId, message }
  * out_of_stock { productId } · invalid_coupon · coupon_min_subtotal { minSubtotal } · price_changed { total }
  */
 export function makePlaceOrder({ productRepository, couponRepository, orderRepository }) {
-  return async function placeOrder({ items: lines, couponCode = null, customer, address, payment, expectedTotal }) {
+  return async function placeOrder({
+    items: lines,
+    couponCode = null,
+    customer,
+    address,
+    payment,
+    expectedTotal,
+    customerId = null,
+  }) {
     if (lines.length === 0) return { error: 'empty_cart' }
 
     const fields = { ...validateCustomer(customer), ...validateAddress(address) }
@@ -72,6 +81,7 @@ export function makePlaceOrder({ productRepository, couponRepository, orderRepos
     if (Math.abs(totals.total - expectedTotal) > TOTAL_TOLERANCE) return { error: 'price_changed', total: totals.total }
 
     const order = buildOrder({
+      customerId,
       items,
       coupon,
       customer,

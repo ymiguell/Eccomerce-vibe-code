@@ -33,7 +33,7 @@ export function calculateOrderTotals(items, coupon = null, payment = null) {
  * Monta o pedido pronto para gravar (o número e a data vêm do banco).
  * Cada item guarda nome, foto e preço do momento da compra: se o produto mudar depois, o pedido não muda.
  */
-export function buildOrder({ items, coupon = null, customer, address, payment, delivery }) {
+export function buildOrder({ customerId = null, items, coupon = null, customer, address, payment, delivery }) {
   if (items.length === 0) throw new Error('Pedido sem itens')
 
   const totals = calculateOrderTotals(items, coupon, payment)
@@ -41,6 +41,7 @@ export function buildOrder({ items, coupon = null, customer, address, payment, d
 
   return Object.freeze({
     status: 'pending_payment',
+    customerId,
     customer: createCustomer(customer),
     address: createAddress(address),
     couponCode: coupon?.code ?? null,

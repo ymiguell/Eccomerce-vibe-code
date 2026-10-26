@@ -1,8 +1,8 @@
 import { validateCustomer } from '../../../domain/entities/Customer.js'
 import { formatPhone } from '../../formatters/masks.js'
 import { useForm } from '../../hooks/useForm.js'
-import { primaryButtonClass } from './checkoutStyles.js'
-import FormField from './FormField.jsx'
+import FormField from '../form/FormField.jsx'
+import { primaryButtonClass } from '../form/formStyles.js'
 
 const EMPTY_CUSTOMER = { name: '', email: '', phone: '' }
 

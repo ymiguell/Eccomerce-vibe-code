@@ -16,18 +16,23 @@ export class ApiError extends Error {
 
 /**
  * Cliente da API da loja (server/).
- * `get` e `post` devolvem o JSON da resposta ou lançam ApiError ({ status, code, details }) — status 0 = sem conexão.
- * Só o GET usa cache (desligável com { cache: false }); o POST sempre vai ao servidor.
+ * `get`, `post` e `patch` devolvem o JSON da resposta (null quando vazia) ou lançam ApiError ({ status, code, details })
+ * — status 0 = sem conexão. Só o GET usa cache (desligável com { cache: false }).
+ * `getToken`: se houver cliente logado, o token vai no cabeçalho Authorization de toda chamada.
  */
-export function createApiClient(baseUrl) {
+export function createApiClient(baseUrl, { getToken = () => null } = {}) {
   const cache = new Map() // caminho → { expiresAt, promise }
 
   async function request(path, { method = 'GET', body } = {}) {
     let response
     try {
+      const token = getToken()
       response = await fetch(`${baseUrl}${path}`, {
         method,
-        headers: body ? { 'content-type': 'application/json' } : undefined,
+        headers: {
+          ...(body && { 'content-type': 'application/json' }),
+          ...(token && { authorization: `Bearer ${token}` }),
+        },
         body: body ? JSON.stringify(body) : undefined,
         signal: AbortSignal.timeout(TIMEOUT_MS),
       })
@@ -59,6 +64,10 @@ export function createApiClient(baseUrl) {
 
     post(path, body) {
       return request(path, { method: 'POST', body })
+    },
+
+    patch(path, body) {
+      return request(path, { method: 'PATCH', body })
     },
   }
 }
