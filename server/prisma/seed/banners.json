@@ -1,0 +1,102 @@
+[
+  {
+    "placement": "todas",
+    "showText": false,
+    "id": "direto-da-fabrica",
+    "title": "Direto da Fábrica pra sua casa: a partir de R$ 19,99, em até 10x sem juros no cartão Montreal",
+    "ctaLabel": "Ver produtos para casa",
+    "ctaHref": "/casa",
+    "image": "banner-01-desktop.webp",
+    "mobileImage": "banner-01-mobile.webp"
+  },
+  {
+    "placement": "todas",
+    "showText": false,
+    "id": "ironwear",
+    "title": "Ironwear, marca exclusiva Montreal: peças a partir de R$ 19,99",
+    "ctaLabel": "Ver moda",
+    "ctaHref": "/moda",
+    "image": "banner-02-desktop.webp",
+    "mobileImage": "banner-02-mobile.webp"
+  },
+  {
+    "placement": "todas",
+    "showText": false,
+    "id": "eletroportateis",
+    "title": "Eletroportáteis a partir de R$ 39,99, em até 10x sem juros e 5% no Pix",
+    "ctaLabel": "Ver eletroportáteis",
+    "ctaHref": "/casa",
+    "image": "banner-03-desktop.webp",
+    "mobileImage": "banner-03-mobile.webp"
+  },
+  {
+    "placement": "todas",
+    "showText": false,
+    "id": "relogios-smartwatches",
+    "title": "Relógios e smartwatches a partir de R$ 159,99, em até 10x sem juros e 5% no Pix",
+    "ctaLabel": "Ver relógios e smartwatches",
+    "ctaHref": "/tecnologia",
+    "image": "banner-04-desktop.webp",
+    "mobileImage": "banner-04-mobile.webp"
+  },
+  {
+    "placement": "todas",
+    "showText": false,
+    "id": "primavera-verao",
+    "title": "Nova coleção primavera-verão a partir de R$ 19,99",
+    "ctaLabel": "Ver coleção",
+    "ctaHref": "/moda",
+    "image": "banner-05-desktop.webp",
+    "mobileImage": "banner-05-mobile.webp"
+  },
+  {
+    "placement": "todas",
+    "showText": false,
+    "id": "smartphones",
+    "title": "Smartphones a partir de R$ 999,99, em até 10x sem juros e 5% no Pix",
+    "ctaLabel": "Ver smartphones",
+    "ctaHref": "/tecnologia",
+    "image": "banner-06-desktop.webp",
+    "mobileImage": "banner-06-mobile.webp"
+  },
+  {
+    "placement": "todas",
+    "showText": false,
+    "id": "moda-feminina",
+    "title": "Moda feminina a partir de R$ 19,99",
+    "ctaLabel": "Ver moda feminina",
+    "ctaHref": "/moda",
+    "image": "banner-07-desktop.webp",
+    "mobileImage": "banner-07-mobile.webp"
+  },
+  {
+    "placement": "todas",
+    "showText": false,
+    "id": "moda-masculina",
+    "title": "Moda masculina a partir de R$ 19,99",
+    "ctaLabel": "Ver moda masculina",
+    "ctaHref": "/moda",
+    "image": "banner-08-desktop.webp",
+    "mobileImage": "banner-08-mobile.webp"
+  },
+  {
+    "placement": "todas",
+    "showText": false,
+    "id": "vai-de-jeans",
+    "title": "Vai de jeans, vai de Montreal: peças a partir de R$ 39,99",
+    "ctaLabel": "Ver jeans",
+    "ctaHref": "/moda",
+    "image": "banner-09-desktop.webp",
+    "mobileImage": "banner-09-mobile.webp"
+  },
+  {
+    "placement": "todas",
+    "showText": false,
+    "id": "desconto-progressivo",
+    "title": "Desconto progressivo em moda feminina, masculina e infantil: 15% em 2 peças, 20% em 3 e 30% em 4 ou mais",
+    "ctaLabel": "Ver ofertas",
+    "ctaHref": "/outlet",
+    "image": "banner-10-desktop.webp",
+    "mobileImage": "banner-10-mobile.webp"
+  }
+]

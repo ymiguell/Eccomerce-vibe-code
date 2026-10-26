@@ -31,6 +31,14 @@ npm run lint     # verifica o código
 
 A API fica na pasta [`server/`](server/README.md) (Node.js + Fastify + PostgreSQL).
 
+Para o site usar a API (catálogo, cupons e pedidos) em vez dos dados de exemplo, crie um `.env.local` na raiz com:
+
+```
+VITE_API_URL=http://localhost:3333
+```
+
+Sem essa variável (como no GitHub Pages hoje), o site continua com os dados de exemplo.
+
 ## Estrutura (Clean Architecture)
 
 ```

@@ -1,7 +1,9 @@
 import { ALL_PAGES, createBanner } from '../../domain/entities/Banner.js'
+import { resolveBannerImage } from '../assets/catalogImages.js'
 
 /*
- * Banners dos carrosséis. Para alterar, edite esta lista (a ordem aqui é a ordem no carrossel):
+ * Banners de exemplo, usados quando o site roda sem a API (sem VITE_API_URL).
+ * Com a API, os banners vêm do banco (server/prisma/seed/banners.json). Campos (a ordem é a do carrossel):
  * - `placement`: página onde aparece ('home', 'moda', 'casa', 'tecnologia', 'saude', 'outlet') ou ALL_PAGES (todas).
  * - `image` / `mobileImage`: nome do arquivo em src/assets/images/banners/.
  *   Desktop: 1920 × 600 px (16:5). Celular: quadrada (ex.: 400 × 400). De preferência em .webp.
@@ -9,18 +11,6 @@ import { ALL_PAGES, createBanner } from '../../domain/entities/Banner.js'
  * - `ctaHref`: para onde o banner leva. Rotas internas começam com '/' (ex.: '/moda').
  * - Sem `image`, o banner é desenhado só com texto sobre uma cor sólida.
  */
-const bannerImages = Object.fromEntries(
-  Object.entries(
-    import.meta.glob('../../assets/images/banners/*.{jpg,jpeg,png,webp}', { eager: true, import: 'default' }),
-  ).map(([path, url]) => [path.split('/').pop(), url]),
-)
-
-function resolveImage(fileName) {
-  if (!fileName) return null
-  const url = bannerImages[fileName]
-  if (!url) throw new Error(`Imagem de banner não encontrada: src/assets/images/banners/${fileName}`)
-  return url
-}
 
 // Banners da loja (montrealmodaecasa.com.br), exibidos em todas as páginas
 const mockBanners = [
@@ -112,7 +102,7 @@ export class MockBannerRepository {
     return mockBanners
       .filter((banner) => banner.placement === placement || banner.placement === ALL_PAGES)
       .map(({ image, mobileImage, ...data }) =>
-        createBanner({ ...data, imageUrl: resolveImage(image), mobileImageUrl: resolveImage(mobileImage) }),
+        createBanner({ ...data, imageUrl: resolveBannerImage(image), mobileImageUrl: resolveBannerImage(mobileImage) }),
       )
   }
 }

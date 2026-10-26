@@ -1,14 +1,166 @@
 // Estrutura do banco de dados. Depois de mudar este arquivo: `npm run db:migrate`.
-// As tabelas (produtos, pedidos...) entram nas próximas etapas.
+// Nomes no código em camelCase; no banco, em snake_case (@map), como é o costume no PostgreSQL.
 
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider            = "prisma-client"
+  output              = "../generated/prisma"
   // O servidor é JavaScript: o Node 22+ executa o cliente gerado (.ts) direto, sem compilar
-  moduleFormat         = "esm"
-  importFileExtension  = "ts"
+  moduleFormat        = "esm"
+  importFileExtension = "ts"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+/// Área da loja: cada uma tem sua página (/moda, /casa...)
+enum Niche {
+  moda
+  casa
+  tecnologia
+  saude
+}
+
+model Product {
+  id            String   @id // slug usado na URL, ex.: calca-jeans-masculina-presponto
+  name          String
+  niche         Niche
+  category      String
+  description   String   @default("")
+  price         Decimal  @db.Decimal(10, 2)
+  /// Preenchido quando o produto está em promoção (sempre maior que price)
+  originalPrice Decimal? @map("original_price") @db.Decimal(10, 2)
+  isFeatured    Boolean  @default(false) @map("is_featured")
+  sizes         String[]
+  colors        String[]
+  fabric        String   @default("")
+  stock         Int      @default(0)
+  /// Nome do arquivo da foto (por enquanto as fotos ficam no site)
+  image         String?
+  /// Ordem de exibição nas listagens
+  position      Int      @default(0)
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  orderItems OrderItem[]
+
+  @@index([niche])
+  @@map("products")
+}
+
+model Banner {
+  id          String  @id
+  /// Página onde aparece ('home', 'moda'...) ou 'todas'
+  placement   String  @default("todas")
+  title       String
+  subtitle    String  @default("")
+  ctaLabel    String  @map("cta_label")
+  ctaHref     String  @map("cta_href")
+  image       String?
+  mobileImage String? @map("mobile_image")
+  /// false quando a arte já traz o texto
+  showText    Boolean @default(true) @map("show_text")
+  /// Ordem no carrossel
+  position    Int     @default(0)
+
+  @@map("banners")
+}
+
+enum CouponType {
+  percent // value = %
+  fixed // value = R$
+}
+
+model Coupon {
+  code        String     @id // sempre em maiúsculas, ex.: BEMVINDO10
+  type        CouponType
+  value       Decimal    @db.Decimal(10, 2)
+  /// Valor mínimo da compra para o cupom valer
+  minSubtotal Decimal    @default(0) @map("min_subtotal") @db.Decimal(10, 2)
+  description String     @default("")
+  /// Desativar em vez de apagar: pedidos antigos continuam apontando para ele
+  active      Boolean    @default(true)
+  createdAt   DateTime   @default(now()) @map("created_at")
+
+  orders Order[]
+
+  @@map("coupons")
+}
+
+enum PaymentMethod {
+  pix
+  credit_card
+}
+
+enum OrderStatus {
+  pending_payment
+  paid
+  shipped
+  delivered
+  canceled
+}
+
+model Order {
+  id     String      @id @default(uuid())
+  /// Número que o cliente vê ("Pedido nº 1001")
+  number Int         @unique @default(autoincrement())
+  status OrderStatus @default(pending_payment)
+
+  customerName  String @map("customer_name")
+  customerEmail String @map("customer_email")
+  customerPhone String @map("customer_phone")
+
+  // Endereço de entrega (cópia do momento da compra)
+  cep           String
+  street        String
+  addressNumber String @map("address_number")
+  complement    String @default("")
+  neighborhood  String
+  city          String
+  state         String
+
+  paymentMethod    PaymentMethod @map("payment_method")
+  installments     Int           @default(1)
+  installmentValue Decimal       @map("installment_value") @db.Decimal(10, 2)
+
+  couponCode String? @map("coupon_code")
+  coupon     Coupon? @relation(fields: [couponCode], references: [code])
+
+  // Valores calculados pelo servidor no momento da compra
+  subtotal    Decimal @db.Decimal(10, 2)
+  discount    Decimal @db.Decimal(10, 2)
+  pixDiscount Decimal @map("pix_discount") @db.Decimal(10, 2)
+  shipping    Decimal @db.Decimal(10, 2)
+  total       Decimal @db.Decimal(10, 2)
+
+  deliveryMinDays Int @map("delivery_min_days")
+  deliveryMaxDays Int @map("delivery_max_days")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  items OrderItem[]
+
+  @@index([customerEmail])
+  @@map("orders")
+}
+
+model OrderItem {
+  id      Int    @id @default(autoincrement())
+  orderId String @map("order_id")
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  productId String  @map("product_id")
+  product   Product @relation(fields: [productId], references: [id])
+
+  // Cópia do produto no momento da compra: se o preço mudar depois, o pedido não muda
+  productName  String  @map("product_name")
+  productImage String? @map("product_image")
+  unitPrice    Decimal @map("unit_price") @db.Decimal(10, 2)
+  size         String?
+  color        String?
+  quantity     Int
+  lineTotal    Decimal @map("line_total") @db.Decimal(10, 2)
+
+  @@index([orderId])
+  @@map("order_items")
 }

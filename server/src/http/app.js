@@ -1,6 +1,8 @@
 import cors from '@fastify/cors'
 import Fastify from 'fastify'
+import { catalogRoutes } from './routes/catalogRoutes.js'
 import { healthRoutes } from './routes/healthRoutes.js'
+import { orderRoutes } from './routes/orderRoutes.js'
 
 /**
  * Monta a API: CORS, rotas e respostas de erro padronizadas.
@@ -13,6 +15,12 @@ export async function buildApp({ corsOrigins, useCases, logger = true }) {
   await app.register(cors, { origin: corsOrigins })
 
   await app.register(healthRoutes, { checkHealth: useCases.checkHealth })
+  await app.register(catalogRoutes, {
+    listProducts: useCases.listProducts,
+    getProduct: useCases.getProduct,
+    listBanners: useCases.listBanners,
+  })
+  await app.register(orderRoutes, { getCoupon: useCases.getCoupon, placeOrder: useCases.placeOrder })
 
   // Erros sempre no mesmo formato: { error: código, message: texto para o usuário }
   app.setErrorHandler((error, request, reply) => {

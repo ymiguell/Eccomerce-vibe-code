@@ -25,9 +25,9 @@ export function calculateOrderTotals(items, coupon = null, payment = null) {
  * Pedido finalizado: o que foi comprado, por quem, para onde, como foi pago e quanto custou.
  * `delivery` é o prazo estimado ({ minDays, maxDays }, ver estimateShipping).
  */
-export function createOrder({ id, createdAt, items, coupon = null, customer, address, payment, delivery }) {
-  if (!id || !createdAt || items.length === 0 || !delivery) {
-    throw new Error('Pedido inválido: id, data, itens e prazo de entrega são obrigatórios')
+export function createOrder({ id, number, createdAt, items, coupon = null, customer, address, payment, delivery }) {
+  if (!id || !number || !createdAt || items.length === 0 || !delivery) {
+    throw new Error('Pedido inválido: id, número, data, itens e prazo de entrega são obrigatórios')
   }
 
   const totals = calculateOrderTotals(items, coupon, payment)
@@ -35,6 +35,7 @@ export function createOrder({ id, createdAt, items, coupon = null, customer, add
 
   return Object.freeze({
     id,
+    number,
     createdAt,
     items,
     coupon,

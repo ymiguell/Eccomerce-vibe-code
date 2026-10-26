@@ -16,6 +16,11 @@ import { makePlaceOrder } from './application/useCases/placeOrder.js'
 import { makeSaveCart } from './application/useCases/saveCart.js'
 import { makeSubmitReview } from './application/useCases/submitReview.js'
 import { makeSubscribeToNewsletter } from './application/useCases/subscribeToNewsletter.js'
+import { createApiClient } from './infrastructure/http/apiClient.js'
+import { HttpBannerRepository } from './infrastructure/repositories/HttpBannerRepository.js'
+import { HttpCouponRepository } from './infrastructure/repositories/HttpCouponRepository.js'
+import { HttpOrderRepository } from './infrastructure/repositories/HttpOrderRepository.js'
+import { HttpProductRepository } from './infrastructure/repositories/HttpProductRepository.js'
 import { LocalStorageCartRepository } from './infrastructure/repositories/LocalStorageCartRepository.js'
 import { MockBannerRepository } from './infrastructure/repositories/MockBannerRepository.js'
 import { MockCouponRepository } from './infrastructure/repositories/MockCouponRepository.js'
@@ -39,9 +44,11 @@ import OutletPage from './presentation/pages/OutletPage.jsx'
 import ProductPage from './presentation/pages/ProductPage.jsx'
 import { NICHE_PAGES } from './presentation/pages/nichePages.js'
 
-// Composição: liga a infraestrutura (mock) aos casos de uso. Fora do componente para ser estável.
-const productRepository = new MockProductRepository()
-const getBanners = makeGetBanners(new MockBannerRepository())
+// Composição: liga a infraestrutura aos casos de uso. Fora do componente para ser estável.
+// Catálogo, cupons e pedidos: com VITE_API_URL (ex.: no .env.local) usam a API em server/; sem ela, dados de exemplo.
+const api = import.meta.env.VITE_API_URL ? createApiClient(import.meta.env.VITE_API_URL) : null
+const productRepository = api ? new HttpProductRepository(api) : new MockProductRepository()
+const getBanners = makeGetBanners(api ? new HttpBannerRepository(api) : new MockBannerRepository())
 const getFeaturedProducts = makeGetFeaturedProducts(productRepository)
 const getProducts = makeGetProducts(productRepository)
 const getProductsByNiche = makeGetProductsByNiche(productRepository)
@@ -50,7 +57,7 @@ const getOnSaleProducts = makeGetOnSaleProducts(productRepository)
 const cartRepository = new LocalStorageCartRepository()
 const getCart = makeGetCart({ cartRepository, productRepository })
 const saveCart = makeSaveCart(cartRepository)
-const applyCoupon = makeApplyCoupon(new MockCouponRepository())
+const applyCoupon = makeApplyCoupon(api ? new HttpCouponRepository(api) : new MockCouponRepository())
 const subscribeToNewsletter = makeSubscribeToNewsletter(new MockNewsletterRepository())
 // Página do produto
 const reviewRepository = new MockReviewRepository()
@@ -60,7 +67,7 @@ const getProductReviews = makeGetProductReviews(reviewRepository)
 const submitReview = makeSubmitReview(reviewRepository)
 const estimateShipping = makeEstimateShipping()
 // Checkout
-const placeOrder = makePlaceOrder(new MockOrderRepository())
+const placeOrder = makePlaceOrder(api ? new HttpOrderRepository(api) : new MockOrderRepository())
 const findAddressByCep = makeFindAddressByCep(new ViaCepAddressLookup())
 
 function App() {

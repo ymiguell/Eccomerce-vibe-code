@@ -1,23 +1,11 @@
 import { createProduct } from '../../domain/entities/Product.js'
+import { resolveProductImage } from '../assets/catalogImages.js'
 
 /*
- * Fotos dos produtos: todo arquivo em src/assets/images/products/ fica disponível pelo nome.
- * Para pôr foto num produto, salve a imagem nessa pasta e use `image: 'nome-do-arquivo.jpg'`.
- * Recomendado: imagem quadrada (1:1), de preferência .webp ou .jpg com até ~200 KB.
+ * Catálogo de exemplo, usado quando o site roda sem a API (sem VITE_API_URL).
+ * Com a API, os produtos vêm do banco (server/prisma/seed/products.json).
+ * Fotos: `image` é o nome do arquivo em src/assets/images/products/ (ver catalogImages.js).
  */
-const productImages = Object.fromEntries(
-  Object.entries(
-    import.meta.glob('../../assets/images/products/*.{jpg,jpeg,png,webp}', { eager: true, import: 'default' }),
-  ).map(([path, url]) => [path.split('/').pop(), url]),
-)
-
-function resolveImage(fileName) {
-  if (!fileName) return null
-  const url = productImages[fileName]
-  if (!url) throw new Error(`Imagem de produto não encontrada: src/assets/images/products/${fileName}`)
-  return url
-}
-
 const CLOTHING_SIZES = ['P', 'M', 'G', 'GG']
 const PANTS_SIZES = ['38', '40', '42', '44', '46']
 const SHOE_SIZES = ['37', '38', '39', '40', '41', '42', '43']
@@ -1043,7 +1031,7 @@ const mockProducts = [
 /** Implementação com dados fixos. Depois pode ser trocada por uma que chama a API. */
 export class MockProductRepository {
   async getAll() {
-    return mockProducts.map(({ image, ...data }) => createProduct({ ...data, imageUrl: resolveImage(image) }))
+    return mockProducts.map(({ image, ...data }) => createProduct({ ...data, imageUrl: resolveProductImage(image) }))
   }
 
   async getFeatured() {

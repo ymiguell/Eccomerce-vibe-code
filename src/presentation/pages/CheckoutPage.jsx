@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router'
 import { calculateOrderTotals } from '../../domain/entities/Order.js'
 import { PAYMENT_METHODS } from '../../domain/services/payment.js'
 import AddressForm from '../components/checkout/AddressForm.jsx'
+import LoadError from '../components/LoadError.jsx'
 import CheckoutSection from '../components/checkout/CheckoutSection.jsx'
 import CheckoutSteps from '../components/checkout/CheckoutSteps.jsx'
 import CustomerForm from '../components/checkout/CustomerForm.jsx'
@@ -10,16 +11,27 @@ import OrderSummary from '../components/checkout/OrderSummary.jsx'
 import PaymentForm from '../components/checkout/PaymentForm.jsx'
 import { CHECKOUT_STEPS } from '../components/checkout/checkoutStyles.js'
 import { useCartContext } from '../context/cartContext.js'
+import { formatPrice } from '../formatters/currency.js'
 import { formatAddressLines, formatDeliveryWindow } from '../formatters/order.js'
 import { usePageTitle } from '../hooks/usePageTitle.js'
 
 const container = 'mx-auto max-w-6xl px-4 sm:px-6 lg:px-8'
 
+// Por que o pedido não foi gravado (códigos do caso de uso placeOrder e da API)
 const placeOrderErrors = {
-  empty_cart: 'Sua sacola está vazia.',
-  out_of_stock: 'Um dos produtos esgotou. Revise a sacola e tente de novo.',
-  invalid_data: 'Confira os dados de identificação e entrega e tente de novo.',
+  empty_cart: () => 'Sua sacola está vazia.',
+  out_of_stock: () => 'Um dos produtos não tem mais estoque suficiente. Revise a sacola e tente de novo.',
+  invalid_data: () => 'Confira os dados de identificação e entrega e tente de novo.',
+  invalid_item: () => 'Confira tamanho, cor e quantidade dos produtos na sacola.',
+  product_not_found: () => 'Um dos produtos não está mais disponível. Remova-o da sacola e tente de novo.',
+  invalid_coupon: () => 'O cupom aplicado não é mais válido. Remova-o e finalize de novo.',
+  coupon_min_subtotal: ({ minSubtotal }) =>
+    `O cupom vale para compras a partir de ${formatPrice(minSubtotal)}. Remova-o ou adicione produtos.`,
+  price_changed: ({ total }) =>
+    `Os preços foram atualizados e o total agora é ${formatPrice(total)}. Atualize a página para ver os novos valores.`,
+  network_error: () => 'Não conseguimos falar com o servidor. Confira sua conexão e tente de novo.',
 }
+const unknownError = () => 'Não foi possível finalizar o pedido. Tente de novo em instantes.'
 
 function LockIcon() {
   return (
@@ -86,6 +98,7 @@ function CheckoutPage({ placeOrder, findAddressByCep, estimateShipping }) {
       ? { ...payment, installments: Math.min(payment.installments, totals.installments) }
       : payment
 
+  if (cart.loadFailed) return <LoadError title="Não conseguimos carregar sua sacola" />
   if (!cart.isLoaded) return <main className="min-h-[60vh]" aria-busy="true" />
   if (cart.items.length === 0 && !submitting) return <EmptyCheckout />
 
@@ -105,7 +118,14 @@ function CheckoutPage({ placeOrder, findAddressByCep, estimateShipping }) {
     setSubmitting(true)
     setSubmitError('')
 
-    const result = await placeOrder({ items: cart.items, coupon: cart.coupon, customer, address, payment: effectivePayment })
+    let result
+    try {
+      result = await placeOrder({ items: cart.items, coupon: cart.coupon, customer, address, payment: effectivePayment })
+    } catch (error) {
+      // Erro inesperado (ex.: falha no servidor): o cliente pode tentar de novo
+      console.error('Falha ao finalizar o pedido:', error)
+      result = { error: 'unknown' }
+    }
 
     if (result.order) {
       // `replace`: o botão Voltar não reabre o checkout de um pedido já feito
@@ -115,7 +135,7 @@ function CheckoutPage({ placeOrder, findAddressByCep, estimateShipping }) {
     }
 
     setSubmitting(false)
-    setSubmitError(placeOrderErrors[result.error])
+    setSubmitError((placeOrderErrors[result.error] ?? unknownError)(result))
   }
 
   const statusOf = (number) => (number < step ? 'done' : number === step ? 'current' : 'upcoming')

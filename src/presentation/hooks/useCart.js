@@ -8,16 +8,23 @@ import { addItem, calculateTotals, changeQuantity, countItems, removeItem } from
 export function useCart(getCart, saveCart, applyCoupon) {
   const [items, setItems] = useState([])
   const [isLoaded, setLoaded] = useState(false)
+  const [loadFailed, setLoadFailed] = useState(false)
   const [coupon, setCoupon] = useState(null)
 
   useEffect(() => {
     let active = true
 
-    getCart().then((saved) => {
-      if (!active) return
-      setItems(saved)
-      setLoaded(true)
-    })
+    getCart()
+      .then((saved) => {
+        if (!active) return
+        setItems(saved)
+        setLoaded(true)
+      })
+      // Sem catálogo não dá para montar a sacola; como isLoaded fica false, a sacola guardada não é apagada
+      .catch((error) => {
+        console.error('Falha ao carregar a sacola:', error)
+        if (active) setLoadFailed(true)
+      })
 
     return () => {
       active = false
@@ -40,6 +47,7 @@ export function useCart(getCart, saveCart, applyCoupon) {
   return {
     items,
     isLoaded,
+    loadFailed,
     coupon,
     totals,
     count: countItems(items),

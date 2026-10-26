@@ -1,5 +1,6 @@
 import { useCallback } from 'react'
 import { Link, useParams } from 'react-router'
+import LoadError from '../components/LoadError.jsx'
 import ProductGrid from '../components/ProductGrid.jsx'
 import Breadcrumb from '../components/product/Breadcrumb.jsx'
 import ProductBuyBox from '../components/product/ProductBuyBox.jsx'
@@ -51,7 +52,7 @@ function ProductNotFound() {
  */
 function ProductPage({ getProductById, getRelatedProducts, getProductReviews, submitReview, estimateShipping }) {
   const { productId } = useParams()
-  const { loading, product } = useProduct(getProductById, productId)
+  const { loading, product, failed } = useProduct(getProductById, productId)
   const { reviews, summary, submit } = useProductReviews(getProductReviews, submitReview, productId)
 
   const loadRelated = useCallback(
@@ -63,6 +64,7 @@ function ProductPage({ getProductById, getRelatedProducts, getProductReviews, su
   usePageTitle(product?.name ?? 'Produto')
 
   if (loading) return <ProductPageSkeleton />
+  if (failed) return <LoadError title="Não conseguimos carregar este produto" />
   if (!product) return <ProductNotFound />
 
   const niche = NICHE_PAGES.find((page) => page.slug === product.niche)

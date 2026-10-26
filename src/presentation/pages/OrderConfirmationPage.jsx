@@ -38,7 +38,7 @@ function OrderConfirmationPage() {
         </span>
         <h1 className="mt-5 text-3xl font-semibold sm:text-4xl">Pedido confirmado!</h1>
         <p className="mt-2 text-muted-foreground">
-          Obrigado pela compra, {firstName}. Seu pedido é o <strong className="text-foreground">nº {order.id}</strong>.
+          Obrigado pela compra, {firstName}. Seu pedido é o <strong className="text-foreground">nº {order.number}</strong>.
         </p>
         <p className="mt-1 text-sm text-muted-foreground">Feito em {dateFormatter.format(new Date(order.createdAt))}</p>
         <p className="mx-auto mt-5 max-w-md rounded-sm bg-muted px-4 py-3 text-sm text-muted-foreground">
