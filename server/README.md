@@ -12,7 +12,7 @@ cp .env.example .env   # configurações locais (o .env não vai para o Git)
 npm install            # instala e gera o cliente do Prisma
 npm run db:up          # sobe o PostgreSQL no Docker
 npm run db:migrate     # cria as tabelas
-npm run db:seed        # preenche o catálogo (81 produtos, 10 banners) e os cupons
+npm run db:seed        # preenche catálogo (81 produtos, 10 banners), cupons e avaliações de exemplo
 npm run dev            # API em http://localhost:3333 (reinicia sozinha ao salvar)
 ```
 
@@ -26,14 +26,14 @@ Teste: abra http://localhost:3333/health → `{"status":"ok","database":"up",...
 | `npm test` | Roda os testes (não precisam do banco) |
 | `npm run db:up` / `db:down` | Liga / desliga o PostgreSQL do Docker |
 | `npm run db:migrate` | Aplica mudanças do `prisma/schema.prisma` no banco |
-| `npm run db:seed` | Preenche/atualiza catálogo e cupons com `prisma/seed/*.json` (pode rodar de novo sem duplicar; volta o estoque ao valor do arquivo) |
+| `npm run db:seed` | Preenche/atualiza catálogo, cupons e avaliações de exemplo com `prisma/seed/*.json` (pode rodar de novo sem duplicar; volta o estoque ao valor do arquivo) |
 
 ## Estrutura
 
 ```
 src/
-├── domain/          regras de negócio: produto, banner, cupom, itens e pedido, pagamento, frete
-├── application/     casos de uso: listProducts, getProduct, listBanners, getCoupon, placeOrder, checkHealth
+├── domain/          regras de negócio: produto, banner, cupom, itens e pedido, pagamento, frete, avaliação
+├── application/     casos de uso: catálogo, getCoupon, placeOrder, avaliações, newsletter, checkHealth
 ├── infrastructure/  banco de dados (Prisma): conexão e repositórios
 ├── http/            Fastify: app.js (CORS, erros), routes/ e schemas/ (validação e formato das respostas)
 ├── config/          leitura das variáveis de ambiente
@@ -52,6 +52,12 @@ test/                testes com node:test
 | GET | `/banners?placement=home` | Banners da página (home, moda, casa, tecnologia, saude, outlet) + os de todas as páginas |
 | GET | `/coupons/:code` | Cupom ativo (sem diferenciar maiúsculas); 404 `coupon_not_found` |
 | POST | `/orders` | Cria o pedido (201). Veja abaixo |
+| GET | `/products/:id/reviews` | Avaliações do produto, das mais recentes para as mais antigas |
+| POST | `/products/:id/reviews` | Publica avaliação `{ author, rating, comment }` (201); 422 `invalid_data` com `fields` |
+| POST | `/newsletter` | Inscreve `{ email }` (201); 409 `already_subscribed`; 422 `invalid_email` |
+
+**Limite de envios por visitante (IP):** `POST /orders` 10 por minuto; avaliações e newsletter 5 por minuto.
+Acima disso a resposta é 429 `too_many_requests`. Na hospedagem, use `TRUST_PROXY=true` para o limite enxergar o IP real.
 
 ### POST /orders
 

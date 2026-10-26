@@ -28,7 +28,9 @@ export function validateReviewInput({ author = '', rating = 0, comment = '' }) {
 
 export function createReview({ id, productId, author, rating, comment, date, verifiedPurchase = false }) {
   const errors = validateReviewInput({ author, rating, comment })
-  if (!id || !productId || !date || Object.keys(errors).length > 0) {
+  // Data no formato AAAA-MM-DD e existente (ex.: recusa 2026-05--6 e 2026-13-01)
+  const isValidDate = /^\d{4}-\d{2}-\d{2}$/.test(date ?? '') && !Number.isNaN(Date.parse(`${date}T00:00:00Z`))
+  if (!id || !productId || !isValidDate || Object.keys(errors).length > 0) {
     throw new Error(`Avaliação inválida (${id}): ${Object.values(errors).join(' ')}`)
   }
 

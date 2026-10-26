@@ -25,7 +25,10 @@ export async function orderRoutes(app, { getCoupon, placeOrder }) {
     return coupon
   })
 
-  app.post('/orders', { schema: placeOrderSchema }, async (request, reply) => {
+  // Até 10 tentativas de pedido por minuto por visitante
+  const orderLimit = { rateLimit: { max: 10, timeWindow: '1 minute' } }
+
+  app.post('/orders', { schema: placeOrderSchema, config: orderLimit }, async (request, reply) => {
     const { order, error, ...details } = await placeOrder(request.body)
     if (order) return reply.code(201).send(order)
 

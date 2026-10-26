@@ -2,6 +2,12 @@ import { useEffect, useId, useRef, useState } from 'react'
 import { MAX_COMMENT_LENGTH, validateReviewInput } from '../../../domain/entities/Review.js'
 
 const EMPTY = { author: '', rating: 0, comment: '' }
+// Falhas no envio que não são de um campo (ex.: sem conexão)
+const submitErrorMessages = {
+  too_many_requests: 'Muitas tentativas seguidas. Aguarde um minuto e tente de novo.',
+  product_not_found: 'Este produto não está mais disponível para avaliação.',
+}
+const fallbackSubmitError = 'Não conseguimos publicar sua avaliação agora. Tente de novo em instantes.'
 const STAR_PATH =
   'M12 2.5l2.94 5.96 6.56.95-4.75 4.63 1.12 6.53L12 17.5l-5.87 3.07 1.12-6.53L2.5 9.41l6.56-.95L12 2.5z'
 
@@ -20,6 +26,7 @@ function ReviewForm({ onSubmit, onCancel }) {
   const [attempts, setAttempts] = useState(0)
   const [hoverRating, setHoverRating] = useState(0)
   const [sending, setSending] = useState(false)
+  const [submitError, setSubmitError] = useState('')
 
   const errors = validateReviewInput(values)
   const errorFor = (field) => (touched[field] || attempts > 0 ? errors[field] : undefined)
@@ -40,8 +47,10 @@ function ReviewForm({ onSubmit, onCancel }) {
       return
     }
     setSending(true)
-    await onSubmit(values)
+    setSubmitError('')
+    const result = await onSubmit(values)
     setSending(false)
+    if (result?.error) setSubmitError(submitErrorMessages[result.error] ?? fallbackSubmitError)
   }
 
   const focusField = (event, field) => {
@@ -158,6 +167,12 @@ function ReviewForm({ onSubmit, onCancel }) {
           </p>
         )}
       </div>
+
+      {submitError && (
+        <p role="alert" className="rounded-sm border border-primary bg-primary/5 p-3 text-sm font-medium text-primary">
+          {submitError}
+        </p>
+      )}
 
       <div className="flex flex-wrap gap-3">
         <button

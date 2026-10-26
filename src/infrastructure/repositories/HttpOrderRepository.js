@@ -1,5 +1,6 @@
 import { toCartEntry } from '../../domain/entities/Cart.js'
 import { resolveProductImage } from '../assets/catalogImages.js'
+import { ApiError } from '../http/apiClient.js'
 
 // Pedido da API → formato usado pelas telas (o mesmo do MockOrderRepository)
 function toOrder(data) {
@@ -45,11 +46,9 @@ export class HttpOrderRepository {
       })
       return { order: toOrder(data) }
     } catch (error) {
-      // 409/422: a API explicou o motivo (estoque, cupom, preço mudou...); sem conexão: status 0
-      if (error.status === 0 || error.status === 409 || error.status === 422) {
-        return { error: error.code, ...error.details }
-      }
-      throw error
+      // A API explicou o motivo (estoque, cupom, preço mudou, muitas tentativas...) ou não respondeu (network_error)
+      if (!(error instanceof ApiError)) throw error
+      return { error: error.code, ...error.details }
     }
   }
 }

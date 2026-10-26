@@ -1,0 +1,3179 @@
+[
+  {
+    "id": "calca-jeans-masculina-presponto-review-0",
+    "productId": "calca-jeans-masculina-presponto",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-06-07",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "calca-jeans-masculina-presponto-review-1",
+    "productId": "calca-jeans-masculina-presponto",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-07-18",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "calca-jeans-masculina-presponto-review-2",
+    "productId": "calca-jeans-masculina-presponto",
+    "author": "Fernanda A.",
+    "rating": 5,
+    "comment": "Comprei para dar de presente e a pessoa amou. Atendimento nota 10.",
+    "date": "2026-08-09",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "calca-jeans-masculina-presponto-review-3",
+    "productId": "calca-jeans-masculina-presponto",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-09-05",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "calca-jeans-masculina-presponto-review-4",
+    "productId": "calca-jeans-masculina-presponto",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-01-03",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-infantil-carros-branca-review-0",
+    "productId": "camiseta-infantil-carros-branca",
+    "author": "Rafael M.",
+    "rating": 5,
+    "comment": "Produto exatamente como descrito. Recomendo!",
+    "date": "2026-04-28",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-infantil-carros-branca-review-1",
+    "productId": "camiseta-infantil-carros-branca",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-05-28",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-infantil-carros-branca-review-2",
+    "productId": "camiseta-infantil-carros-branca",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-06-14",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "camiseta-infantil-carros-cinza-review-0",
+    "productId": "camiseta-infantil-carros-cinza",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-05-10",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-infantil-carros-cinza-review-1",
+    "productId": "camiseta-infantil-carros-cinza",
+    "author": "Mariana S.",
+    "rating": 5,
+    "comment": "Chegou antes do prazo e muito bem embalado. Superou minhas expectativas!",
+    "date": "2026-06-19",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-infantil-carros-cinza-review-2",
+    "productId": "camiseta-infantil-carros-cinza",
+    "author": "Lucas R.",
+    "rating": 3,
+    "comment": "Atende ao que promete, mas esperava um acabamento um pouco melhor.",
+    "date": "2026-07-24",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "camiseta-infantil-carros-cinza-review-3",
+    "productId": "camiseta-infantil-carros-cinza",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-08-26",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-juvenil-skate-vibes-azul-review-0",
+    "productId": "camiseta-juvenil-skate-vibes-azul",
+    "author": "Fernanda A.",
+    "rating": 5,
+    "comment": "Comprei para dar de presente e a pessoa amou. Atendimento nota 10.",
+    "date": "2026-07-12",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-juvenil-skate-vibes-azul-review-1",
+    "productId": "camiseta-juvenil-skate-vibes-azul",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-08-06",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-juvenil-skate-vibes-azul-review-2",
+    "productId": "camiseta-juvenil-skate-vibes-azul",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-09-03",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "camiseta-juvenil-skate-vibes-azul-review-3",
+    "productId": "camiseta-juvenil-skate-vibes-azul",
+    "author": "Thiago N.",
+    "rating": 2,
+    "comment": "Precisei trocar o tamanho, mas a troca foi rápida e sem custo.",
+    "date": "2026-01-16",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-juvenil-skate-vibes-azul-review-4",
+    "productId": "camiseta-juvenil-skate-vibes-azul",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-02-22",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-juvenil-skate-vibes-azul-review-5",
+    "productId": "camiseta-juvenil-skate-vibes-azul",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-03-11",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "conjunto-infantil-stitch-review-0",
+    "productId": "conjunto-infantil-stitch",
+    "author": "Rafael M.",
+    "rating": 5,
+    "comment": "Produto exatamente como descrito. Recomendo!",
+    "date": "2026-07-18",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "conjunto-infantil-stitch-review-1",
+    "productId": "conjunto-infantil-stitch",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-08-23",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "conjunto-infantil-stitch-review-2",
+    "productId": "conjunto-infantil-stitch",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-09-26",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "conjunto-infantil-stitch-review-3",
+    "productId": "conjunto-infantil-stitch",
+    "author": "Fernanda A.",
+    "rating": 5,
+    "comment": "Comprei para dar de presente e a pessoa amou. Atendimento nota 10.",
+    "date": "2026-01-27",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "conjunto-infantil-stitch-review-4",
+    "productId": "conjunto-infantil-stitch",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-02-14",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "conjunto-infantil-stitch-review-5",
+    "productId": "conjunto-infantil-stitch",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-03-21",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "conjunto-infantil-minnie-review-0",
+    "productId": "conjunto-infantil-minnie",
+    "author": "Fernanda A.",
+    "rating": 5,
+    "comment": "Comprei para dar de presente e a pessoa amou. Atendimento nota 10.",
+    "date": "2026-04-26",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "conjunto-infantil-minnie-review-1",
+    "productId": "conjunto-infantil-minnie",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-05-13",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "conjunto-infantil-minnie-review-2",
+    "productId": "conjunto-infantil-minnie",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-06-07",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "conjunto-infantil-surf-review-0",
+    "productId": "conjunto-infantil-surf",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-06-01",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "conjunto-infantil-surf-review-1",
+    "productId": "conjunto-infantil-surf",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-07-01",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "conjunto-infantil-surf-review-2",
+    "productId": "conjunto-infantil-surf",
+    "author": "Fernanda A.",
+    "rating": 5,
+    "comment": "Comprei para dar de presente e a pessoa amou. Atendimento nota 10.",
+    "date": "2026-08-15",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "conjunto-infantil-surf-review-3",
+    "productId": "conjunto-infantil-surf",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-09-22",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "conjunto-infantil-surf-review-4",
+    "productId": "conjunto-infantil-surf",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-01-25",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "pijama-infantil-capitao-america-review-0",
+    "productId": "pijama-infantil-capitao-america",
+    "author": "Fernanda A.",
+    "rating": 5,
+    "comment": "Comprei para dar de presente e a pessoa amou. Atendimento nota 10.",
+    "date": "2026-07-22",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "pijama-infantil-capitao-america-review-1",
+    "productId": "pijama-infantil-capitao-america",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-08-11",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "pijama-infantil-capitao-america-review-2",
+    "productId": "pijama-infantil-capitao-america",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-09-06",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "pijama-infantil-capitao-america-review-3",
+    "productId": "pijama-infantil-capitao-america",
+    "author": "Thiago N.",
+    "rating": 2,
+    "comment": "Precisei trocar o tamanho, mas a troca foi rápida e sem custo.",
+    "date": "2026-01-03",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "pijama-infantil-capitao-america-review-4",
+    "productId": "pijama-infantil-capitao-america",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-02-02",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "pijama-infantil-capitao-america-review-5",
+    "productId": "pijama-infantil-capitao-america",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-03-01",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "short-doll-renda-preto-review-0",
+    "productId": "short-doll-renda-preto",
+    "author": "Rafael M.",
+    "rating": 5,
+    "comment": "Produto exatamente como descrito. Recomendo!",
+    "date": "2026-07-16",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "short-doll-renda-preto-review-1",
+    "productId": "short-doll-renda-preto",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-08-08",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "short-doll-renda-preto-review-2",
+    "productId": "short-doll-renda-preto",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-09-04",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "short-doll-renda-preto-review-3",
+    "productId": "short-doll-renda-preto",
+    "author": "Fernanda A.",
+    "rating": 5,
+    "comment": "Comprei para dar de presente e a pessoa amou. Atendimento nota 10.",
+    "date": "2026-01-02",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "short-doll-renda-preto-review-4",
+    "productId": "short-doll-renda-preto",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-02-01",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "short-doll-renda-preto-review-5",
+    "productId": "short-doll-renda-preto",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-03-01",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "sutia-bojo-preto-review-0",
+    "productId": "sutia-bojo-preto",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-08-23",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "sutia-bojo-preto-review-1",
+    "productId": "sutia-bojo-preto",
+    "author": "Fernanda A.",
+    "rating": 5,
+    "comment": "Comprei para dar de presente e a pessoa amou. Atendimento nota 10.",
+    "date": "2026-09-12",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "sutia-bojo-preto-review-2",
+    "productId": "sutia-bojo-preto",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-01-06",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "sutia-bojo-preto-review-3",
+    "productId": "sutia-bojo-preto",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-02-03",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "sutia-bojo-preto-review-4",
+    "productId": "sutia-bojo-preto",
+    "author": "Thiago N.",
+    "rating": 2,
+    "comment": "Precisei trocar o tamanho, mas a troca foi rápida e sem custo.",
+    "date": "2026-03-16",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "sutia-bojo-preto-review-5",
+    "productId": "sutia-bojo-preto",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-04-08",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "sutia-bojo-preto-review-6",
+    "productId": "sutia-bojo-preto",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-05-04",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "kit-cuecas-boxer-mash-review-0",
+    "productId": "kit-cuecas-boxer-mash",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-02-14",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "meia-felpuda-poa-review-0",
+    "productId": "meia-felpuda-poa",
+    "author": "Fernanda A.",
+    "rating": 5,
+    "comment": "Comprei para dar de presente e a pessoa amou. Atendimento nota 10.",
+    "date": "2026-04-20",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "meia-felpuda-poa-review-1",
+    "productId": "meia-felpuda-poa",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-05-24",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "meia-felpuda-poa-review-2",
+    "productId": "meia-felpuda-poa",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-06-26",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "motorola-edge-70-fusion-review-0",
+    "productId": "motorola-edge-70-fusion",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-03-28",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "motorola-edge-70-fusion-review-1",
+    "productId": "motorola-edge-70-fusion",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-04-28",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "samsung-galaxy-a17-review-0",
+    "productId": "samsung-galaxy-a17",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-06-11",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "samsung-galaxy-a17-review-1",
+    "productId": "samsung-galaxy-a17",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-07-06",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "samsung-galaxy-a17-review-2",
+    "productId": "samsung-galaxy-a17",
+    "author": "Fernanda A.",
+    "rating": 5,
+    "comment": "Comprei para dar de presente e a pessoa amou. Atendimento nota 10.",
+    "date": "2026-08-17",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "samsung-galaxy-a17-review-3",
+    "productId": "samsung-galaxy-a17",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-09-09",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "samsung-galaxy-a17-review-4",
+    "productId": "samsung-galaxy-a17",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-01-05",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "motorola-moto-g06-review-0",
+    "productId": "motorola-moto-g06",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-05-15",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "motorola-moto-g06-review-1",
+    "productId": "motorola-moto-g06",
+    "author": "Thiago N.",
+    "rating": 2,
+    "comment": "Precisei trocar o tamanho, mas a troca foi rápida e sem custo.",
+    "date": "2026-06-22",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "motorola-moto-g06-review-2",
+    "productId": "motorola-moto-g06",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-07-11",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "motorola-moto-g06-review-3",
+    "productId": "motorola-moto-g06",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-08-06",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "smartwatch-condor-preto-review-0",
+    "productId": "smartwatch-condor-preto",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-06-04",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "smartwatch-condor-preto-review-1",
+    "productId": "smartwatch-condor-preto",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-07-02",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "smartwatch-condor-preto-review-2",
+    "productId": "smartwatch-condor-preto",
+    "author": "Mariana S.",
+    "rating": 5,
+    "comment": "Chegou antes do prazo e muito bem embalado. Superou minhas expectativas!",
+    "date": "2026-08-15",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "smartwatch-condor-preto-review-3",
+    "productId": "smartwatch-condor-preto",
+    "author": "Lucas R.",
+    "rating": 3,
+    "comment": "Atende ao que promete, mas esperava um acabamento um pouco melhor.",
+    "date": "2026-09-08",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "smartwatch-condor-preto-review-4",
+    "productId": "smartwatch-condor-preto",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-01-04",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "smartwatch-condor-cinza-review-0",
+    "productId": "smartwatch-condor-cinza",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-09-28",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "smartwatch-condor-cinza-review-1",
+    "productId": "smartwatch-condor-cinza",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-01-14",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "smartwatch-condor-cinza-review-2",
+    "productId": "smartwatch-condor-cinza",
+    "author": "Thiago N.",
+    "rating": 2,
+    "comment": "Precisei trocar o tamanho, mas a troca foi rápida e sem custo.",
+    "date": "2026-02-21",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "smartwatch-condor-cinza-review-3",
+    "productId": "smartwatch-condor-cinza",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-03-25",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "smartwatch-condor-cinza-review-4",
+    "productId": "smartwatch-condor-cinza",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-04-13",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "smartwatch-condor-cinza-review-5",
+    "productId": "smartwatch-condor-cinza",
+    "author": "Mariana S.",
+    "rating": 5,
+    "comment": "Chegou antes do prazo e muito bem embalado. Superou minhas expectativas!",
+    "date": "2026-05-07",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "smartwatch-condor-cinza-review-6",
+    "productId": "smartwatch-condor-cinza",
+    "author": "Lucas R.",
+    "rating": 3,
+    "comment": "Atende ao que promete, mas esperava um acabamento um pouco melhor.",
+    "date": "2026-06-18",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "smartwatch-condor-cinza-review-7",
+    "productId": "smartwatch-condor-cinza",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-07-09",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tablet-infantil-patrulha-canina-review-0",
+    "productId": "tablet-infantil-patrulha-canina",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-08-28",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tablet-infantil-patrulha-canina-review-1",
+    "productId": "tablet-infantil-patrulha-canina",
+    "author": "Rafael M.",
+    "rating": 5,
+    "comment": "Produto exatamente como descrito. Recomendo!",
+    "date": "2026-09-14",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tablet-infantil-patrulha-canina-review-2",
+    "productId": "tablet-infantil-patrulha-canina",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-01-07",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "tablet-infantil-patrulha-canina-review-3",
+    "productId": "tablet-infantil-patrulha-canina",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-02-04",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tablet-infantil-patrulha-canina-review-4",
+    "productId": "tablet-infantil-patrulha-canina",
+    "author": "Fernanda A.",
+    "rating": 5,
+    "comment": "Comprei para dar de presente e a pessoa amou. Atendimento nota 10.",
+    "date": "2026-03-16",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tablet-infantil-patrulha-canina-review-5",
+    "productId": "tablet-infantil-patrulha-canina",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-04-08",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "tablet-infantil-patrulha-canina-review-6",
+    "productId": "tablet-infantil-patrulha-canina",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-05-04",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tablet-infantil-minnie-review-0",
+    "productId": "tablet-infantil-minnie",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-03-19",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tablet-infantil-minnie-review-1",
+    "productId": "tablet-infantil-minnie",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-04-24",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "air-fryer-oven-philco-11l-review-0",
+    "productId": "air-fryer-oven-philco-11l",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-09-20",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "air-fryer-oven-philco-11l-review-1",
+    "productId": "air-fryer-oven-philco-11l",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-01-10",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "air-fryer-oven-philco-11l-review-2",
+    "productId": "air-fryer-oven-philco-11l",
+    "author": "Mariana S.",
+    "rating": 5,
+    "comment": "Chegou antes do prazo e muito bem embalado. Superou minhas expectativas!",
+    "date": "2026-02-05",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "air-fryer-oven-philco-11l-review-3",
+    "productId": "air-fryer-oven-philco-11l",
+    "author": "Lucas R.",
+    "rating": 3,
+    "comment": "Atende ao que promete, mas esperava um acabamento um pouco melhor.",
+    "date": "2026-03-17",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "air-fryer-oven-philco-11l-review-4",
+    "productId": "air-fryer-oven-philco-11l",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-04-23",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "air-fryer-oven-philco-11l-review-5",
+    "productId": "air-fryer-oven-philco-11l",
+    "author": "Rafael M.",
+    "rating": 5,
+    "comment": "Produto exatamente como descrito. Recomendo!",
+    "date": "2026-05-12",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "air-fryer-oven-philco-11l-review-6",
+    "productId": "air-fryer-oven-philco-11l",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-06-20",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "air-fryer-oven-philco-11l-review-7",
+    "productId": "air-fryer-oven-philco-11l",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-07-24",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "air-fryer-britania-4l-review-0",
+    "productId": "air-fryer-britania-4l",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-08-09",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "air-fryer-britania-4l-review-1",
+    "productId": "air-fryer-britania-4l",
+    "author": "Thiago N.",
+    "rating": 2,
+    "comment": "Precisei trocar o tamanho, mas a troca foi rápida e sem custo.",
+    "date": "2026-09-19",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "air-fryer-britania-4l-review-2",
+    "productId": "air-fryer-britania-4l",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-01-10",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "air-fryer-britania-4l-review-3",
+    "productId": "air-fryer-britania-4l",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-02-05",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "air-fryer-britania-4l-review-4",
+    "productId": "air-fryer-britania-4l",
+    "author": "Mariana S.",
+    "rating": 5,
+    "comment": "Chegou antes do prazo e muito bem embalado. Superou minhas expectativas!",
+    "date": "2026-03-17",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "air-fryer-britania-4l-review-5",
+    "productId": "air-fryer-britania-4l",
+    "author": "Lucas R.",
+    "rating": 3,
+    "comment": "Atende ao que promete, mas esperava um acabamento um pouco melhor.",
+    "date": "2026-04-23",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "air-fryer-britania-4l-review-6",
+    "productId": "air-fryer-britania-4l",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-05-12",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "prato-fundo-vidro-zuria-review-0",
+    "productId": "prato-fundo-vidro-zuria",
+    "author": "Rafael M.",
+    "rating": 5,
+    "comment": "Produto exatamente como descrito. Recomendo!",
+    "date": "2026-04-10",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "prato-fundo-vidro-zuria-review-1",
+    "productId": "prato-fundo-vidro-zuria",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-05-05",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "prato-fundo-vidro-zuria-review-2",
+    "productId": "prato-fundo-vidro-zuria",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-06-03",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "jogo-xicaras-vidro-90ml-review-0",
+    "productId": "jogo-xicaras-vidro-90ml",
+    "author": "Fernanda A.",
+    "rating": 5,
+    "comment": "Comprei para dar de presente e a pessoa amou. Atendimento nota 10.",
+    "date": "2026-07-28",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "jogo-xicaras-vidro-90ml-review-1",
+    "productId": "jogo-xicaras-vidro-90ml",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-08-14",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "jogo-xicaras-vidro-90ml-review-2",
+    "productId": "jogo-xicaras-vidro-90ml",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-09-21",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "jogo-xicaras-vidro-90ml-review-3",
+    "productId": "jogo-xicaras-vidro-90ml",
+    "author": "Thiago N.",
+    "rating": 2,
+    "comment": "Precisei trocar o tamanho, mas a troca foi rápida e sem custo.",
+    "date": "2026-01-11",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "jogo-xicaras-vidro-90ml-review-4",
+    "productId": "jogo-xicaras-vidro-90ml",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-02-20",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "jogo-xicaras-vidro-90ml-review-5",
+    "productId": "jogo-xicaras-vidro-90ml",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-03-10",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "jogo-copos-munich-review-0",
+    "productId": "jogo-copos-munich",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-02-28",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "cobreleito-harry-potter-review-0",
+    "productId": "cobreleito-harry-potter",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-02-11",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "cobreleito-stitch-review-0",
+    "productId": "cobreleito-stitch",
+    "author": "Thiago N.",
+    "rating": 2,
+    "comment": "Precisei trocar o tamanho, mas a troca foi rápida e sem custo.",
+    "date": "2026-04-03",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "cobreleito-stitch-review-1",
+    "productId": "cobreleito-stitch",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-05-02",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "cobreleito-stitch-review-2",
+    "productId": "cobreleito-stitch",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-06-15",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "manta-fleece-homem-aranha-review-0",
+    "productId": "manta-fleece-homem-aranha",
+    "author": "Fernanda A.",
+    "rating": 5,
+    "comment": "Comprei para dar de presente e a pessoa amou. Atendimento nota 10.",
+    "date": "2026-07-28",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "manta-fleece-homem-aranha-review-1",
+    "productId": "manta-fleece-homem-aranha",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-08-28",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "manta-fleece-homem-aranha-review-2",
+    "productId": "manta-fleece-homem-aranha",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-09-14",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "manta-fleece-homem-aranha-review-3",
+    "productId": "manta-fleece-homem-aranha",
+    "author": "Thiago N.",
+    "rating": 2,
+    "comment": "Precisei trocar o tamanho, mas a troca foi rápida e sem custo.",
+    "date": "2026-01-21",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "manta-fleece-homem-aranha-review-4",
+    "productId": "manta-fleece-homem-aranha",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-02-25",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "manta-fleece-homem-aranha-review-5",
+    "productId": "manta-fleece-homem-aranha",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-03-13",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "camiseta-basica-algodao-review-0",
+    "productId": "camiseta-basica-algodao",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-08-10",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-basica-algodao-review-1",
+    "productId": "camiseta-basica-algodao",
+    "author": "Rafael M.",
+    "rating": 5,
+    "comment": "Produto exatamente como descrito. Recomendo!",
+    "date": "2026-09-05",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-basica-algodao-review-2",
+    "productId": "camiseta-basica-algodao",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-01-03",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "camiseta-basica-algodao-review-3",
+    "productId": "camiseta-basica-algodao",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-02-16",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-basica-algodao-review-4",
+    "productId": "camiseta-basica-algodao",
+    "author": "Fernanda A.",
+    "rating": 5,
+    "comment": "Comprei para dar de presente e a pessoa amou. Atendimento nota 10.",
+    "date": "2026-03-22",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-basica-algodao-review-5",
+    "productId": "camiseta-basica-algodao",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-04-25",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "camiseta-basica-algodao-review-6",
+    "productId": "camiseta-basica-algodao",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-05-27",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-oversized-preta-review-0",
+    "productId": "camiseta-oversized-preta",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-05-03",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-oversized-preta-review-1",
+    "productId": "camiseta-oversized-preta",
+    "author": "Fernanda A.",
+    "rating": 5,
+    "comment": "Comprei para dar de presente e a pessoa amou. Atendimento nota 10.",
+    "date": "2026-06-02",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-oversized-preta-review-2",
+    "productId": "camiseta-oversized-preta",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-07-01",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "camiseta-oversized-preta-review-3",
+    "productId": "camiseta-oversized-preta",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-08-15",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-listrada-marinho-review-0",
+    "productId": "camiseta-listrada-marinho",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-09-07",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-listrada-marinho-review-1",
+    "productId": "camiseta-listrada-marinho",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-01-18",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-listrada-marinho-review-2",
+    "productId": "camiseta-listrada-marinho",
+    "author": "Fernanda A.",
+    "rating": 5,
+    "comment": "Comprei para dar de presente e a pessoa amou. Atendimento nota 10.",
+    "date": "2026-02-23",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "camiseta-listrada-marinho-review-3",
+    "productId": "camiseta-listrada-marinho",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-03-12",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-listrada-marinho-review-4",
+    "productId": "camiseta-listrada-marinho",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-04-20",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-listrada-marinho-review-5",
+    "productId": "camiseta-listrada-marinho",
+    "author": "Thiago N.",
+    "rating": 2,
+    "comment": "Precisei trocar o tamanho, mas a troca foi rápida e sem custo.",
+    "date": "2026-05-10",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "camiseta-listrada-marinho-review-6",
+    "productId": "camiseta-listrada-marinho",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-06-05",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-listrada-marinho-review-7",
+    "productId": "camiseta-listrada-marinho",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-07-17",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-gola-v-branca-review-0",
+    "productId": "camiseta-gola-v-branca",
+    "author": "Thiago N.",
+    "rating": 2,
+    "comment": "Precisei trocar o tamanho, mas a troca foi rápida e sem custo.",
+    "date": "2026-04-03",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-gola-v-branca-review-1",
+    "productId": "camiseta-gola-v-branca",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-05-02",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-gola-v-branca-review-2",
+    "productId": "camiseta-gola-v-branca",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-06-15",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "camiseta-estampada-tropical-review-0",
+    "productId": "camiseta-estampada-tropical",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-03-28",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-estampada-tropical-review-1",
+    "productId": "camiseta-estampada-tropical",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-04-28",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-polo-piquet-review-0",
+    "productId": "camiseta-polo-piquet",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-02-14",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-dry-fit-review-0",
+    "productId": "camiseta-dry-fit",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-05-22",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-dry-fit-review-1",
+    "productId": "camiseta-dry-fit",
+    "author": "Rafael M.",
+    "rating": 5,
+    "comment": "Produto exatamente como descrito. Recomendo!",
+    "date": "2026-06-25",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-dry-fit-review-2",
+    "productId": "camiseta-dry-fit",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-07-13",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "camiseta-dry-fit-review-3",
+    "productId": "camiseta-dry-fit",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-08-07",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-henley-mescla-review-0",
+    "productId": "camiseta-henley-mescla",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-08-08",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-henley-mescla-review-1",
+    "productId": "camiseta-henley-mescla",
+    "author": "Rafael M.",
+    "rating": 5,
+    "comment": "Produto exatamente como descrito. Recomendo!",
+    "date": "2026-09-04",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-henley-mescla-review-2",
+    "productId": "camiseta-henley-mescla",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-01-02",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "camiseta-henley-mescla-review-3",
+    "productId": "camiseta-henley-mescla",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-02-15",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-henley-mescla-review-4",
+    "productId": "camiseta-henley-mescla",
+    "author": "Fernanda A.",
+    "rating": 5,
+    "comment": "Comprei para dar de presente e a pessoa amou. Atendimento nota 10.",
+    "date": "2026-03-22",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "camiseta-henley-mescla-review-5",
+    "productId": "camiseta-henley-mescla",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-04-25",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "camiseta-henley-mescla-review-6",
+    "productId": "camiseta-henley-mescla",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-05-27",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "calca-jeans-slim-review-0",
+    "productId": "calca-jeans-slim",
+    "author": "Rafael M.",
+    "rating": 5,
+    "comment": "Produto exatamente como descrito. Recomendo!",
+    "date": "2026-04-12",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "calca-jeans-slim-review-1",
+    "productId": "calca-jeans-slim",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-05-06",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "calca-jeans-slim-review-2",
+    "productId": "calca-jeans-slim",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-06-17",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "calca-alfaiataria-bege-review-0",
+    "productId": "calca-alfaiataria-bege",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-02-08",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "calca-cargo-verde-review-0",
+    "productId": "calca-cargo-verde",
+    "author": "Rafael M.",
+    "rating": 5,
+    "comment": "Produto exatamente como descrito. Recomendo!",
+    "date": "2026-04-18",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "calca-cargo-verde-review-1",
+    "productId": "calca-cargo-verde",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-05-23",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "calca-cargo-verde-review-2",
+    "productId": "calca-cargo-verde",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-06-26",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "jaqueta-jeans-review-0",
+    "productId": "jaqueta-jeans",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-09-08",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "jaqueta-jeans-review-1",
+    "productId": "jaqueta-jeans",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-01-04",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "jaqueta-jeans-review-2",
+    "productId": "jaqueta-jeans",
+    "author": "Mariana S.",
+    "rating": 5,
+    "comment": "Chegou antes do prazo e muito bem embalado. Superou minhas expectativas!",
+    "date": "2026-02-02",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "jaqueta-jeans-review-3",
+    "productId": "jaqueta-jeans",
+    "author": "Lucas R.",
+    "rating": 3,
+    "comment": "Atende ao que promete, mas esperava um acabamento um pouco melhor.",
+    "date": "2026-03-15",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "jaqueta-jeans-review-4",
+    "productId": "jaqueta-jeans",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-04-08",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "jaqueta-jeans-review-5",
+    "productId": "jaqueta-jeans",
+    "author": "Rafael M.",
+    "rating": 5,
+    "comment": "Produto exatamente como descrito. Recomendo!",
+    "date": "2026-05-04",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "jaqueta-jeans-review-6",
+    "productId": "jaqueta-jeans",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-06-02",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "jaqueta-jeans-review-7",
+    "productId": "jaqueta-jeans",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-07-15",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "jaqueta-couro-preta-review-0",
+    "productId": "jaqueta-couro-preta",
+    "author": "Mariana S.",
+    "rating": 5,
+    "comment": "Chegou antes do prazo e muito bem embalado. Superou minhas expectativas!",
+    "date": "2026-04-19",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "jaqueta-couro-preta-review-1",
+    "productId": "jaqueta-couro-preta",
+    "author": "Lucas R.",
+    "rating": 3,
+    "comment": "Atende ao que promete, mas esperava um acabamento um pouco melhor.",
+    "date": "2026-05-24",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "jaqueta-couro-preta-review-2",
+    "productId": "jaqueta-couro-preta",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-06-26",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "vestido-midi-floral-review-0",
+    "productId": "vestido-midi-floral",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-03-01",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "vestido-midi-floral-review-1",
+    "productId": "vestido-midi-floral",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-04-01",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "vestido-linho-off-white-review-0",
+    "productId": "vestido-linho-off-white",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-03-08",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "vestido-linho-off-white-review-1",
+    "productId": "vestido-linho-off-white",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-04-18",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tenis-casual-couro-review-0",
+    "productId": "tenis-casual-couro",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-08-01",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tenis-casual-couro-review-1",
+    "productId": "tenis-casual-couro",
+    "author": "Fernanda A.",
+    "rating": 5,
+    "comment": "Comprei para dar de presente e a pessoa amou. Atendimento nota 10.",
+    "date": "2026-09-01",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tenis-casual-couro-review-2",
+    "productId": "tenis-casual-couro",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-01-15",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "tenis-casual-couro-review-3",
+    "productId": "tenis-casual-couro",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-02-08",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tenis-casual-couro-review-4",
+    "productId": "tenis-casual-couro",
+    "author": "Thiago N.",
+    "rating": 2,
+    "comment": "Precisei trocar o tamanho, mas a troca foi rápida e sem custo.",
+    "date": "2026-03-04",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tenis-casual-couro-review-5",
+    "productId": "tenis-casual-couro",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-04-16",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "tenis-casual-couro-review-6",
+    "productId": "tenis-casual-couro",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-05-22",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tenis-running-leve-review-0",
+    "productId": "tenis-running-leve",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-06-02",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tenis-running-leve-review-1",
+    "productId": "tenis-running-leve",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-07-01",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tenis-running-leve-review-2",
+    "productId": "tenis-running-leve",
+    "author": "Thiago N.",
+    "rating": 2,
+    "comment": "Precisei trocar o tamanho, mas a troca foi rápida e sem custo.",
+    "date": "2026-08-01",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "tenis-running-leve-review-3",
+    "productId": "tenis-running-leve",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-09-01",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tenis-running-leve-review-4",
+    "productId": "tenis-running-leve",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-01-01",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "sapatenis-camurca-review-0",
+    "productId": "sapatenis-camurca",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-06-20",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "sapatenis-camurca-review-1",
+    "productId": "sapatenis-camurca",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-07-24",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "sapatenis-camurca-review-2",
+    "productId": "sapatenis-camurca",
+    "author": "Mariana S.",
+    "rating": 5,
+    "comment": "Chegou antes do prazo e muito bem embalado. Superou minhas expectativas!",
+    "date": "2026-08-12",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "sapatenis-camurca-review-3",
+    "productId": "sapatenis-camurca",
+    "author": "Lucas R.",
+    "rating": 3,
+    "comment": "Atende ao que promete, mas esperava um acabamento um pouco melhor.",
+    "date": "2026-09-20",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "sapatenis-camurca-review-4",
+    "productId": "sapatenis-camurca",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-01-10",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "bota-chelsea-couro-review-0",
+    "productId": "bota-chelsea-couro",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-09-09",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "bota-chelsea-couro-review-1",
+    "productId": "bota-chelsea-couro",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-01-05",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "bota-chelsea-couro-review-2",
+    "productId": "bota-chelsea-couro",
+    "author": "Fernanda A.",
+    "rating": 5,
+    "comment": "Comprei para dar de presente e a pessoa amou. Atendimento nota 10.",
+    "date": "2026-02-03",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "bota-chelsea-couro-review-3",
+    "productId": "bota-chelsea-couro",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-03-16",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "bota-chelsea-couro-review-4",
+    "productId": "bota-chelsea-couro",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-04-08",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "bota-chelsea-couro-review-5",
+    "productId": "bota-chelsea-couro",
+    "author": "Thiago N.",
+    "rating": 2,
+    "comment": "Precisei trocar o tamanho, mas a troca foi rápida e sem custo.",
+    "date": "2026-05-18",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "bota-chelsea-couro-review-6",
+    "productId": "bota-chelsea-couro",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-06-23",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "bota-chelsea-couro-review-7",
+    "productId": "bota-chelsea-couro",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-07-12",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "chinelo-slide-review-0",
+    "productId": "chinelo-slide",
+    "author": "Rafael M.",
+    "rating": 5,
+    "comment": "Produto exatamente como descrito. Recomendo!",
+    "date": "2026-07-14",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "chinelo-slide-review-1",
+    "productId": "chinelo-slide",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-08-07",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "chinelo-slide-review-2",
+    "productId": "chinelo-slide",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-09-04",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "chinelo-slide-review-3",
+    "productId": "chinelo-slide",
+    "author": "Fernanda A.",
+    "rating": 5,
+    "comment": "Comprei para dar de presente e a pessoa amou. Atendimento nota 10.",
+    "date": "2026-01-02",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "chinelo-slide-review-4",
+    "productId": "chinelo-slide",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-02-01",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "chinelo-slide-review-5",
+    "productId": "chinelo-slide",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-03-15",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "tenis-branco-minimalista-review-0",
+    "productId": "tenis-branco-minimalista",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-08-17",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tenis-branco-minimalista-review-1",
+    "productId": "tenis-branco-minimalista",
+    "author": "Fernanda A.",
+    "rating": 5,
+    "comment": "Comprei para dar de presente e a pessoa amou. Atendimento nota 10.",
+    "date": "2026-09-09",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tenis-branco-minimalista-review-2",
+    "productId": "tenis-branco-minimalista",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-01-05",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "tenis-branco-minimalista-review-3",
+    "productId": "tenis-branco-minimalista",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-02-03",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tenis-branco-minimalista-review-4",
+    "productId": "tenis-branco-minimalista",
+    "author": "Thiago N.",
+    "rating": 2,
+    "comment": "Precisei trocar o tamanho, mas a troca foi rápida e sem custo.",
+    "date": "2026-03-02",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tenis-branco-minimalista-review-5",
+    "productId": "tenis-branco-minimalista",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-04-15",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "tenis-branco-minimalista-review-6",
+    "productId": "tenis-branco-minimalista",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-05-22",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tenis-skate-lona-review-0",
+    "productId": "tenis-skate-lona",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-06-04",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tenis-skate-lona-review-1",
+    "productId": "tenis-skate-lona",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-07-02",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tenis-skate-lona-review-2",
+    "productId": "tenis-skate-lona",
+    "author": "Mariana S.",
+    "rating": 5,
+    "comment": "Chegou antes do prazo e muito bem embalado. Superou minhas expectativas!",
+    "date": "2026-08-15",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "tenis-skate-lona-review-3",
+    "productId": "tenis-skate-lona",
+    "author": "Lucas R.",
+    "rating": 3,
+    "comment": "Atende ao que promete, mas esperava um acabamento um pouco melhor.",
+    "date": "2026-09-08",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tenis-skate-lona-review-4",
+    "productId": "tenis-skate-lona",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-01-18",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "jogo-cama-percal-review-0",
+    "productId": "jogo-cama-percal",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-03-22",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "jogo-cama-percal-review-1",
+    "productId": "jogo-cama-percal",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-04-25",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "manta-trico-review-0",
+    "productId": "manta-trico",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-08-10",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "manta-trico-review-1",
+    "productId": "manta-trico",
+    "author": "Rafael M.",
+    "rating": 5,
+    "comment": "Produto exatamente como descrito. Recomendo!",
+    "date": "2026-09-19",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "manta-trico-review-2",
+    "productId": "manta-trico",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-01-10",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "manta-trico-review-3",
+    "productId": "manta-trico",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-02-19",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "manta-trico-review-4",
+    "productId": "manta-trico",
+    "author": "Fernanda A.",
+    "rating": 5,
+    "comment": "Comprei para dar de presente e a pessoa amou. Atendimento nota 10.",
+    "date": "2026-03-24",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "manta-trico-review-5",
+    "productId": "manta-trico",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-04-12",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "manta-trico-review-6",
+    "productId": "manta-trico",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-05-06",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "toalha-banho-felpuda-review-0",
+    "productId": "toalha-banho-felpuda",
+    "author": "Lucas R.",
+    "rating": 3,
+    "comment": "Atende ao que promete, mas esperava um acabamento um pouco melhor.",
+    "date": "2026-09-05",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "toalha-banho-felpuda-review-1",
+    "productId": "toalha-banho-felpuda",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-01-17",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "toalha-banho-felpuda-review-2",
+    "productId": "toalha-banho-felpuda",
+    "author": "Rafael M.",
+    "rating": 5,
+    "comment": "Produto exatamente como descrito. Recomendo!",
+    "date": "2026-02-23",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "toalha-banho-felpuda-review-3",
+    "productId": "toalha-banho-felpuda",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-03-12",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "toalha-banho-felpuda-review-4",
+    "productId": "toalha-banho-felpuda",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-04-20",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "toalha-banho-felpuda-review-5",
+    "productId": "toalha-banho-felpuda",
+    "author": "Fernanda A.",
+    "rating": 5,
+    "comment": "Comprei para dar de presente e a pessoa amou. Atendimento nota 10.",
+    "date": "2026-05-10",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "toalha-banho-felpuda-review-6",
+    "productId": "toalha-banho-felpuda",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-06-19",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "toalha-banho-felpuda-review-7",
+    "productId": "toalha-banho-felpuda",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-07-10",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "jogo-toalhas-4-pecas-review-0",
+    "productId": "jogo-toalhas-4-pecas",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-08-15",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "jogo-toalhas-4-pecas-review-1",
+    "productId": "jogo-toalhas-4-pecas",
+    "author": "Fernanda A.",
+    "rating": 5,
+    "comment": "Comprei para dar de presente e a pessoa amou. Atendimento nota 10.",
+    "date": "2026-09-22",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "jogo-toalhas-4-pecas-review-2",
+    "productId": "jogo-toalhas-4-pecas",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-01-11",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "jogo-toalhas-4-pecas-review-3",
+    "productId": "jogo-toalhas-4-pecas",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-02-20",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "jogo-toalhas-4-pecas-review-4",
+    "productId": "jogo-toalhas-4-pecas",
+    "author": "Thiago N.",
+    "rating": 2,
+    "comment": "Precisei trocar o tamanho, mas a troca foi rápida e sem custo.",
+    "date": "2026-03-10",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "jogo-toalhas-4-pecas-review-5",
+    "productId": "jogo-toalhas-4-pecas",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-04-19",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "jogo-toalhas-4-pecas-review-6",
+    "productId": "jogo-toalhas-4-pecas",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-05-10",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "capa-almofada-linho-review-0",
+    "productId": "capa-almofada-linho",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-09-28",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "capa-almofada-linho-review-1",
+    "productId": "capa-almofada-linho",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-01-14",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "capa-almofada-linho-review-2",
+    "productId": "capa-almofada-linho",
+    "author": "Thiago N.",
+    "rating": 2,
+    "comment": "Precisei trocar o tamanho, mas a troca foi rápida e sem custo.",
+    "date": "2026-02-21",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "capa-almofada-linho-review-3",
+    "productId": "capa-almofada-linho",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-03-11",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "capa-almofada-linho-review-4",
+    "productId": "capa-almofada-linho",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-04-20",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "capa-almofada-linho-review-5",
+    "productId": "capa-almofada-linho",
+    "author": "Mariana S.",
+    "rating": 5,
+    "comment": "Chegou antes do prazo e muito bem embalado. Superou minhas expectativas!",
+    "date": "2026-05-24",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "capa-almofada-linho-review-6",
+    "productId": "capa-almofada-linho",
+    "author": "Lucas R.",
+    "rating": 3,
+    "comment": "Atende ao que promete, mas esperava um acabamento um pouco melhor.",
+    "date": "2026-06-12",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "capa-almofada-linho-review-7",
+    "productId": "capa-almofada-linho",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-07-06",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "edredom-dupla-face-review-0",
+    "productId": "edredom-dupla-face",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-06-22",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "edredom-dupla-face-review-1",
+    "productId": "edredom-dupla-face",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-07-11",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "edredom-dupla-face-review-2",
+    "productId": "edredom-dupla-face",
+    "author": "Mariana S.",
+    "rating": 5,
+    "comment": "Chegou antes do prazo e muito bem embalado. Superou minhas expectativas!",
+    "date": "2026-08-20",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "edredom-dupla-face-review-3",
+    "productId": "edredom-dupla-face",
+    "author": "Lucas R.",
+    "rating": 3,
+    "comment": "Atende ao que promete, mas esperava um acabamento um pouco melhor.",
+    "date": "2026-09-10",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "edredom-dupla-face-review-4",
+    "productId": "edredom-dupla-face",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-01-05",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "vaso-ceramica-artesanal-review-0",
+    "productId": "vaso-ceramica-artesanal",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-02-20",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tapete-shaggy-review-0",
+    "productId": "tapete-shaggy",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-03-05",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tapete-shaggy-review-1",
+    "productId": "tapete-shaggy",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-04-17",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "jogo-panelas-antiaderente-review-0",
+    "productId": "jogo-panelas-antiaderente",
+    "author": "Mariana S.",
+    "rating": 5,
+    "comment": "Chegou antes do prazo e muito bem embalado. Superou minhas expectativas!",
+    "date": "2026-07-03",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "jogo-panelas-antiaderente-review-1",
+    "productId": "jogo-panelas-antiaderente",
+    "author": "Lucas R.",
+    "rating": 3,
+    "comment": "Atende ao que promete, mas esperava um acabamento um pouco melhor.",
+    "date": "2026-08-16",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "jogo-panelas-antiaderente-review-2",
+    "productId": "jogo-panelas-antiaderente",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-09-08",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "jogo-panelas-antiaderente-review-3",
+    "productId": "jogo-panelas-antiaderente",
+    "author": "Rafael M.",
+    "rating": 5,
+    "comment": "Produto exatamente como descrito. Recomendo!",
+    "date": "2026-01-04",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "jogo-panelas-antiaderente-review-4",
+    "productId": "jogo-panelas-antiaderente",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-02-02",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "jogo-panelas-antiaderente-review-5",
+    "productId": "jogo-panelas-antiaderente",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-03-01",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "conjunto-copos-vidro-review-0",
+    "productId": "conjunto-copos-vidro",
+    "author": "Rafael M.",
+    "rating": 5,
+    "comment": "Produto exatamente como descrito. Recomendo!",
+    "date": "2026-07-24",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "conjunto-copos-vidro-review-1",
+    "productId": "conjunto-copos-vidro",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-08-12",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "conjunto-copos-vidro-review-2",
+    "productId": "conjunto-copos-vidro",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-09-20",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "conjunto-copos-vidro-review-3",
+    "productId": "conjunto-copos-vidro",
+    "author": "Fernanda A.",
+    "rating": 5,
+    "comment": "Comprei para dar de presente e a pessoa amou. Atendimento nota 10.",
+    "date": "2026-01-10",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "conjunto-copos-vidro-review-4",
+    "productId": "conjunto-copos-vidro",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-02-05",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "conjunto-copos-vidro-review-5",
+    "productId": "conjunto-copos-vidro",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-03-03",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "fone-bluetooth-anc-review-0",
+    "productId": "fone-bluetooth-anc",
+    "author": "Lucas R.",
+    "rating": 3,
+    "comment": "Atende ao que promete, mas esperava um acabamento um pouco melhor.",
+    "date": "2026-03-25",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "fone-bluetooth-anc-review-1",
+    "productId": "fone-bluetooth-anc",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-04-13",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "fone-intra-esportivo-review-0",
+    "productId": "fone-intra-esportivo",
+    "author": "Fernanda A.",
+    "rating": 5,
+    "comment": "Comprei para dar de presente e a pessoa amou. Atendimento nota 10.",
+    "date": "2026-04-08",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "fone-intra-esportivo-review-1",
+    "productId": "fone-intra-esportivo",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-05-04",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "fone-intra-esportivo-review-2",
+    "productId": "fone-intra-esportivo",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-06-16",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "smartwatch-classic-review-0",
+    "productId": "smartwatch-classic",
+    "author": "Fernanda A.",
+    "rating": 5,
+    "comment": "Comprei para dar de presente e a pessoa amou. Atendimento nota 10.",
+    "date": "2026-07-18",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "smartwatch-classic-review-1",
+    "productId": "smartwatch-classic",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-08-09",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "smartwatch-classic-review-2",
+    "productId": "smartwatch-classic",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-09-19",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "smartwatch-classic-review-3",
+    "productId": "smartwatch-classic",
+    "author": "Thiago N.",
+    "rating": 2,
+    "comment": "Precisei trocar o tamanho, mas a troca foi rápida e sem custo.",
+    "date": "2026-01-24",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "smartwatch-classic-review-4",
+    "productId": "smartwatch-classic",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-02-26",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "smartwatch-classic-review-5",
+    "productId": "smartwatch-classic",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-03-27",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "caixa-som-portatil-review-0",
+    "productId": "caixa-som-portatil",
+    "author": "Diego V.",
+    "rating": 4,
+    "comment": "Gostei muito. O site mostra o prazo certinho e chegou no dia previsto.",
+    "date": "2026-06-02",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "caixa-som-portatil-review-1",
+    "productId": "caixa-som-portatil",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-07-01",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "caixa-som-portatil-review-2",
+    "productId": "caixa-som-portatil",
+    "author": "Thiago N.",
+    "rating": 2,
+    "comment": "Precisei trocar o tamanho, mas a troca foi rápida e sem custo.",
+    "date": "2026-08-15",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "caixa-som-portatil-review-3",
+    "productId": "caixa-som-portatil",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-09-22",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "caixa-som-portatil-review-4",
+    "productId": "caixa-som-portatil",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-01-11",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "carregador-turbo-usbc-review-0",
+    "productId": "carregador-turbo-usbc",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-05-12",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "carregador-turbo-usbc-review-1",
+    "productId": "carregador-turbo-usbc",
+    "author": "Rafael M.",
+    "rating": 5,
+    "comment": "Produto exatamente como descrito. Recomendo!",
+    "date": "2026-06-20",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "carregador-turbo-usbc-review-2",
+    "productId": "carregador-turbo-usbc",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-07-10",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "carregador-turbo-usbc-review-3",
+    "productId": "carregador-turbo-usbc",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-08-19",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "power-bank-10000-review-0",
+    "productId": "power-bank-10000",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-05-20",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "power-bank-10000-review-1",
+    "productId": "power-bank-10000",
+    "author": "Mariana S.",
+    "rating": 5,
+    "comment": "Chegou antes do prazo e muito bem embalado. Superou minhas expectativas!",
+    "date": "2026-06-24",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "power-bank-10000-review-2",
+    "productId": "power-bank-10000",
+    "author": "Lucas R.",
+    "rating": 3,
+    "comment": "Atende ao que promete, mas esperava um acabamento um pouco melhor.",
+    "date": "2026-07-26",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "power-bank-10000-review-3",
+    "productId": "power-bank-10000",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-08-27",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "mouse-sem-fio-review-0",
+    "productId": "mouse-sem-fio",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-08-10",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "mouse-sem-fio-review-1",
+    "productId": "mouse-sem-fio",
+    "author": "Mariana S.",
+    "rating": 5,
+    "comment": "Chegou antes do prazo e muito bem embalado. Superou minhas expectativas!",
+    "date": "2026-09-19",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "mouse-sem-fio-review-2",
+    "productId": "mouse-sem-fio",
+    "author": "Lucas R.",
+    "rating": 3,
+    "comment": "Atende ao que promete, mas esperava um acabamento um pouco melhor.",
+    "date": "2026-01-10",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "mouse-sem-fio-review-3",
+    "productId": "mouse-sem-fio",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-02-05",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "mouse-sem-fio-review-4",
+    "productId": "mouse-sem-fio",
+    "author": "Rafael M.",
+    "rating": 5,
+    "comment": "Produto exatamente como descrito. Recomendo!",
+    "date": "2026-03-03",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "mouse-sem-fio-review-5",
+    "productId": "mouse-sem-fio",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-04-16",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "mouse-sem-fio-review-6",
+    "productId": "mouse-sem-fio",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-05-08",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "teclado-mecanico-compacto-review-0",
+    "productId": "teclado-mecanico-compacto",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-03-02",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "teclado-mecanico-compacto-review-1",
+    "productId": "teclado-mecanico-compacto",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-04-15",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "escova-dentes-eletrica-review-0",
+    "productId": "escova-dentes-eletrica",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-05-14",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "escova-dentes-eletrica-review-1",
+    "productId": "escova-dentes-eletrica",
+    "author": "Rafael M.",
+    "rating": 5,
+    "comment": "Produto exatamente como descrito. Recomendo!",
+    "date": "2026-06-21",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "escova-dentes-eletrica-review-2",
+    "productId": "escova-dentes-eletrica",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-07-25",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "escova-dentes-eletrica-review-3",
+    "productId": "escova-dentes-eletrica",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-08-13",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "termometro-infravermelho-review-0",
+    "productId": "termometro-infravermelho",
+    "author": "Mariana S.",
+    "rating": 5,
+    "comment": "Chegou antes do prazo e muito bem embalado. Superou minhas expectativas!",
+    "date": "2026-07-25",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "termometro-infravermelho-review-1",
+    "productId": "termometro-infravermelho",
+    "author": "Lucas R.",
+    "rating": 3,
+    "comment": "Atende ao que promete, mas esperava um acabamento um pouco melhor.",
+    "date": "2026-08-27",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "termometro-infravermelho-review-2",
+    "productId": "termometro-infravermelho",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-09-28",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "termometro-infravermelho-review-3",
+    "productId": "termometro-infravermelho",
+    "author": "Rafael M.",
+    "rating": 5,
+    "comment": "Produto exatamente como descrito. Recomendo!",
+    "date": "2026-01-14",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "termometro-infravermelho-review-4",
+    "productId": "termometro-infravermelho",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-02-07",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "termometro-infravermelho-review-5",
+    "productId": "termometro-infravermelho",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-03-04",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "balanca-bioimpedancia-review-0",
+    "productId": "balanca-bioimpedancia",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-05-04",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "balanca-bioimpedancia-review-1",
+    "productId": "balanca-bioimpedancia",
+    "author": "Mariana S.",
+    "rating": 5,
+    "comment": "Chegou antes do prazo e muito bem embalado. Superou minhas expectativas!",
+    "date": "2026-06-16",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "balanca-bioimpedancia-review-2",
+    "productId": "balanca-bioimpedancia",
+    "author": "Lucas R.",
+    "rating": 3,
+    "comment": "Atende ao que promete, mas esperava um acabamento um pouco melhor.",
+    "date": "2026-07-22",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "balanca-bioimpedancia-review-3",
+    "productId": "balanca-bioimpedancia",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-08-25",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "protetor-solar-fps50-review-0",
+    "productId": "protetor-solar-fps50",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-08-22",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "protetor-solar-fps50-review-1",
+    "productId": "protetor-solar-fps50",
+    "author": "Mariana S.",
+    "rating": 5,
+    "comment": "Chegou antes do prazo e muito bem embalado. Superou minhas expectativas!",
+    "date": "2026-09-11",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "protetor-solar-fps50-review-2",
+    "productId": "protetor-solar-fps50",
+    "author": "Lucas R.",
+    "rating": 3,
+    "comment": "Atende ao que promete, mas esperava um acabamento um pouco melhor.",
+    "date": "2026-01-06",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "protetor-solar-fps50-review-3",
+    "productId": "protetor-solar-fps50",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-02-03",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "protetor-solar-fps50-review-4",
+    "productId": "protetor-solar-fps50",
+    "author": "Rafael M.",
+    "rating": 5,
+    "comment": "Produto exatamente como descrito. Recomendo!",
+    "date": "2026-03-02",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "protetor-solar-fps50-review-5",
+    "productId": "protetor-solar-fps50",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-04-15",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "protetor-solar-fps50-review-6",
+    "productId": "protetor-solar-fps50",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-05-08",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "hidratante-corporal-review-0",
+    "productId": "hidratante-corporal",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-05-04",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "hidratante-corporal-review-1",
+    "productId": "hidratante-corporal",
+    "author": "Rafael M.",
+    "rating": 5,
+    "comment": "Produto exatamente como descrito. Recomendo!",
+    "date": "2026-06-16",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "hidratante-corporal-review-2",
+    "productId": "hidratante-corporal",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-07-08",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "hidratante-corporal-review-3",
+    "productId": "hidratante-corporal",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-08-18",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "garrafa-termica-inox-review-0",
+    "productId": "garrafa-termica-inox",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-09-18",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "garrafa-termica-inox-review-1",
+    "productId": "garrafa-termica-inox",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-01-09",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "garrafa-termica-inox-review-2",
+    "productId": "garrafa-termica-inox",
+    "author": "Mariana S.",
+    "rating": 5,
+    "comment": "Chegou antes do prazo e muito bem embalado. Superou minhas expectativas!",
+    "date": "2026-02-19",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "garrafa-termica-inox-review-3",
+    "productId": "garrafa-termica-inox",
+    "author": "Lucas R.",
+    "rating": 3,
+    "comment": "Atende ao que promete, mas esperava um acabamento um pouco melhor.",
+    "date": "2026-03-24",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "garrafa-termica-inox-review-4",
+    "productId": "garrafa-termica-inox",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-04-26",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "garrafa-termica-inox-review-5",
+    "productId": "garrafa-termica-inox",
+    "author": "Rafael M.",
+    "rating": 5,
+    "comment": "Produto exatamente como descrito. Recomendo!",
+    "date": "2026-05-13",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "garrafa-termica-inox-review-6",
+    "productId": "garrafa-termica-inox",
+    "author": "Aline G.",
+    "rating": 5,
+    "comment": "Qualidade ótima, confortável e bonito. Vou comprar mais.",
+    "date": "2026-06-21",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "garrafa-termica-inox-review-7",
+    "productId": "garrafa-termica-inox",
+    "author": "Carlos E.",
+    "rating": 5,
+    "comment": "Excelente qualidade pelo preço. Já é a segunda vez que compro na Montreal.",
+    "date": "2026-07-11",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tapete-yoga-review-0",
+    "productId": "tapete-yoga",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-05-10",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tapete-yoga-review-1",
+    "productId": "tapete-yoga",
+    "author": "Mariana S.",
+    "rating": 5,
+    "comment": "Chegou antes do prazo e muito bem embalado. Superou minhas expectativas!",
+    "date": "2026-06-05",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "tapete-yoga-review-2",
+    "productId": "tapete-yoga",
+    "author": "Lucas R.",
+    "rating": 3,
+    "comment": "Atende ao que promete, mas esperava um acabamento um pouco melhor.",
+    "date": "2026-07-17",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "tapete-yoga-review-3",
+    "productId": "tapete-yoga",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-08-09",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "massageador-eletrico-review-0",
+    "productId": "massageador-eletrico",
+    "author": "Patrícia L.",
+    "rating": 4,
+    "comment": "Bom custo-benefício. A entrega levou um dia a mais, mas valeu a pena.",
+    "date": "2026-08-15",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "massageador-eletrico-review-1",
+    "productId": "massageador-eletrico",
+    "author": "Thiago N.",
+    "rating": 2,
+    "comment": "Precisei trocar o tamanho, mas a troca foi rápida e sem custo.",
+    "date": "2026-09-08",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "massageador-eletrico-review-2",
+    "productId": "massageador-eletrico",
+    "author": "Juliana P.",
+    "rating": 4,
+    "comment": "Gostei bastante, só achei que a cor é um pouco diferente da foto.",
+    "date": "2026-01-04",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "massageador-eletrico-review-3",
+    "productId": "massageador-eletrico",
+    "author": "Bruno C.",
+    "rating": 4,
+    "comment": "Muito bom! Usei o cupom de primeira compra e saiu ainda mais em conta.",
+    "date": "2026-02-16",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "massageador-eletrico-review-4",
+    "productId": "massageador-eletrico",
+    "author": "Mariana S.",
+    "rating": 5,
+    "comment": "Chegou antes do prazo e muito bem embalado. Superou minhas expectativas!",
+    "date": "2026-03-08",
+    "verifiedPurchase": true
+  },
+  {
+    "id": "massageador-eletrico-review-5",
+    "productId": "massageador-eletrico",
+    "author": "Lucas R.",
+    "rating": 3,
+    "comment": "Atende ao que promete, mas esperava um acabamento um pouco melhor.",
+    "date": "2026-04-04",
+    "verifiedPurchase": false
+  },
+  {
+    "id": "massageador-eletrico-review-6",
+    "productId": "massageador-eletrico",
+    "author": "Camila F.",
+    "rating": 5,
+    "comment": "Simplesmente perfeito. Chegou tudo certinho e bem protegido.",
+    "date": "2026-05-02",
+    "verifiedPurchase": true
+  }
+]

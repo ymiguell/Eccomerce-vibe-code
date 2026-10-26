@@ -3,7 +3,8 @@ import { createReview } from '../../domain/entities/Review.js'
 /*
  * Avaliações de exemplo. Em vez de escrever à mão para cada produto, cada produto recebe
  * de 0 a 8 avaliações deste conjunto, escolhidas a partir do id (sempre as mesmas para o mesmo produto).
- * As enviadas pelo formulário ficam só em memória até a página ser recarregada.
+ * Usado quando o site roda sem a API. As enviadas pelo formulário ficam só em memória até a página ser recarregada.
+ * Com a API, as avaliações vêm do banco (server/prisma/seed/reviews.json foi gerado a partir deste arquivo).
  */
 const SAMPLE_REVIEWS = [
   { author: 'Mariana S.', rating: 5, comment: 'Chegou antes do prazo e muito bem embalado. Superou minhas expectativas!' },
@@ -31,7 +32,7 @@ function sampleReviewsFor(productId) {
 
   return Array.from({ length: count }, (_, index) => {
     const sample = SAMPLE_REVIEWS[(hash + index * 5) % SAMPLE_REVIEWS.length]
-    const day = String(((hash >> (index + 1)) % 28) + 1).padStart(2, '0')
+    const day = String(((hash >>> (index + 1)) % 28) + 1).padStart(2, '0')
     const month = String(((hash + index) % 9) + 1).padStart(2, '0')
 
     return createReview({
@@ -51,7 +52,15 @@ export class MockReviewRepository {
     return [...sampleReviewsFor(productId), ...this.#submitted.filter((review) => review.productId === productId)]
   }
 
-  async save(review) {
+  /** Imita a API: define id e data e devolve { review }. */
+  async create(productId, input) {
+    const review = createReview({
+      ...input,
+      id: crypto.randomUUID(),
+      productId,
+      date: new Date().toISOString().slice(0, 10),
+    })
     this.#submitted.push(review)
+    return { review }
   }
 }

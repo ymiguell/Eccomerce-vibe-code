@@ -43,6 +43,7 @@ model Product {
   updatedAt     DateTime @updatedAt @map("updated_at")
 
   orderItems OrderItem[]
+  reviews    Review[]
 
   @@index([niche])
   @@map("products")
@@ -163,4 +164,28 @@ model OrderItem {
 
   @@index([orderId])
   @@map("order_items")
+}
+
+model Review {
+  id               String   @id @default(uuid())
+  productId        String   @map("product_id")
+  product          Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  author           String
+  /// Nota de 1 a 5
+  rating           Int
+  comment          String
+  /// Marcado quando a avaliação vem de quem comprou o produto
+  verifiedPurchase Boolean  @default(false) @map("verified_purchase")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  @@index([productId, createdAt])
+  @@map("reviews")
+}
+
+model NewsletterSubscriber {
+  /// Sempre em minúsculas, sem espaços
+  email     String   @id
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("newsletter_subscribers")
 }

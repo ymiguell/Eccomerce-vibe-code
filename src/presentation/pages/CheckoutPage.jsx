@@ -30,6 +30,7 @@ const placeOrderErrors = {
   price_changed: ({ total }) =>
     `Os preços foram atualizados e o total agora é ${formatPrice(total)}. Atualize a página para ver os novos valores.`,
   network_error: () => 'Não conseguimos falar com o servidor. Confira sua conexão e tente de novo.',
+  too_many_requests: () => 'Muitas tentativas seguidas. Aguarde um minuto e tente de novo.',
 }
 const unknownError = () => 'Não foi possível finalizar o pedido. Tente de novo em instantes.'
 

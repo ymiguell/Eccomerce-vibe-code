@@ -3,7 +3,9 @@ import { useId, useState } from 'react'
 const errorMessages = {
   invalid_email: 'Digite um e-mail válido, como nome@exemplo.com.',
   already_subscribed: 'Este e-mail já está inscrito. Fique de olho na sua caixa de entrada!',
+  too_many_requests: 'Muitas tentativas seguidas. Aguarde um minuto e tente de novo.',
 }
+const fallbackMessage = 'Não conseguimos fazer sua inscrição agora. Tente de novo em instantes.'
 
 function NewsletterForm({ onSubscribe }) {
   const inputId = useId()
@@ -16,10 +18,16 @@ function NewsletterForm({ onSubscribe }) {
     event.preventDefault()
     setStatus('loading')
 
-    const result = await onSubscribe(email)
+    let result
+    try {
+      result = await onSubscribe(email)
+    } catch (error) {
+      console.error('Falha na inscrição da newsletter:', error)
+      result = { error: 'unknown' }
+    }
 
     if (result.error) {
-      setError(errorMessages[result.error])
+      setError(errorMessages[result.error] ?? fallbackMessage)
       setStatus('error')
     } else {
       setEmail('')

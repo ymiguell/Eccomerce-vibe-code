@@ -9,9 +9,15 @@ export function useProductReviews(getProductReviews, submitReview, productId) {
   useEffect(() => {
     let active = true
 
-    getProductReviews(productId).then((reviews) => {
-      if (active) setState({ productId, reviews })
-    })
+    getProductReviews(productId)
+      .then((reviews) => {
+        if (active) setState({ productId, reviews })
+      })
+      // Sem avaliações carregadas a página do produto continua funcionando
+      .catch((error) => {
+        console.error('Falha ao carregar avaliações:', error)
+        if (active) setState({ productId, reviews: [] })
+      })
 
     return () => {
       active = false
@@ -21,9 +27,15 @@ export function useProductReviews(getProductReviews, submitReview, productId) {
   const loading = state.productId !== productId
   const reviews = loading ? [] : state.reviews
 
-  // Retorna { review } ou { errors }; quando dá certo, a avaliação nova aparece no topo da lista
+  // Retorna { review }, { errors } ou { error }; quando dá certo, a avaliação nova aparece no topo da lista
   const submit = async (input) => {
-    const result = await submitReview(productId, input)
+    let result
+    try {
+      result = await submitReview(productId, input)
+    } catch (error) {
+      console.error('Falha ao publicar avaliação:', error)
+      result = { error: 'unknown' }
+    }
     if (result.review) setState((current) => ({ productId, reviews: [result.review, ...current.reviews] }))
     return result
   }

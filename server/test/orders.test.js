@@ -36,6 +36,7 @@ const orderRepository = {
 const app = await buildApp({
   corsOrigins: [],
   logger: false,
+  rateLimits: false, // estes testes fazem muitos pedidos seguidos
   useCases: {
     checkHealth: async () => ({}),
     getCoupon: makeGetCoupon(couponRepository),

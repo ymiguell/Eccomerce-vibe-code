@@ -17,7 +17,7 @@ export class ApiError extends Error {
 /**
  * Cliente da API da loja (server/).
  * `get` e `post` devolvem o JSON da resposta ou lançam ApiError ({ status, code, details }) — status 0 = sem conexão.
- * Só o GET usa cache; o POST sempre vai ao servidor.
+ * Só o GET usa cache (desligável com { cache: false }); o POST sempre vai ao servidor.
  */
 export function createApiClient(baseUrl) {
   const cache = new Map() // caminho → { expiresAt, promise }
@@ -44,7 +44,9 @@ export function createApiClient(baseUrl) {
   }
 
   return {
-    get(path) {
+    get(path, { cache: useCache = true } = {}) {
+      if (!useCache) return request(path)
+
       const cached = cache.get(path)
       if (cached && cached.expiresAt > Date.now()) return cached.promise
 
