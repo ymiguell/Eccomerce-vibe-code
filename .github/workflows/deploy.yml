@@ -4,6 +4,9 @@ name: Deploy no GitHub Pages
 on:
   push:
     branches: [main]
+    # Mudanças só no backend não mexem no site
+    paths-ignore:
+      - 'server/**'
   workflow_dispatch:
 
 permissions:

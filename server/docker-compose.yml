@@ -1,0 +1,24 @@
+# PostgreSQL para desenvolvimento local: `npm run db:up` sobe, `npm run db:down` para.
+# Os dados ficam no volume "montreal-db" e sobrevivem a reinícios.
+# Usuário e senha valem só para esta máquina; em produção a conexão vem do provedor (ex.: Neon).
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: montreal-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: montreal
+      POSTGRES_PASSWORD: montreal
+      POSTGRES_DB: montreal
+    ports:
+      - "5432:5432"
+    volumes:
+      - montreal-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U montreal -d montreal"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  montreal-db:

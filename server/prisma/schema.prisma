@@ -1,0 +1,14 @@
+// Estrutura do banco de dados. Depois de mudar este arquivo: `npm run db:migrate`.
+// As tabelas (produtos, pedidos...) entram nas próximas etapas.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+  // O servidor é JavaScript: o Node 22+ executa o cliente gerado (.ts) direto, sem compilar
+  moduleFormat         = "esm"
+  importFileExtension  = "ts"
+}
+
+datasource db {
+  provider = "postgresql"
+}

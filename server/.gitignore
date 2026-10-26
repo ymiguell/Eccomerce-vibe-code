@@ -1,0 +1,7 @@
+node_modules
+
+# Variáveis de ambiente (senhas e URLs do banco). O modelo fica em .env.example
+.env
+
+# Cliente gerado pelo Prisma (`npm run db:generate`; roda sozinho depois do npm install)
+/generated

@@ -27,6 +27,10 @@ npm run build    # gera a versão de produção em dist/
 npm run lint     # verifica o código
 ```
 
+### Backend (em construção)
+
+A API fica na pasta [`server/`](server/README.md) (Node.js + Fastify + PostgreSQL).
+
 ## Estrutura (Clean Architecture)
 
 ```

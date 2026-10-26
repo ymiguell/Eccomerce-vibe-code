@@ -1,0 +1,28 @@
+{
+  "name": "montreal-api",
+  "private": true,
+  "version": "0.1.0",
+  "description": "API da loja Montreal Moda e Casa (Node.js + Fastify + PostgreSQL)",
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "dev": "node --env-file-if-exists=.env --watch src/server.js",
+    "start": "node src/server.js",
+    "test": "node --test",
+    "db:up": "docker compose up -d --wait",
+    "db:down": "docker compose down",
+    "db:migrate": "prisma migrate dev",
+    "db:generate": "prisma generate",
+    "postinstall": "prisma generate"
+  },
+  "dependencies": {
+    "@fastify/cors": "11.3.1",
+    "@prisma/adapter-pg": "7.10.1",
+    "@prisma/client": "7.10.1",
+    "fastify": "5.12.7",
+    "pg": "8.23.1",
+    "prisma": "7.10.1"
+  }
+}
