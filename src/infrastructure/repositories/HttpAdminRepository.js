@@ -19,7 +19,7 @@ async function attempt(key, run) {
 /**
  * Painel da loja pela API (/admin). O token de quem está logado vai pelo apiClient; a API confere se é da equipe.
  * Leituras sempre sem cache (a equipe precisa ver o estado atual).
- * Escritas retornam { order | product | coupon | review | removed } ou { error, fields? }.
+ * Escritas retornam { order | product | coupon | review | removed | url } ou { error, fields? }.
  */
 export class HttpAdminRepository {
   #api
@@ -62,6 +62,21 @@ export class HttpAdminRepository {
     return attempt('product', async () =>
       toProduct(await this.#api.patch(`/admin/products/${encodeURIComponent(productId)}`, changes)),
     )
+  }
+
+  /** Envia a foto (já reduzida) e devolve { url } — o endereço usado em createProduct/updateProduct. */
+  async uploadProductImage(photo) {
+    const form = new FormData()
+    form.append('image', photo, 'foto')
+    try {
+      return await this.#api.post('/admin/images', form)
+    } catch (error) {
+      return toFailure(error)
+    }
+  }
+
+  createProduct(input) {
+    return attempt('product', async () => toProduct(await this.#api.post('/admin/products', input)))
   }
 
   listCoupons() {

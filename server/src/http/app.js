@@ -1,5 +1,6 @@
 import cors from '@fastify/cors'
 import rateLimit from '@fastify/rate-limit'
+import fastifyStatic from '@fastify/static'
 import Fastify from 'fastify'
 import { addAuthentication } from './authentication.js'
 import { accountRoutes } from './routes/accountRoutes.js'
@@ -14,8 +15,9 @@ import { orderRoutes } from './routes/orderRoutes.js'
  * Recebe os casos de uso prontos (ver server.js), então os testes podem passar versões falsas.
  * - `trustProxy`: true na hospedagem (atrás de proxy), para o limite por visitante usar o IP real.
  * - `rateLimits`: false nos testes que fazem muitas requisições seguidas.
+ * - `uploadsDir`: pasta das fotos enviadas pelo painel, servida em /uploads/ (só no ambiente local).
  */
-export async function buildApp({ corsOrigins, useCases, logger = true, trustProxy = false, rateLimits = true }) {
+export async function buildApp({ corsOrigins, useCases, logger = true, trustProxy = false, rateLimits = true, uploadsDir = null }) {
   const app = Fastify({ logger, trustProxy })
 
   // Erros sempre no mesmo formato: { error: código, message: texto para o usuário }.
@@ -53,6 +55,11 @@ export async function buildApp({ corsOrigins, useCases, logger = true, trustProx
         message: 'Muitas tentativas seguidas. Aguarde um minuto e tente de novo.',
       }),
     })
+  }
+
+  // Fotos enviadas pelo painel. O nome de cada arquivo é único e nunca muda: o navegador pode guardar por 1 ano
+  if (uploadsDir) {
+    await app.register(fastifyStatic, { root: uploadsDir, prefix: '/uploads/', maxAge: '365d', immutable: true, index: false })
   }
 
   await app.register(healthRoutes, { checkHealth: useCases.checkHealth })

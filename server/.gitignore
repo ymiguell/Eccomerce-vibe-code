@@ -5,3 +5,6 @@ node_modules
 
 # Cliente gerado pelo Prisma (`npm run db:generate`; roda sozinho depois do npm install)
 /generated
+
+# Fotos enviadas pelo painel (só no ambiente local; na hospedagem vão para o serviço de imagens)
+/uploads

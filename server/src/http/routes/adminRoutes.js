@@ -1,7 +1,10 @@
+import multipart from '@fastify/multipart'
+import { MAX_IMAGE_BYTES } from '../../domain/entities/Product.js'
 import { requireAdmin } from '../authentication.js'
 import {
   changeOrderStatusSchema,
   createCouponSchema,
+  createProductSchema,
   listCouponsSchema,
   listOrdersSchema,
   listReviewsSchema,
@@ -11,6 +14,7 @@ import {
   setReviewHiddenSchema,
   setTrackingCodeSchema,
   updateProductSchema,
+  uploadImageSchema,
 } from '../schemas/adminSchemas.js'
 
 // Erro do caso de uso → status HTTP + mensagem para a equipe
@@ -25,6 +29,8 @@ const ADMIN_ERRORS = {
   review_not_found: [404, 'Avaliação não encontrada.'],
   subscriber_not_found: [404, 'Este e-mail não está na lista.'],
   invalid_data: [422, 'Confira os dados informados.'],
+  invalid_image: [422, 'Envie uma foto em JPG, PNG ou WebP.'],
+  image_too_large: [413, 'A foto passa de 5 MB. Escolha uma menor.'],
 }
 
 const sendError = (reply, { error, fields }) => {
@@ -37,7 +43,9 @@ const sendError = (reply, { error, fields }) => {
  * - GET   /admin/orders?status=&page=  → página de pedidos + quantos há em cada situação
  * - PATCH /admin/orders/:id            → muda a situação ({ status, trackingCode? }); cancelar devolve o estoque
  * - PATCH /admin/orders/:id/tracking   → informa ou corrige o código de rastreio de pedido enviado
- * - PATCH /admin/products/:id          → preço, preço original, estoque e destaque
+ * - POST  /admin/images                → guarda a foto de um produto (multipart, um arquivo) e devolve { url } (201)
+ * - POST  /admin/products               → cadastra um produto novo, com a foto já enviada (201)
+ * - PATCH /admin/products/:id          → preço, preço original, estoque, destaque e foto
  * - GET   /admin/coupons               → todos os cupons
  * - POST  /admin/coupons               → cria um cupom (201)
  * - PATCH /admin/coupons/:code         → liga ou desliga ({ active })
@@ -52,6 +60,8 @@ export async function adminRoutes(
     listOrders,
     changeOrderStatus,
     setTrackingCode,
+    uploadProductImage,
+    createProduct,
     updateProduct,
     listCoupons,
     createCoupon,
@@ -64,6 +74,8 @@ export async function adminRoutes(
 ) {
   // onRequest: confere o acesso antes de qualquer outra coisa (até antes de validar o corpo)
   app.addHook('onRequest', requireAdmin)
+  // Envio de arquivo só aqui dentro do painel: uma foto por vez, até o limite do domínio
+  await app.register(multipart, { limits: { fileSize: MAX_IMAGE_BYTES, files: 1, fields: 0 } })
 
   app.get('/orders', { schema: listOrdersSchema }, async (request) => listOrders(request.query))
 
@@ -76,6 +88,26 @@ export async function adminRoutes(
   app.patch('/orders/:id/tracking', { schema: setTrackingCodeSchema }, async (request, reply) => {
     const result = await setTrackingCode(request.params.id, request.body.trackingCode)
     return result.order ?? sendError(reply, result)
+  })
+
+  app.post('/images', { schema: uploadImageSchema }, async (request, reply) => {
+    const file = request.isMultipart() ? await request.file() : null
+    if (!file) return sendError(reply, { error: 'invalid_image' })
+
+    let bytes
+    try {
+      bytes = await file.toBuffer()
+    } catch (error) {
+      if (error.code === 'FST_REQ_FILE_TOO_LARGE') return sendError(reply, { error: 'image_too_large' })
+      throw error
+    }
+    const result = await uploadProductImage(bytes)
+    return result.url ? reply.code(201).send(result) : sendError(reply, result)
+  })
+
+  app.post('/products', { schema: createProductSchema }, async (request, reply) => {
+    const result = await createProduct(request.body)
+    return result.product ? reply.code(201).send(result.product) : sendError(reply, result)
   })
 
   app.patch('/products/:id', { schema: updateProductSchema }, async (request, reply) => {

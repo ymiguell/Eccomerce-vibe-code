@@ -73,7 +73,9 @@ test/                testes com node:test
 | GET | `/admin/orders?status=&page=` | Página de 20 pedidos (mais recentes primeiro) + `counts` por situação |
 | PATCH | `/admin/orders/:id` | Muda a situação `{ status, trackingCode? }` (rastreio só ao enviar); 422 `invalid_transition`, 409 `status_changed` |
 | PATCH | `/admin/orders/:id/tracking` | Informa ou corrige `{ trackingCode }` de pedido enviado (`null` apaga); 422 `not_shipped` |
-| PATCH | `/admin/products/:id` | Edita `{ price, originalPrice, stock, isFeatured }` (só o que vier); `originalPrice: null` tira a promoção |
+| POST | `/admin/images` | Guarda a foto de um produto (multipart, um arquivo JPG/PNG/WebP até 5 MB) e devolve `{ url }` (201); 422 `invalid_image`, 413 `image_too_large` |
+| POST | `/admin/products` | Cadastra `{ name, niche, category, price, stock, image, ... }` (201); o endereço vem do nome (`-2` se repetir) |
+| PATCH | `/admin/products/:id` | Edita `{ price, originalPrice, stock, isFeatured, image }` (só o que vier); `originalPrice: null` tira a promoção |
 | GET | `/admin/coupons` | Todos os cupons, com `active` e `timesUsed` |
 | POST | `/admin/coupons` | Cria `{ code, type, value, minSubtotal?, description? }` (201); 409 `code_taken` |
 | PATCH | `/admin/coupons/:code` | Liga/desliga `{ active }` (não apaga: pedidos antigos apontam para o cupom) |
@@ -90,6 +92,10 @@ test/                testes com node:test
   não foi enviado, e **cancelar devolve os produtos ao estoque** (na mesma transação).
 - Até o pagamento online chegar, a equipe marca "pago" à mão depois de conferir o Pix ou o cartão.
 - Ao marcar como enviado, a equipe pode informar o código de rastreio; o cliente vê em "Minha conta".
+- **Fotos de produtos novos:** o site reduz a foto (até 1200 px, WebP) antes de enviar; a API confere pelo conteúdo
+  que é imagem e grava com nome aleatório em `server/uploads/` (fora do Git), servida em `/uploads/`.
+  `image` só aceita endereço de foto enviada pelo painel. Na hospedagem os arquivos do servidor somem a cada deploy:
+  lá as fotos vão para um serviço de imagens (troca só o `LocalImageStorage`). `PUBLIC_URL` forma o link das fotos.
 
 ### Contas e login
 
@@ -133,6 +139,7 @@ com os dados do banco, e o estoque é baixado na mesma transação que grava o p
 | 409 | `out_of_stock` (+ `productId`) | Estoque insuficiente (inclusive se outro cliente levou a última unidade) |
 | 409 | `price_changed` (+ `total`) | O total mudou desde que o cliente abriu a página |
 
-Fotos e artes ficam no site (`src/assets/images/`); a API devolve só o nome do arquivo em `image`/`mobileImage`.
+Fotos do catálogo inicial e artes ficam no site (`src/assets/images/`): a API devolve só o nome do arquivo em `image`/`mobileImage`.
+Fotos enviadas pelo painel vêm com o endereço completo.
 
 Erros seguem sempre o formato `{ "error": "codigo", "message": "texto" }`.

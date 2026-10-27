@@ -1,7 +1,11 @@
 import assert from 'node:assert/strict'
+import { mkdtempSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { beforeEach, test } from 'node:test'
 import { makeChangeOrderStatus } from '../src/application/useCases/admin/changeOrderStatus.js'
 import { makeCreateCoupon } from '../src/application/useCases/admin/createCoupon.js'
+import { makeCreateProduct } from '../src/application/useCases/admin/createProduct.js'
 import { makeListCoupons } from '../src/application/useCases/admin/listCoupons.js'
 import { makeListOrders } from '../src/application/useCases/admin/listOrders.js'
 import { makeListReviews } from '../src/application/useCases/admin/listReviews.js'
@@ -11,7 +15,9 @@ import { makeSetCouponActive } from '../src/application/useCases/admin/setCoupon
 import { makeSetReviewHidden } from '../src/application/useCases/admin/setReviewHidden.js'
 import { makeSetTrackingCode } from '../src/application/useCases/admin/setTrackingCode.js'
 import { makeUpdateProduct } from '../src/application/useCases/admin/updateProduct.js'
+import { makeUploadProductImage } from '../src/application/useCases/admin/uploadProductImage.js'
 import { buildApp } from '../src/http/app.js'
+import { LocalImageStorage } from '../src/infrastructure/storage/LocalImageStorage.js'
 
 // Repositórios em memória (sem PostgreSQL). Contas: token "equipe" é da loja; "cliente" é uma conta comum.
 let orders
@@ -52,7 +58,15 @@ const orderRepository = {
 const productRepository = {
   findById: async (id) => products.find((product) => product.id === id) ?? null,
   update: async (id, data) => Object.assign(products.find((product) => product.id === id), data),
+  create: async (product) => {
+    products.push(product)
+    return product
+  },
 }
+
+// Fotos: o armazenamento de verdade, numa pasta temporária
+const uploadsDir = mkdtempSync(join(tmpdir(), 'montreal-fotos-'))
+const imageStorage = new LocalImageStorage({ directory: uploadsDir, publicUrl: 'http://localhost:3333/uploads' })
 
 const couponRepository = {
   findAll: async () => coupons,
@@ -98,6 +112,7 @@ const app = await buildApp({
   corsOrigins: [],
   logger: false,
   rateLimits: false,
+  uploadsDir,
   useCases: {
     checkHealth: async () => ({}),
     authenticate: async (token) => accountsByToken[token] ?? null,
@@ -105,7 +120,9 @@ const app = await buildApp({
       listOrders: makeListOrders(orderRepository),
       changeOrderStatus: makeChangeOrderStatus(orderRepository),
       setTrackingCode: makeSetTrackingCode(orderRepository),
-      updateProduct: makeUpdateProduct(productRepository),
+      uploadProductImage: makeUploadProductImage(imageStorage),
+      createProduct: makeCreateProduct({ productRepository, imageStorage }),
+      updateProduct: makeUpdateProduct(productRepository, imageStorage),
       listCoupons: makeListCoupons(couponRepository),
       createCoupon: makeCreateCoupon(couponRepository),
       setCouponActive: makeSetCouponActive(couponRepository),
@@ -306,4 +323,98 @@ test('lista inscritos da newsletter e tira um e-mail a pedido do cliente', async
 
   assert.equal((await call('DELETE', '/admin/newsletter/ana@exemplo.com')).status, 404)
   assert.equal((await call('DELETE', '/admin/newsletter/ana@exemplo.com', { token: 'cliente' })).status, 403)
+})
+
+// Fotos e produto novo
+const JPG = Buffer.from([0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46, 0x00, 0x01])
+
+const upload = async (bytes, { token = 'equipe', fileName = 'foto.jpg' } = {}) => {
+  const boundary = 'limite-do-teste'
+  const payload = Buffer.concat([
+    Buffer.from(`--${boundary}\r\nContent-Disposition: form-data; name="image"; filename="${fileName}"\r\nContent-Type: image/jpeg\r\n\r\n`),
+    bytes,
+    Buffer.from(`\r\n--${boundary}--\r\n`),
+  ])
+  const headers = { 'content-type': `multipart/form-data; boundary=${boundary}`, ...(token && { authorization: `Bearer ${token}` }) }
+  const response = await app.inject({ method: 'POST', url: '/admin/images', payload, headers })
+  return { status: response.statusCode, body: response.json() }
+}
+
+const newProduct = (overrides = {}) => ({
+  name: '  Camiseta Básica   Algodão ',
+  niche: 'moda',
+  category: 'Camisetas',
+  description: 'Malha macia.',
+  sizes: ['P', ' M ', '', 'M', 'G'],
+  colors: ['Branco'],
+  fabric: 'Algodão',
+  price: 49.9,
+  originalPrice: null,
+  stock: 10,
+  isFeatured: false,
+  ...overrides,
+})
+
+test('foto: só a equipe envia; fica guardada com nome novo e é servida em /uploads', async () => {
+  assert.equal((await upload(JPG, { token: 'cliente' })).status, 403)
+
+  const { status, body } = await upload(JPG, { fileName: '../../segredo.jpg' })
+  assert.equal(status, 201)
+  assert.match(body.url, /^http:\/\/localhost:3333\/uploads\/[0-9a-f-]{36}\.jpg$/)
+
+  const served = await app.inject({ method: 'GET', url: new URL(body.url).pathname })
+  assert.equal(served.statusCode, 200)
+  assert.deepEqual(served.rawPayload, JPG)
+  assert.match(served.headers['cache-control'], /immutable/)
+})
+
+test('foto: recusa arquivo que não é imagem (mesmo com nome .jpg) e foto acima de 5 MB', async () => {
+  const fake = await upload(Buffer.from('<script>alert(1)</script>'))
+  assert.equal(fake.status, 422)
+  assert.equal(fake.body.error, 'invalid_image')
+
+  const huge = await upload(Buffer.concat([JPG, Buffer.alloc(5 * 1024 * 1024)]))
+  assert.equal(huge.status, 413)
+  assert.equal(huge.body.error, 'image_too_large')
+})
+
+test('produto novo: endereço vem do nome, opções sem repetidas; nome repetido ganha -2', async () => {
+  const { url } = (await upload(JPG)).body
+
+  const created = await call('POST', '/admin/products', { payload: newProduct({ image: url }) })
+  assert.equal(created.status, 201)
+  assert.equal(created.body.id, 'camiseta-basica-algodao')
+  assert.equal(created.body.name, 'Camiseta Básica Algodão')
+  assert.deepEqual(created.body.sizes, ['P', 'M', 'G'])
+  assert.equal(created.body.image, url)
+
+  const again = await call('POST', '/admin/products', { payload: newProduct({ image: url }) })
+  assert.equal(again.body.id, 'camiseta-basica-algodao-2')
+})
+
+test('produto novo: recusa foto de fora do painel e dados inválidos, dizendo os campos', async () => {
+  const outside = await call('POST', '/admin/products', { payload: newProduct({ image: 'https://outro-site.com/foto.jpg' }) })
+  assert.equal(outside.status, 422)
+  assert.ok(outside.body.fields.image)
+
+  const { url } = (await upload(JPG)).body
+  const invalid = await call('POST', '/admin/products', {
+    payload: newProduct({ image: url, name: 'X', category: '', price: 10, originalPrice: 5 }),
+  })
+  assert.equal(invalid.status, 422)
+  assert.deepEqual(Object.keys(invalid.body.fields).sort(), ['category', 'name', 'originalPrice'])
+
+  assert.equal((await call('POST', '/admin/products', { token: 'cliente', payload: newProduct({ image: url }) })).status, 403)
+})
+
+test('trocar a foto de um produto: aceita só foto enviada pelo painel', async () => {
+  const { url } = (await upload(JPG)).body
+
+  const changed = await call('PATCH', '/admin/products/camiseta', { payload: { image: url } })
+  assert.equal(changed.status, 200)
+  assert.equal(changed.body.image, url)
+
+  const outside = await call('PATCH', '/admin/products/camiseta', { payload: { image: 'https://outro-site.com/foto.jpg' } })
+  assert.equal(outside.status, 422)
+  assert.ok(outside.body.fields.image)
 })

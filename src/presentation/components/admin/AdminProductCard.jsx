@@ -17,14 +17,14 @@ function StockBadge({ product }) {
   return <span className="rounded-full bg-muted px-2.5 py-1 text-xs font-semibold">{product.stock} em estoque</span>
 }
 
-/** Produto no painel: foto, preço, estoque e destaque; "Editar" abre o formulário logo abaixo. */
+/** Produto no painel: foto, preço, estoque e destaque; "Editar" abre o formulário logo abaixo (inclusive para trocar a foto). */
 function AdminProductCard({ product, onSave }) {
   const [editing, setEditing] = useState(false)
   const [saved, setSaved] = useState(false)
   const formId = useId()
 
-  const handleSave = async (id, changes) => {
-    const result = await onSave(id, changes)
+  const handleSave = async (id, changes, photo) => {
+    const result = await onSave(id, changes, photo)
     if (result.product) {
       setEditing(false)
       setSaved(true)

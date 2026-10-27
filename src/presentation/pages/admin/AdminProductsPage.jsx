@@ -1,10 +1,11 @@
 import { useState } from 'react'
+import { Link } from 'react-router'
 import { isInStock, isLowStock, isOnSale } from '../../../domain/entities/Product.js'
 import AdminLoadError from '../../components/admin/AdminLoadError.jsx'
 import AdminProductCard from '../../components/admin/AdminProductCard.jsx'
 import FilterChips from '../../components/admin/FilterChips.jsx'
 import ListSkeleton from '../../components/admin/ListSkeleton.jsx'
-import { fieldClass } from '../../components/form/formStyles.js'
+import { fieldClass, primaryButtonClass } from '../../components/form/formStyles.js'
 import { usePageTitle } from '../../hooks/usePageTitle.js'
 import { useRemoteData } from '../../hooks/useRemoteData.js'
 
@@ -19,15 +20,15 @@ const FILTERS = [
 // Busca sem diferenciar maiúsculas nem acentos ("calca" encontra "Calça")
 const normalize = (text) => text.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase()
 
-/** Painel → Produtos (/admin/produtos): busca, filtros de estoque e promoção, e edição de cada produto. */
+/** Painel → Produtos (/admin/produtos): busca, filtros de estoque e promoção, edição de cada produto e link para cadastrar. */
 function AdminProductsPage({ getInventory, updateProduct }) {
   usePageTitle('Painel: produtos')
   const products = useRemoteData(getInventory)
   const [filter, setFilter] = useState('all')
   const [search, setSearch] = useState('')
 
-  const handleSave = async (productId, changes) => {
-    const result = await updateProduct(productId, changes)
+  const handleSave = async (productId, changes, photo) => {
+    const result = await updateProduct(productId, changes, photo)
     if (result.product) {
       products.update((list) => list.map((product) => (product.id === productId ? result.product : product)))
     }
@@ -43,19 +44,24 @@ function AdminProductsPage({ getInventory, updateProduct }) {
 
   return (
     <div className="space-y-5">
-      <div>
-        <label htmlFor="admin-product-search" className="text-sm font-medium">
-          Buscar produto
-        </label>
-        <input
-          id="admin-product-search"
-          type="search"
-          value={search}
-          onChange={(event) => setSearch(event.target.value)}
-          placeholder="Nome do produto"
-          autoComplete="off"
-          className={`${fieldClass} block sm:max-w-sm`}
-        />
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div className="sm:w-full sm:max-w-sm">
+          <label htmlFor="admin-product-search" className="text-sm font-medium">
+            Buscar produto
+          </label>
+          <input
+            id="admin-product-search"
+            type="search"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            placeholder="Nome do produto"
+            autoComplete="off"
+            className={`${fieldClass} block`}
+          />
+        </div>
+        <Link to="novo" className={`${primaryButtonClass} inline-flex items-center justify-center`}>
+          Novo produto
+        </Link>
       </div>
 
       <FilterChips label="Filtrar produtos" options={options} value={filter} onChange={setFilter} />

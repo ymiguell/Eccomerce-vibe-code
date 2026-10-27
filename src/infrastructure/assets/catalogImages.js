@@ -1,6 +1,7 @@
 /*
  * Fotos de produtos e artes de banners ficam no próprio site (src/assets/images/), não na API.
  * A API e os mocks informam só o nome do arquivo; aqui ele vira o endereço final gerado pelo Vite.
+ * Exceção: fotos enviadas pelo painel ficam na API (ou no serviço de imagens) e já chegam com o endereço completo.
  * Recomendado para produtos: imagem quadrada (1:1), .webp ou .jpg com até ~200 KB.
  */
 const byFileName = (modules) =>
@@ -15,6 +16,8 @@ const bannerImages = byFileName(
 
 function resolve(images, folder, fileName) {
   if (!fileName) return null
+  // Foto enviada pelo painel: a API já manda o endereço completo
+  if (/^https?:\/\//.test(fileName)) return fileName
   const url = images[fileName]
   // Arquivo que não existe vira "sem foto" (espaço reservado) em vez de quebrar a página
   if (!url) console.warn(`Imagem não encontrada: src/assets/images/${folder}/${fileName}`)

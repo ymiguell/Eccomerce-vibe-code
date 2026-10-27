@@ -1,6 +1,6 @@
 import { COUPON_TYPES } from '../../domain/entities/Coupon.js'
 import { ORDER_STATUSES } from '../../domain/entities/Order.js'
-import { MAX_PRICE } from '../../domain/entities/Product.js'
+import { MAX_PRICE, NICHES, PRODUCT_LIMITS } from '../../domain/entities/Product.js'
 import { productSchema } from './catalogSchemas.js'
 import { couponSchema, orderSchema } from './orderSchemas.js'
 
@@ -91,10 +91,48 @@ export const updateProductSchema = {
       originalPrice: { ...money, type: ['number', 'null'] },
       stock: { type: 'integer', minimum: 0, maximum: 1_000_000 },
       isFeatured: { type: 'boolean' },
+      // Endereço devolvido por POST /admin/images
+      image: { type: 'string', maxLength: 500 },
     },
     additionalProperties: false,
   },
   response: { 200: productSchema, 404: errorSchema, 422: errorSchema, ...errors },
+}
+
+// Folga sobre os limites do domínio: quem passa daqui recebe a mensagem do campo (422), não um 400 genérico
+const text = (max) => ({ type: 'string', maxLength: max * 2 })
+const options = { type: 'array', maxItems: PRODUCT_LIMITS.options * 2, items: text(PRODUCT_LIMITS.option) }
+
+export const createProductSchema = {
+  body: {
+    type: 'object',
+    required: ['name', 'niche', 'category', 'price', 'stock', 'image'],
+    properties: {
+      name: text(PRODUCT_LIMITS.name),
+      niche: { type: 'string', enum: NICHES },
+      category: text(PRODUCT_LIMITS.category),
+      description: text(PRODUCT_LIMITS.description),
+      sizes: options,
+      colors: options,
+      fabric: text(PRODUCT_LIMITS.fabric),
+      price: money,
+      originalPrice: { ...money, type: ['number', 'null'] },
+      stock: { type: 'integer', minimum: 0, maximum: 1_000_000 },
+      isFeatured: { type: 'boolean' },
+      image: { type: 'string', maxLength: 500 },
+    },
+    additionalProperties: false,
+  },
+  response: { 201: productSchema, 422: errorSchema, ...errors },
+}
+
+export const uploadImageSchema = {
+  response: {
+    201: { type: 'object', properties: { url: { type: 'string' } } },
+    413: errorSchema,
+    422: errorSchema,
+    ...errors,
+  },
 }
 
 const adminCouponSchema = {

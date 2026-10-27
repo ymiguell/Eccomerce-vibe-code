@@ -1,5 +1,6 @@
 import { makeChangeOrderStatus } from './application/useCases/admin/changeOrderStatus.js'
 import { makeCreateCoupon } from './application/useCases/admin/createCoupon.js'
+import { makeCreateProduct } from './application/useCases/admin/createProduct.js'
 import { makeListCoupons } from './application/useCases/admin/listCoupons.js'
 import { makeListOrders } from './application/useCases/admin/listOrders.js'
 import { makeListReviews } from './application/useCases/admin/listReviews.js'
@@ -9,6 +10,7 @@ import { makeSetCouponActive } from './application/useCases/admin/setCouponActiv
 import { makeSetReviewHidden } from './application/useCases/admin/setReviewHidden.js'
 import { makeSetTrackingCode } from './application/useCases/admin/setTrackingCode.js'
 import { makeUpdateProduct } from './application/useCases/admin/updateProduct.js'
+import { makeUploadProductImage } from './application/useCases/admin/uploadProductImage.js'
 import { makeAuthenticate } from './application/useCases/authenticate.js'
 import { makeCheckHealth } from './application/useCases/checkHealth.js'
 import { makeGetCoupon } from './application/useCases/getCoupon.js'
@@ -41,6 +43,7 @@ import { PrismaPasswordResetRepository } from './infrastructure/repositories/Pri
 import { PrismaReviewRepository } from './infrastructure/repositories/PrismaReviewRepository.js'
 import { PrismaSessionRepository } from './infrastructure/repositories/PrismaSessionRepository.js'
 import { ScryptPasswordHasher } from './infrastructure/security/ScryptPasswordHasher.js'
+import { LocalImageStorage } from './infrastructure/storage/LocalImageStorage.js'
 
 // Composição: liga a infraestrutura (banco) aos casos de uso e sobe a API. É o "App.jsx" do servidor.
 const config = loadConfig()
@@ -56,6 +59,8 @@ const accounts = {
   passwordHasher: new ScryptPasswordHasher(),
   passwordResetRepository: new PrismaPasswordResetRepository(prisma),
 }
+// Fotos do painel numa pasta do servidor (até a loja ter um serviço de imagens)
+const imageStorage = new LocalImageStorage({ directory: config.uploadsDir, publicUrl: `${config.publicUrl}/uploads` })
 // Até a loja ter um serviço de e-mail, os e-mails aparecem no terminal
 const emailSender = new ConsoleEmailSender()
 
@@ -86,7 +91,9 @@ const useCases = {
     listOrders: makeListOrders(orderRepository),
     changeOrderStatus: makeChangeOrderStatus(orderRepository),
     setTrackingCode: makeSetTrackingCode(orderRepository),
-    updateProduct: makeUpdateProduct(productRepository),
+    uploadProductImage: makeUploadProductImage(imageStorage),
+    createProduct: makeCreateProduct({ productRepository, imageStorage }),
+    updateProduct: makeUpdateProduct(productRepository, imageStorage),
     listCoupons: makeListCoupons(couponRepository),
     createCoupon: makeCreateCoupon(couponRepository),
     setCouponActive: makeSetCouponActive(couponRepository),
@@ -97,7 +104,12 @@ const useCases = {
   },
 }
 
-const app = await buildApp({ corsOrigins: config.corsOrigins, trustProxy: config.trustProxy, useCases })
+const app = await buildApp({
+  corsOrigins: config.corsOrigins,
+  trustProxy: config.trustProxy,
+  uploadsDir: config.uploadsDir,
+  useCases,
+})
 
 // Ao parar o servidor (Ctrl+C ou novo deploy), termina as requisições em andamento e fecha o banco
 for (const signal of ['SIGINT', 'SIGTERM']) {

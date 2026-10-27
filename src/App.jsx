@@ -1,7 +1,8 @@
-import { useCallback, useState } from 'react'
+import { Suspense, lazy, useCallback, useState } from 'react'
 import { Navigate, Route, Routes } from 'react-router'
 import { makeChangeOrderStatus } from './application/useCases/admin/changeOrderStatus.js'
 import { makeCreateCoupon } from './application/useCases/admin/createCoupon.js'
+import { makeCreateProduct } from './application/useCases/admin/createProduct.js'
 import { makeGetAdminOrders } from './application/useCases/admin/getAdminOrders.js'
 import { makeGetAdminReviews } from './application/useCases/admin/getAdminReviews.js'
 import { makeGetCoupons } from './application/useCases/admin/getCoupons.js'
@@ -66,7 +67,6 @@ import { useCart } from './presentation/hooks/useCart.js'
 import { useScrollOnNavigate } from './presentation/hooks/useScrollOnNavigate.js'
 import { INFO_PAGES } from './presentation/content/infoPages.js'
 import AccountPage from './presentation/pages/AccountPage.jsx'
-import AdminPage from './presentation/pages/AdminPage.jsx'
 import CheckoutPage from './presentation/pages/CheckoutPage.jsx'
 import ForgotPasswordPage from './presentation/pages/ForgotPasswordPage.jsx'
 import HomePage from './presentation/pages/HomePage.jsx'
@@ -79,6 +79,9 @@ import ProductPage from './presentation/pages/ProductPage.jsx'
 import RegisterPage from './presentation/pages/RegisterPage.jsx'
 import ResetPasswordPage from './presentation/pages/ResetPasswordPage.jsx'
 import { NICHE_PAGES } from './presentation/pages/nichePages.js'
+
+// Painel da loja: só a equipe usa, então o código dele é baixado à parte, ao abrir /admin
+const AdminPage = lazy(() => import('./presentation/pages/AdminPage.jsx'))
 
 // Composição: liga a infraestrutura aos casos de uso. Fora do componente para ser estável.
 // Catálogo, cupons, pedidos, avaliações, newsletter e contas: com VITE_API_URL (ex.: no .env.local) usam a API
@@ -132,6 +135,7 @@ const admin = adminRepository && {
   setTrackingCode: makeSetTrackingCode(adminRepository),
   getInventory: makeGetInventory(adminRepository),
   updateProduct: makeUpdateProduct(adminRepository),
+  createProduct: makeCreateProduct(adminRepository),
   getCoupons: makeGetCoupons(adminRepository),
   createCoupon: makeCreateCoupon(adminRepository),
   setCouponActive: makeSetCouponActive(adminRepository),
@@ -216,7 +220,14 @@ function App() {
               <Route path="/esqueci-a-senha" element={<ForgotPasswordPage />} />
               <Route path="/redefinir-senha" element={<ResetPasswordPage />} />
               <Route path="/minha-conta" element={<AccountPage />} />
-              <Route path="/admin/*" element={<AdminPage admin={admin} />} />
+              <Route
+                path="/admin/*"
+                element={
+                  <Suspense fallback={<main className="min-h-[60vh]" aria-busy="true" />}>
+                    <AdminPage admin={admin} />
+                  </Suspense>
+                }
+              />
             </>
           )}
           {/* Páginas do rodapé (Sobre nós, Trocas e devoluções...), conteúdo em content/infoPages.js */}

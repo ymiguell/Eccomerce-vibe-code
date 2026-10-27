@@ -9,6 +9,8 @@ const messages = {
   code_taken: 'Já existe um cupom com este código.',
   review_not_found: 'Avaliação não encontrada. Atualize a lista.',
   subscriber_not_found: 'Este e-mail já não estava na lista.',
+  invalid_image: 'Esta foto não pôde ser usada. Escolha uma em JPG, PNG ou WebP.',
+  image_too_large: 'A foto ficou grande demais. Escolha uma menor.',
   unauthorized: 'Sua sessão terminou. Entre de novo para continuar.',
   forbidden: 'Sua conta não tem mais acesso ao painel.',
   network_error: 'Não conseguimos falar com o servidor. Confira sua conexão e tente de novo.',

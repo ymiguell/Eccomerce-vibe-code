@@ -42,9 +42,16 @@ export class PrismaProductRepository {
     return rows.map(toProduct)
   }
 
-  /** Painel: preço, promoção, estoque e destaque. */
-  async update(id, { price, originalPrice, stock, isFeatured }) {
-    const row = await this.#prisma.product.update({ where: { id }, data: { price, originalPrice, stock, isFeatured } })
+  /** Painel: preço, promoção, estoque, destaque e foto. */
+  async update(id, { price, originalPrice, stock, isFeatured, image }) {
+    const row = await this.#prisma.product.update({ where: { id }, data: { price, originalPrice, stock, isFeatured, image } })
+    return toProduct(row)
+  }
+
+  /** Painel: produto novo, no fim das listagens. */
+  async create(product) {
+    const { _max } = await this.#prisma.product.aggregate({ _max: { position: true } })
+    const row = await this.#prisma.product.create({ data: { ...product, position: (_max.position ?? -1) + 1 } })
     return toProduct(row)
   }
 }

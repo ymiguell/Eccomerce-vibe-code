@@ -3,6 +3,7 @@ import AdminTabs from '../components/admin/AdminTabs.jsx'
 import { useAuthContext } from '../context/authContext.js'
 import { usePageTitle } from '../hooks/usePageTitle.js'
 import AdminCouponsPage from './admin/AdminCouponsPage.jsx'
+import AdminNewProductPage from './admin/AdminNewProductPage.jsx'
 import AdminNewsletterPage from './admin/AdminNewsletterPage.jsx'
 import AdminOrdersPage from './admin/AdminOrdersPage.jsx'
 import AdminProductsPage from './admin/AdminProductsPage.jsx'
@@ -56,6 +57,10 @@ function AdminPage({ admin }) {
             }
           />
           <Route path="produtos" element={<AdminProductsPage getInventory={admin.getInventory} updateProduct={admin.updateProduct} />} />
+          <Route
+            path="produtos/novo"
+            element={<AdminNewProductPage getInventory={admin.getInventory} createProduct={admin.createProduct} />}
+          />
           <Route
             path="cupons"
             element={

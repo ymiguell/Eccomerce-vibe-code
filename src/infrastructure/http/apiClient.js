@@ -16,6 +16,7 @@ export class ApiError extends Error {
 
 /**
  * Cliente da API da loja (server/).
+ * `post` aceita JSON ou FormData (envio de arquivo).
  * `get`, `post`, `patch` e `delete` devolvem o JSON da resposta (null quando vazia) ou lançam ApiError ({ status, code, details })
  * — status 0 = sem conexão. Só o GET usa cache (desligável com { cache: false }); qualquer gravação limpa o cache.
  * `getToken`: se houver cliente logado, o token vai no cabeçalho Authorization de toda chamada.
@@ -24,16 +25,18 @@ export function createApiClient(baseUrl, { getToken = () => null } = {}) {
   const cache = new Map() // caminho → { expiresAt, promise }
 
   async function request(path, { method = 'GET', body } = {}) {
+    // Arquivo (FormData) vai como está: o navegador monta o envio e o cabeçalho
+    const isJson = body !== undefined && !(body instanceof FormData)
     let response
     try {
       const token = getToken()
       response = await fetch(`${baseUrl}${path}`, {
         method,
         headers: {
-          ...(body && { 'content-type': 'application/json' }),
+          ...(isJson && { 'content-type': 'application/json' }),
           ...(token && { authorization: `Bearer ${token}` }),
         },
-        body: body ? JSON.stringify(body) : undefined,
+        body: isJson ? JSON.stringify(body) : body,
         signal: AbortSignal.timeout(TIMEOUT_MS),
       })
     } catch {

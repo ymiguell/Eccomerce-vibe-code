@@ -5,6 +5,7 @@ import { formatMoneyInput, parseMoneyInput } from '../../formatters/currency.js'
 import { useForm } from '../../hooks/useForm.js'
 import FormField from '../form/FormField.jsx'
 import { primaryButtonClass } from '../form/formStyles.js'
+import PhotoPicker from './PhotoPicker.jsx'
 
 // Campos de texto → valores do domínio (preço original vazio = sem promoção)
 const toChanges = (values) => ({
@@ -16,7 +17,10 @@ const toChanges = (values) => ({
 
 const validate = (values) => validateProductChanges(toChanges(values))
 
-/** Edição de preço, promoção, estoque e destaque de um produto. `onSave(id, changes)` → { product } | { errors } | { error } */
+/**
+ * Edição de preço, promoção, estoque, destaque e foto de um produto.
+ * `onSave(id, changes, photo)` → { product } | { errors } | { error }; `photo` é null quando a foto não mudou.
+ */
 function ProductEditForm({ product, onSave, onCancel }) {
   const form = useForm(
     {
@@ -24,6 +28,7 @@ function ProductEditForm({ product, onSave, onCancel }) {
       originalPrice: product.originalPrice ? formatMoneyInput(product.originalPrice) : '',
       stock: String(product.stock),
       isFeatured: product.isFeatured,
+      photo: null,
     },
     validate,
   )
@@ -33,7 +38,7 @@ function ProductEditForm({ product, onSave, onCancel }) {
   const handleSave = async (values) => {
     setSaving(true)
     setError('')
-    const result = await onSave(product.id, toChanges(values))
+    const result = await onSave(product.id, toChanges(values), values.photo)
     // Deu certo: o cartão fecha este formulário e mostra os valores novos
     if (!result.product) {
       setSaving(false)
@@ -45,6 +50,8 @@ function ProductEditForm({ product, onSave, onCancel }) {
 
   return (
     <form onSubmit={form.handleSubmit(handleSave)} noValidate className="space-y-4">
+      <PhotoPicker name="photo" currentUrl={product.imageUrl} onChange={(photo) => form.update('photo', photo)} />
+
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <FormField form={form} name="price" label="Preço (R$)" {...moneyField} />
         <FormField
