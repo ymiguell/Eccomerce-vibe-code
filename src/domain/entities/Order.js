@@ -50,3 +50,21 @@ export function createOrder({ id, number, createdAt, items, coupon = null, custo
     totals: Object.freeze(totals),
   })
 }
+
+export const ORDER_STATUSES = Object.freeze(['pending_payment', 'paid', 'shipped', 'delivered', 'canceled'])
+
+/**
+ * Para qual situação cada pedido pode ir (mesma regra do servidor). Entregue e cancelado são finais;
+ * depois de enviado não dá mais para cancelar (aí é devolução).
+ */
+export const ORDER_STATUS_TRANSITIONS = Object.freeze({
+  pending_payment: Object.freeze(['paid', 'canceled']),
+  paid: Object.freeze(['shipped', 'canceled']),
+  shipped: Object.freeze(['delivered']),
+  delivered: Object.freeze([]),
+  canceled: Object.freeze([]),
+})
+
+export function canChangeOrderStatus(from, to) {
+  return ORDER_STATUS_TRANSITIONS[from]?.includes(to) ?? false
+}

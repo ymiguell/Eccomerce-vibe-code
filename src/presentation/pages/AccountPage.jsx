@@ -1,4 +1,4 @@
-import { Navigate, useNavigate } from 'react-router'
+import { Link, Navigate, useNavigate } from 'react-router'
 import OrderHistory from '../components/account/OrderHistory.jsx'
 import ProfileForm from '../components/account/ProfileForm.jsx'
 import { useAuthContext } from '../context/authContext.js'
@@ -28,13 +28,23 @@ function AccountContent({ auth }) {
           <h1 className="text-3xl font-semibold sm:text-4xl">Olá, {firstName}</h1>
           <p className="mt-1 text-sm text-muted-foreground">{auth.customer.email}</p>
         </div>
-        <button
-          type="button"
-          onClick={handleLogout}
-          className="min-h-11 rounded-sm border border-border px-5 text-sm font-semibold tracking-wide uppercase transition-colors duration-200 hover:border-foreground"
-        >
-          Sair
-        </button>
+        <div className="flex flex-wrap gap-2">
+          {auth.customer.isAdmin && (
+            <Link
+              to="/admin"
+              className="flex min-h-11 items-center rounded-sm bg-primary px-5 text-sm font-semibold tracking-wide text-on-primary uppercase transition-colors duration-200 hover:bg-primary-hover"
+            >
+              Painel da loja
+            </Link>
+          )}
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="min-h-11 rounded-sm border border-border px-5 text-sm font-semibold tracking-wide uppercase transition-colors duration-200 hover:border-foreground"
+          >
+            Sair
+          </button>
+        </div>
       </div>
 
       <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-12">

@@ -55,6 +55,27 @@ export function createProduct({
   })
 }
 
+// Teto de segurança para preços digitados no painel (evita um zero a mais virar R$ 1 milhão)
+export const MAX_PRICE = 100_000
+
+/**
+ * Confere preço, preço original (promoção) e estoque editados no painel.
+ * Retorna { campo: mensagem } — vazio quando está tudo certo.
+ */
+export function validateProductChanges({ price, originalPrice, stock }) {
+  const errors = {}
+
+  if (!Number.isFinite(price) || price <= 0 || price > MAX_PRICE) {
+    errors.price = 'Informe um preço maior que zero.'
+  } else if (originalPrice !== null && (!Number.isFinite(originalPrice) || originalPrice <= price || originalPrice > MAX_PRICE)) {
+    errors.originalPrice = 'O preço original precisa ser maior que o preço.'
+  }
+
+  if (!Number.isInteger(stock) || stock < 0) errors.stock = 'Informe um estoque inteiro, zero ou mais.'
+
+  return errors
+}
+
 /** Produto em promoção: tem preço original maior que o preço atual. */
 export function isOnSale(product) {
   return product.originalPrice !== null && product.originalPrice > product.price

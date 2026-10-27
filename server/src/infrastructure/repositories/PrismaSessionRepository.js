@@ -4,7 +4,7 @@ import { generateSessionToken, hashSessionToken } from '../security/sessionToken
 const SESSION_DAYS = 30
 const DAY_MS = 24 * 60 * 60 * 1000
 
-const PUBLIC_FIELDS = { id: true, name: true, email: true, phone: true, createdAt: true }
+const PUBLIC_FIELDS = { id: true, name: true, email: true, phone: true, isAdmin: true, createdAt: true }
 
 /** Sessões de login (tabela sessions). O token só existe com o cliente; aqui fica o hash dele. */
 export class PrismaSessionRepository {

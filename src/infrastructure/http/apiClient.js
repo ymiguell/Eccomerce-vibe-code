@@ -17,7 +17,7 @@ export class ApiError extends Error {
 /**
  * Cliente da API da loja (server/).
  * `get`, `post` e `patch` devolvem o JSON da resposta (null quando vazia) ou lançam ApiError ({ status, code, details })
- * — status 0 = sem conexão. Só o GET usa cache (desligável com { cache: false }).
+ * — status 0 = sem conexão. Só o GET usa cache (desligável com { cache: false }); qualquer gravação limpa o cache.
  * `getToken`: se houver cliente logado, o token vai no cabeçalho Authorization de toda chamada.
  */
 export function createApiClient(baseUrl, { getToken = () => null } = {}) {
@@ -45,6 +45,8 @@ export function createApiClient(baseUrl, { getToken = () => null } = {}) {
       const { error = 'http_error', message = `Erro ${response.status}`, ...details } = data ?? {}
       throw new ApiError(response.status, error, message, details)
     }
+    // Gravou algo (pedido, preço no painel...): as leituras guardadas podem ter ficado velhas
+    if (method !== 'GET') cache.clear()
     return data
   }
 

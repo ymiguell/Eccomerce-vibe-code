@@ -42,3 +42,15 @@ const orderDateFormatter = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', mo
 export function formatOrderDate(isoDate) {
   return orderDateFormatter.format(new Date(isoDate))
 }
+
+const STATUS_ACTION_LABELS = {
+  paid: 'Marcar como pago',
+  shipped: 'Marcar como enviado',
+  delivered: 'Marcar como entregue',
+  canceled: 'Cancelar pedido',
+}
+
+/** Texto do botão que leva o pedido para `status` (painel). Ex.: shipped → "Marcar como enviado" */
+export function formatStatusAction(status) {
+  return STATUS_ACTION_LABELS[status] ?? status
+}

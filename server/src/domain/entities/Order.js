@@ -6,6 +6,22 @@ import { createCustomer } from './Customer.js'
 
 export const ORDER_STATUSES = Object.freeze(['pending_payment', 'paid', 'shipped', 'delivered', 'canceled'])
 
+/**
+ * Para qual situação cada pedido pode ir. Entregue e cancelado são finais;
+ * depois de enviado não dá mais para cancelar (aí é devolução).
+ */
+export const ORDER_STATUS_TRANSITIONS = Object.freeze({
+  pending_payment: Object.freeze(['paid', 'canceled']),
+  paid: Object.freeze(['shipped', 'canceled']),
+  shipped: Object.freeze(['delivered']),
+  delivered: Object.freeze([]),
+  canceled: Object.freeze([]),
+})
+
+export function canChangeOrderStatus(from, to) {
+  return ORDER_STATUS_TRANSITIONS[from]?.includes(to) ?? false
+}
+
 /** O produto esgotou (ou não tem a quantidade pedida) no momento de gravar o pedido. */
 export class OutOfStockError extends Error {
   constructor(productId) {

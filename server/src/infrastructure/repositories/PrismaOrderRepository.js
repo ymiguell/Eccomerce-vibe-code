@@ -109,6 +109,52 @@ export class PrismaOrderRepository {
     })
   }
 
+  /** Painel: uma página de pedidos (mais recentes primeiro), opcionalmente só de uma situação. */
+  async findPage({ status = null, page, pageSize }) {
+    const where = status ? { status } : {}
+    const [rows, total] = await this.#prisma.$transaction([
+      this.#prisma.order.findMany({
+        where,
+        orderBy: { number: 'desc' },
+        skip: (page - 1) * pageSize,
+        take: pageSize,
+        include: ITEMS,
+      }),
+      this.#prisma.order.count({ where }),
+    ])
+    return { orders: rows.map(toOrder), total }
+  }
+
+  /** Quantos pedidos há em cada situação, ex.: { pending_payment: 3, paid: 1 } */
+  async countByStatus() {
+    const groups = await this.#prisma.order.groupBy({ by: ['status'], _count: { _all: true } })
+    return Object.fromEntries(groups.map((group) => [group.status, group._count._all]))
+  }
+
+  async findById(id) {
+    const row = await this.#prisma.order.findUnique({ where: { id }, include: ITEMS })
+    return row ? toOrder(row) : null
+  }
+
+  /**
+   * Muda a situação só se ela ainda for `from` (se outra pessoa mudou antes, retorna null).
+   * Com `restoreStock`, devolve ao estoque os produtos do pedido — tudo na mesma transação.
+   */
+  async changeStatus(id, { from, to, restoreStock = false }) {
+    return this.#prisma.$transaction(async (tx) => {
+      const { count } = await tx.order.updateMany({ where: { id, status: from }, data: { status: to } })
+      if (count === 0) return null
+
+      const row = await tx.order.findUnique({ where: { id }, include: ITEMS })
+      if (restoreStock) {
+        for (const item of row.items) {
+          await tx.product.update({ where: { id: item.productId }, data: { stock: { increment: item.quantity } } })
+        }
+      }
+      return toOrder(row)
+    })
+  }
+
   /** Pedidos de uma conta, dos mais recentes para os mais antigos. */
   async findByCustomer(customerId) {
     const rows = await this.#prisma.order.findMany({

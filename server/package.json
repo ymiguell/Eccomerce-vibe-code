@@ -16,6 +16,8 @@
     "db:migrate": "prisma migrate dev",
     "db:seed": "prisma db seed",
     "db:generate": "prisma generate",
+    "admin:grant": "node --env-file-if-exists=.env scripts/setAdmin.js",
+    "admin:revoke": "node --env-file-if-exists=.env scripts/setAdmin.js --revoke",
     "postinstall": "prisma generate"
   },
   "dependencies": {

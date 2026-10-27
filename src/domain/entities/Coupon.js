@@ -29,3 +29,28 @@ export function getCouponDiscount(coupon, subtotal) {
 export function roundMoney(value) {
   return Math.round(value * 100) / 100
 }
+
+export const COUPON_TYPES = Object.freeze(['percent', 'fixed'])
+const CODE_PATTERN = /^[A-Z0-9]{3,20}$/
+
+/**
+ * Confere um cupom novo criado no painel (o código já em maiúsculas). Mesma regra do servidor.
+ * Retorna { campo: mensagem } — vazio quando está tudo certo.
+ */
+export function validateCoupon({ code, type, value, minSubtotal, description = '' }) {
+  const errors = {}
+
+  if (!CODE_PATTERN.test(code)) errors.code = 'Use de 3 a 20 letras ou números, sem espaços.'
+  if (!COUPON_TYPES.includes(type)) errors.type = 'Escolha o tipo de desconto.'
+
+  if (!Number.isFinite(value) || value <= 0) {
+    errors.value = 'Informe um desconto maior que zero.'
+  } else if (type === 'percent' && value > 100) {
+    errors.value = 'O desconto em % vai até 100.'
+  }
+
+  if (!Number.isFinite(minSubtotal) || minSubtotal < 0) errors.minSubtotal = 'Informe um valor mínimo, zero ou mais.'
+  if (description.length > 120) errors.description = 'Use até 120 caracteres.'
+
+  return errors
+}

@@ -1,5 +1,12 @@
 import { useCallback, useState } from 'react'
 import { Navigate, Route, Routes } from 'react-router'
+import { makeChangeOrderStatus } from './application/useCases/admin/changeOrderStatus.js'
+import { makeCreateCoupon } from './application/useCases/admin/createCoupon.js'
+import { makeGetAdminOrders } from './application/useCases/admin/getAdminOrders.js'
+import { makeGetCoupons } from './application/useCases/admin/getCoupons.js'
+import { makeGetInventory } from './application/useCases/admin/getInventory.js'
+import { makeSetCouponActive } from './application/useCases/admin/setCouponActive.js'
+import { makeUpdateProduct } from './application/useCases/admin/updateProduct.js'
 import { makeApplyCoupon } from './application/useCases/applyCoupon.js'
 import { makeGetBanners } from './application/useCases/getBanners.js'
 import { makeEstimateShipping } from './application/useCases/estimateShipping.js'
@@ -24,6 +31,7 @@ import { makeSubscribeToNewsletter } from './application/useCases/subscribeToNew
 import { makeUpdateProfile } from './application/useCases/updateProfile.js'
 import { createApiClient } from './infrastructure/http/apiClient.js'
 import { HttpAccountRepository } from './infrastructure/repositories/HttpAccountRepository.js'
+import { HttpAdminRepository } from './infrastructure/repositories/HttpAdminRepository.js'
 import { HttpBannerRepository } from './infrastructure/repositories/HttpBannerRepository.js'
 import { HttpCouponRepository } from './infrastructure/repositories/HttpCouponRepository.js'
 import { HttpNewsletterRepository } from './infrastructure/repositories/HttpNewsletterRepository.js'
@@ -49,6 +57,7 @@ import { useAuth } from './presentation/hooks/useAuth.js'
 import { useCart } from './presentation/hooks/useCart.js'
 import { useScrollOnNavigate } from './presentation/hooks/useScrollOnNavigate.js'
 import AccountPage from './presentation/pages/AccountPage.jsx'
+import AdminPage from './presentation/pages/AdminPage.jsx'
 import CheckoutPage from './presentation/pages/CheckoutPage.jsx'
 import HomePage from './presentation/pages/HomePage.jsx'
 import LoginPage from './presentation/pages/LoginPage.jsx'
@@ -99,6 +108,17 @@ const account = accountRepository && {
   logoutCustomer: makeLogoutCustomer({ accountRepository, sessionStore }),
   updateProfile: makeUpdateProfile(accountRepository),
   getMyOrders: makeGetMyOrders(accountRepository),
+}
+// Painel da loja (só com a API; ela confere em cada chamada se a conta é da equipe)
+const adminRepository = api ? new HttpAdminRepository(api) : null
+const admin = adminRepository && {
+  getAdminOrders: makeGetAdminOrders(adminRepository),
+  changeOrderStatus: makeChangeOrderStatus(adminRepository),
+  getInventory: makeGetInventory(adminRepository),
+  updateProduct: makeUpdateProduct(adminRepository),
+  getCoupons: makeGetCoupons(adminRepository),
+  createCoupon: makeCreateCoupon(adminRepository),
+  setCouponActive: makeSetCouponActive(adminRepository),
 }
 
 function App() {
@@ -174,6 +194,7 @@ function App() {
               <Route path="/entrar" element={<LoginPage />} />
               <Route path="/cadastro" element={<RegisterPage />} />
               <Route path="/minha-conta" element={<AccountPage />} />
+              <Route path="/admin/*" element={<AdminPage admin={admin} />} />
             </>
           )}
           {/* Endereço desconhecido volta para a Home */}

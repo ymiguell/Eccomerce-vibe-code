@@ -1,3 +1,9 @@
+import { makeChangeOrderStatus } from './application/useCases/admin/changeOrderStatus.js'
+import { makeCreateCoupon } from './application/useCases/admin/createCoupon.js'
+import { makeListCoupons } from './application/useCases/admin/listCoupons.js'
+import { makeListOrders } from './application/useCases/admin/listOrders.js'
+import { makeSetCouponActive } from './application/useCases/admin/setCouponActive.js'
+import { makeUpdateProduct } from './application/useCases/admin/updateProduct.js'
 import { makeAuthenticate } from './application/useCases/authenticate.js'
 import { makeCheckHealth } from './application/useCases/checkHealth.js'
 import { makeGetCoupon } from './application/useCases/getCoupon.js'
@@ -60,6 +66,15 @@ const useCases = {
   logoutCustomer: makeLogoutCustomer(accounts.sessionRepository),
   updateProfile: makeUpdateProfile(accounts.customerRepository),
   listCustomerOrders: makeListCustomerOrders(orderRepository),
+  // Painel da loja (/admin): só contas da equipe
+  admin: {
+    listOrders: makeListOrders(orderRepository),
+    changeOrderStatus: makeChangeOrderStatus(orderRepository),
+    updateProduct: makeUpdateProduct(productRepository),
+    listCoupons: makeListCoupons(couponRepository),
+    createCoupon: makeCreateCoupon(couponRepository),
+    setCouponActive: makeSetCouponActive(couponRepository),
+  },
 }
 
 const app = await buildApp({ corsOrigins: config.corsOrigins, trustProxy: config.trustProxy, useCases })

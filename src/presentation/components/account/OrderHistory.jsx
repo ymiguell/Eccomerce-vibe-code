@@ -1,14 +1,9 @@
 import { Link } from 'react-router'
 import { formatPrice } from '../../formatters/currency.js'
-import {
-  formatAddressLines,
-  formatDeliveryWindow,
-  formatOrderDate,
-  formatOrderStatus,
-  formatPayment,
-} from '../../formatters/order.js'
+import { formatAddressLines, formatDeliveryWindow, formatOrderDate, formatPayment } from '../../formatters/order.js'
 import OrderItemList from '../checkout/OrderItemList.jsx'
 import OrderTotals from '../checkout/OrderTotals.jsx'
+import OrderStatusBadge from '../order/OrderStatusBadge.jsx'
 
 const countItems = (order) => order.items.reduce((sum, item) => sum + item.quantity, 0)
 
@@ -27,9 +22,7 @@ function OrderCard({ order }) {
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <span className="rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
-              {formatOrderStatus(order.status)}
-            </span>
+            <OrderStatusBadge status={order.status} />
             <span className="font-semibold">{formatPrice(order.totals.total)}</span>
             <svg
               className="size-4 shrink-0 transition-transform duration-200 group-open:rotate-180 motion-reduce:transition-none"

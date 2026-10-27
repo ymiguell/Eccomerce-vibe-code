@@ -41,4 +41,10 @@ export class PrismaProductRepository {
     const rows = await this.#prisma.product.findMany({ where: { id: { in: ids } } })
     return rows.map(toProduct)
   }
+
+  /** Painel: preço, promoção, estoque e destaque. */
+  async update(id, { price, originalPrice, stock, isFeatured }) {
+    const row = await this.#prisma.product.update({ where: { id }, data: { price, originalPrice, stock, isFeatured } })
+    return toProduct(row)
+  }
 }

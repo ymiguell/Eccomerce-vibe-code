@@ -2,7 +2,7 @@ import { createProduct } from '../../domain/entities/Product.js'
 import { resolveProductImage } from '../assets/catalogImages.js'
 
 // Produto da API → entidade do domínio (a foto vem pelo nome do arquivo)
-const toProduct = ({ image, ...data }) => createProduct({ ...data, imageUrl: resolveProductImage(image) })
+export const toProduct = ({ image, ...data }) => createProduct({ ...data, imageUrl: resolveProductImage(image) })
 
 /** Catálogo vindo da API (GET /products). Mesmos métodos do MockProductRepository. */
 export class HttpProductRepository {

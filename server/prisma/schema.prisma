@@ -204,6 +204,8 @@ model Customer {
   phone        String   @default("")
   /// Senha protegida com scrypt (a senha em si nunca é guardada)
   passwordHash String   @map("password_hash")
+  /// Equipe da loja: acessa o painel (/admin). Liberado só pelo terminal: `npm run admin:grant -- email`
+  isAdmin      Boolean  @default(false) @map("is_admin")
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
 

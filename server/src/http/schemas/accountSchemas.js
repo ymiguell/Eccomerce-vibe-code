@@ -14,6 +14,8 @@ const customerSchema = {
     name: { type: 'string' },
     email: { type: 'string' },
     phone: { type: 'string' },
+    // true só para a equipe da loja (o site mostra o link do painel)
+    isAdmin: { type: 'boolean' },
     createdAt: { type: 'string' },
   },
 }

@@ -23,3 +23,11 @@ export async function requireCustomer(request, reply) {
     return reply.code(401).send({ error: 'unauthorized', message: 'Entre na sua conta para continuar.' })
   }
 }
+
+/** Rotas do painel: 401 sem login; 403 se a conta não é da equipe da loja. */
+export async function requireAdmin(request, reply) {
+  if (!request.customer) return requireCustomer(request, reply)
+  if (!request.customer.isAdmin) {
+    return reply.code(403).send({ error: 'forbidden', message: 'Esta área é só para a equipe da loja.' })
+  }
+}

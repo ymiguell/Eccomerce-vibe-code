@@ -26,6 +26,7 @@ Teste: abra http://localhost:3333/health → `{"status":"ok","database":"up",...
 | `npm test` | Roda os testes (não precisam do banco) |
 | `npm run db:up` / `db:down` | Liga / desliga o PostgreSQL do Docker |
 | `npm run db:migrate` | Aplica mudanças do `prisma/schema.prisma` no banco |
+| `npm run admin:grant -- email` / `admin:revoke -- email` | Dá / tira o acesso ao painel da loja (`/admin`) para uma conta já cadastrada |
 | `npm run db:seed` | Preenche/atualiza catálogo, cupons e avaliações de exemplo com `prisma/seed/*.json` (pode rodar de novo sem duplicar; volta o estoque ao valor do arquivo) |
 
 ## Estrutura
@@ -62,6 +63,25 @@ test/                testes com node:test
 | GET | `/me` | Conta logada; 401 `unauthorized` sem login |
 | PATCH | `/me` | Atualiza `{ name, phone }` |
 | GET | `/me/orders` | Pedidos feitos com a conta, do mais recente ao mais antigo |
+
+**Painel da loja** (só contas da equipe; 401 `unauthorized` sem login, 403 `forbidden` para conta comum):
+
+| Método | Rota | Resposta |
+|---|---|---|
+| GET | `/admin/orders?status=&page=` | Página de 20 pedidos (mais recentes primeiro) + `counts` por situação |
+| PATCH | `/admin/orders/:id` | Muda a situação `{ status }`; 422 `invalid_transition`, 409 `status_changed` |
+| PATCH | `/admin/products/:id` | Edita `{ price, originalPrice, stock, isFeatured }` (só o que vier); `originalPrice: null` tira a promoção |
+| GET | `/admin/coupons` | Todos os cupons, com `active` e `timesUsed` |
+| POST | `/admin/coupons` | Cria `{ code, type, value, minSubtotal?, description? }` (201); 409 `code_taken` |
+| PATCH | `/admin/coupons/:code` | Liga/desliga `{ active }` (não apaga: pedidos antigos apontam para o cupom) |
+
+### Painel da loja
+
+- Não existe tela para virar "equipe": a pessoa cria a conta no site e alguém com acesso ao servidor roda
+  `npm run admin:grant -- email@exemplo.com` (e `npm run admin:revoke -- email@exemplo.com` para tirar).
+- Caminhos da situação do pedido: aguardando pagamento → pago → enviado → entregue. Dá para cancelar enquanto
+  não foi enviado, e **cancelar devolve os produtos ao estoque** (na mesma transação).
+- Até o pagamento online chegar, a equipe marca "pago" à mão depois de conferir o Pix ou o cartão.
 
 ### Contas e login
 

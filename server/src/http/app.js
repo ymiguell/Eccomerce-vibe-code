@@ -3,6 +3,7 @@ import rateLimit from '@fastify/rate-limit'
 import Fastify from 'fastify'
 import { addAuthentication } from './authentication.js'
 import { accountRoutes } from './routes/accountRoutes.js'
+import { adminRoutes } from './routes/adminRoutes.js'
 import { catalogRoutes } from './routes/catalogRoutes.js'
 import { engagementRoutes } from './routes/engagementRoutes.js'
 import { healthRoutes } from './routes/healthRoutes.js'
@@ -73,6 +74,7 @@ export async function buildApp({ corsOrigins, useCases, logger = true, trustProx
     updateProfile: useCases.updateProfile,
     listCustomerOrders: useCases.listCustomerOrders,
   })
+  if (useCases.admin) await app.register(adminRoutes, { prefix: '/admin', ...useCases.admin })
 
   return app
 }
