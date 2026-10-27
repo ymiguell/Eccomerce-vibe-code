@@ -32,6 +32,8 @@ jobs:
         env:
           # O site fica em https://<usuário>.github.io/<repositório>/
           BASE_PATH: /${{ github.event.repository.name }}/
+          # API da loja no Render (catálogo, contas, pedidos e painel)
+          VITE_API_URL: https://montreal-api.onrender.com
       # Abrir direto um link como /produto/abc devolve 404 no Pages; o 404.html carrega o app e o React Router resolve a rota
       - run: cp dist/index.html dist/404.html
       - uses: actions/upload-pages-artifact@v3

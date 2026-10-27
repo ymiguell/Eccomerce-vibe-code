@@ -18,6 +18,8 @@
     "db:generate": "prisma generate",
     "admin:grant": "node --env-file-if-exists=.env scripts/setAdmin.js",
     "admin:revoke": "node --env-file-if-exists=.env scripts/setAdmin.js --revoke",
+    "prod:seed": "node --env-file=.env.production prisma/seed.js",
+    "prod:admin:grant": "node --env-file=.env.production scripts/setAdmin.js",
     "postinstall": "prisma generate"
   },
   "dependencies": {
