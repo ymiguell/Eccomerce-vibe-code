@@ -52,6 +52,8 @@ export function useAuth(account) {
     login: (input) => run(account.loginCustomer, input),
     register: (input) => run(account.registerCustomer, input),
     updateProfile: (input) => run(account.updateProfile, input),
+    requestPasswordReset: (input) => safely(() => account.requestPasswordReset(input)),
+    resetPassword: (input) => run(account.resetPassword, input),
     logout: async () => {
       await safely(account.logoutCustomer)
       setState({ status: 'ready', customer: null })

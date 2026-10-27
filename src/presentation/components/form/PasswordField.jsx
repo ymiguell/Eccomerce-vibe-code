@@ -40,7 +40,8 @@ function PasswordField({ form, name = 'password', label = 'Senha', autoComplete,
           spellCheck={false}
           aria-invalid={Boolean(error)}
           aria-describedby={describedBy}
-          className={`${fieldClass} pr-12`}
+          // O Edge põe um "olho" próprio no campo: escondido para não ficar dois ao lado do nosso
+          className={`${fieldClass} pr-12 [&::-ms-reveal]:hidden`}
         />
         <button
           type="button"

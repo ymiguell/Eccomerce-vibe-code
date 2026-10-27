@@ -14,6 +14,8 @@ export function loadConfig() {
     databaseUrl: required('DATABASE_URL'),
     // Na hospedagem a API fica atrás de um proxy: TRUST_PROXY=true para enxergar o IP real de cada visitante
     trustProxy: process.env.TRUST_PROXY === 'true',
+    // Endereço do site (sem / no fim): os links dos e-mails apontam para ele
+    siteUrl: (process.env.SITE_URL ?? 'http://localhost:5173').replace(/\/+$/, ''),
     corsOrigins: (process.env.CORS_ORIGINS ?? 'http://localhost:5173')
       .split(',')
       .map((origin) => origin.trim())

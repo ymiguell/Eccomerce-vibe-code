@@ -40,4 +40,9 @@ export class PrismaSessionRepository {
   async delete(token) {
     await this.#prisma.session.deleteMany({ where: { tokenHash: hashSessionToken(token) } })
   }
+
+  /** Sai de todos os aparelhos (ex.: depois de trocar a senha). */
+  async deleteAllForCustomer(customerId) {
+    await this.#prisma.session.deleteMany({ where: { customerId } })
+  }
 }

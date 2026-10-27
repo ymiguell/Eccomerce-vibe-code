@@ -35,6 +35,17 @@ export function validateLogin({ email = '', password = '' }) {
   return errors
 }
 
+/** "Esqueci minha senha": só o e-mail da conta. */
+export function validateForgotPassword({ email = '' }) {
+  return isValidEmail(email) ? {} : { email: 'Informe um e-mail válido, ex.: nome@email.com.' }
+}
+
+/** Senha nova (pelo link do e-mail): a mesma regra do cadastro. */
+export function validateNewPassword({ password = '' }) {
+  const passwordError = validatePassword(password)
+  return passwordError ? { password: passwordError } : {}
+}
+
 /** Perfil: nome obrigatório; celular é opcional, mas se vier precisa ser válido. */
 export function validateProfile({ name = '', phone = '' }) {
   const errors = {}

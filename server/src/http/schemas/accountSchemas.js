@@ -55,6 +55,20 @@ export const loginSchema = {
   response: { 200: sessionSchema, 401: errorSchema },
 }
 
+export const forgotPasswordSchema = {
+  body: { type: 'object', required: ['email'], properties: { email } },
+  response: { 422: errorSchema },
+}
+
+export const resetPasswordSchema = {
+  body: {
+    type: 'object',
+    required: ['token', 'password'],
+    properties: { token: { type: 'string', maxLength: 100 }, password },
+  },
+  response: { 200: sessionSchema, 422: errorSchema },
+}
+
 export const meSchema = {
   response: { 200: customerSchema, 401: errorSchema },
 }

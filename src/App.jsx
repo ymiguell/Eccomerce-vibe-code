@@ -31,6 +31,8 @@ import { makeLoginCustomer } from './application/useCases/loginCustomer.js'
 import { makeLogoutCustomer } from './application/useCases/logoutCustomer.js'
 import { makePlaceOrder } from './application/useCases/placeOrder.js'
 import { makeRegisterCustomer } from './application/useCases/registerCustomer.js'
+import { makeRequestPasswordReset } from './application/useCases/requestPasswordReset.js'
+import { makeResetPassword } from './application/useCases/resetPassword.js'
 import { makeSaveCart } from './application/useCases/saveCart.js'
 import { makeSubmitReview } from './application/useCases/submitReview.js'
 import { makeSubscribeToNewsletter } from './application/useCases/subscribeToNewsletter.js'
@@ -66,6 +68,7 @@ import { INFO_PAGES } from './presentation/content/infoPages.js'
 import AccountPage from './presentation/pages/AccountPage.jsx'
 import AdminPage from './presentation/pages/AdminPage.jsx'
 import CheckoutPage from './presentation/pages/CheckoutPage.jsx'
+import ForgotPasswordPage from './presentation/pages/ForgotPasswordPage.jsx'
 import HomePage from './presentation/pages/HomePage.jsx'
 import InfoPage from './presentation/pages/InfoPage.jsx'
 import LoginPage from './presentation/pages/LoginPage.jsx'
@@ -74,6 +77,7 @@ import OrderConfirmationPage from './presentation/pages/OrderConfirmationPage.js
 import OutletPage from './presentation/pages/OutletPage.jsx'
 import ProductPage from './presentation/pages/ProductPage.jsx'
 import RegisterPage from './presentation/pages/RegisterPage.jsx'
+import ResetPasswordPage from './presentation/pages/ResetPasswordPage.jsx'
 import { NICHE_PAGES } from './presentation/pages/nichePages.js'
 
 // Composição: liga a infraestrutura aos casos de uso. Fora do componente para ser estável.
@@ -113,6 +117,8 @@ const account = accountRepository && {
   getCurrentCustomer: makeGetCurrentCustomer({ accountRepository, sessionStore }),
   loginCustomer: makeLoginCustomer({ accountRepository, sessionStore }),
   registerCustomer: makeRegisterCustomer({ accountRepository, sessionStore }),
+  requestPasswordReset: makeRequestPasswordReset(accountRepository),
+  resetPassword: makeResetPassword({ accountRepository, sessionStore }),
   logoutCustomer: makeLogoutCustomer({ accountRepository, sessionStore }),
   updateProfile: makeUpdateProfile(accountRepository),
   getMyOrders: makeGetMyOrders(accountRepository),
@@ -207,6 +213,8 @@ function App() {
             <>
               <Route path="/entrar" element={<LoginPage />} />
               <Route path="/cadastro" element={<RegisterPage />} />
+              <Route path="/esqueci-a-senha" element={<ForgotPasswordPage />} />
+              <Route path="/redefinir-senha" element={<ResetPasswordPage />} />
               <Route path="/minha-conta" element={<AccountPage />} />
               <Route path="/admin/*" element={<AdminPage admin={admin} />} />
             </>

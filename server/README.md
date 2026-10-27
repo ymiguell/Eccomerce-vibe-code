@@ -25,7 +25,7 @@ Teste: abra http://localhost:3333/health → `{"status":"ok","database":"up",...
 | `npm run dev` | Sobe a API em modo desenvolvimento |
 | `npm test` | Roda os testes (não precisam do banco) |
 | `npm run db:up` / `db:down` | Liga / desliga o PostgreSQL do Docker |
-| `npm run db:migrate` | Aplica mudanças do `prisma/schema.prisma` no banco |
+| `npm run db:migrate` | Aplica mudanças do `prisma/schema.prisma` no banco (depois rode `npx prisma generate`: o Prisma 7 não atualiza o cliente sozinho) |
 | `npm run admin:grant -- email` / `admin:revoke -- email` | Dá / tira o acesso ao painel da loja (`/admin`) para uma conta já cadastrada |
 | `npm run db:seed` | Preenche/atualiza catálogo, cupons e avaliações de exemplo com `prisma/seed/*.json` (pode rodar de novo sem duplicar; volta o estoque ao valor do arquivo) |
 
@@ -60,6 +60,8 @@ test/                testes com node:test
 | POST | `/auth/register` | Cria a conta `{ name, email, password }` e já entra (201 `{ customer, token }`); 409 `email_taken` |
 | POST | `/auth/login` | Entra `{ email, password }` (200 `{ customer, token }`); 401 `invalid_credentials` |
 | POST | `/auth/logout` | Sai: apaga a sessão do token enviado (204) |
+| POST | `/auth/forgot-password` | "Esqueci minha senha" `{ email }`: manda o link se o e-mail tem conta (204 com ou sem conta) |
+| POST | `/auth/reset-password` | Senha nova pelo link `{ token, password }`: já entra (200 `{ customer, token }`); 422 `invalid_token` |
 | GET | `/me` | Conta logada; 401 `unauthorized` sem login |
 | PATCH | `/me` | Atualiza `{ name, phone }` |
 | GET | `/me/orders` | Pedidos feitos com a conta, do mais recente ao mais antigo |
@@ -95,6 +97,10 @@ test/                testes com node:test
 - Senhas guardadas com **scrypt** (nunca em texto). O banco guarda só o **hash SHA-256 do token** de sessão;
   a sessão vale 30 dias e sair a apaga.
 - Login com e-mail inexistente ou senha errada dá a mesma resposta (e leva o mesmo tempo).
+- **Esqueci minha senha:** o link vale 1 hora e uma vez só (pedir de novo invalida o anterior). Trocar a senha
+  sai da conta em todos os aparelhos. A resposta é a mesma com ou sem conta, para não revelar quem é cliente.
+- **E-mails:** enquanto a loja não tem serviço de e-mail, eles aparecem no terminal do `npm run dev`
+  (com o link de nova senha). `SITE_URL` no `.env` define o endereço do site usado nos links.
 - Pedidos feitos sem login **não** são ligados à conta pelo e-mail: sem confirmação de e-mail, alguém poderia
   criar conta com o e-mail de outra pessoa e ver os pedidos dela.
 

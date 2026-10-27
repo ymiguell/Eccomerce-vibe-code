@@ -62,7 +62,19 @@ function LoginPage() {
           autoCapitalize="none"
           spellCheck={false}
         />
-        <PasswordField form={form} autoComplete="current-password" />
+        <div>
+          <PasswordField form={form} autoComplete="current-password" />
+          {/* Leva o e-mail já digitado para não precisar digitar de novo */}
+          <div className="flex justify-end">
+            <Link
+              to="/esqueci-a-senha"
+              state={{ email: form.values.email }}
+              className="inline-flex min-h-11 items-center text-sm font-medium text-muted-foreground underline underline-offset-4 transition-colors duration-200 hover:text-foreground"
+            >
+              Esqueci minha senha
+            </Link>
+          </div>
+        </div>
 
         {error && (
           <p role="alert" className="rounded-sm border border-primary bg-primary/5 p-3 text-sm font-medium text-primary">

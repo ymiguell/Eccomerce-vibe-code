@@ -26,6 +26,12 @@ export class PrismaCustomerRepository {
     return { customer: toCustomer(customer), passwordHash }
   }
 
+  /** Conta do e-mail (sem o hash da senha), ou null. */
+  async findByEmail(email) {
+    const row = await this.#prisma.customer.findUnique({ where: { email }, select: PUBLIC_FIELDS })
+    return row && toCustomer(row)
+  }
+
   async create({ name, email, phone = '', passwordHash }) {
     const row = await this.#prisma.customer.create({
       data: { name, email, phone, passwordHash },
@@ -36,6 +42,11 @@ export class PrismaCustomerRepository {
 
   async update(id, { name, phone }) {
     const row = await this.#prisma.customer.update({ where: { id }, data: { name, phone }, select: PUBLIC_FIELDS })
+    return toCustomer(row)
+  }
+
+  async updatePassword(id, passwordHash) {
+    const row = await this.#prisma.customer.update({ where: { id }, data: { passwordHash }, select: PUBLIC_FIELDS })
     return toCustomer(row)
   }
 

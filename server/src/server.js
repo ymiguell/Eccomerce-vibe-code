@@ -21,6 +21,8 @@ import { makeLoginCustomer } from './application/useCases/loginCustomer.js'
 import { makeLogoutCustomer } from './application/useCases/logoutCustomer.js'
 import { makePlaceOrder } from './application/useCases/placeOrder.js'
 import { makeRegisterCustomer } from './application/useCases/registerCustomer.js'
+import { makeRequestPasswordReset } from './application/useCases/requestPasswordReset.js'
+import { makeResetPassword } from './application/useCases/resetPassword.js'
 import { makeSubmitReview } from './application/useCases/submitReview.js'
 import { makeSubscribeToNewsletter } from './application/useCases/subscribeToNewsletter.js'
 import { makeUpdateProfile } from './application/useCases/updateProfile.js'
@@ -28,12 +30,14 @@ import { loadConfig } from './config/env.js'
 import { buildApp } from './http/app.js'
 import { PrismaDatabaseStatus } from './infrastructure/database/PrismaDatabaseStatus.js'
 import { createPrismaClient } from './infrastructure/database/prismaClient.js'
+import { ConsoleEmailSender } from './infrastructure/email/ConsoleEmailSender.js'
 import { PrismaBannerRepository } from './infrastructure/repositories/PrismaBannerRepository.js'
 import { PrismaCouponRepository } from './infrastructure/repositories/PrismaCouponRepository.js'
 import { PrismaCustomerRepository } from './infrastructure/repositories/PrismaCustomerRepository.js'
 import { PrismaNewsletterRepository } from './infrastructure/repositories/PrismaNewsletterRepository.js'
 import { PrismaOrderRepository } from './infrastructure/repositories/PrismaOrderRepository.js'
 import { PrismaProductRepository } from './infrastructure/repositories/PrismaProductRepository.js'
+import { PrismaPasswordResetRepository } from './infrastructure/repositories/PrismaPasswordResetRepository.js'
 import { PrismaReviewRepository } from './infrastructure/repositories/PrismaReviewRepository.js'
 import { PrismaSessionRepository } from './infrastructure/repositories/PrismaSessionRepository.js'
 import { ScryptPasswordHasher } from './infrastructure/security/ScryptPasswordHasher.js'
@@ -50,7 +54,10 @@ const accounts = {
   customerRepository: new PrismaCustomerRepository(prisma),
   sessionRepository: new PrismaSessionRepository(prisma),
   passwordHasher: new ScryptPasswordHasher(),
+  passwordResetRepository: new PrismaPasswordResetRepository(prisma),
 }
+// Até a loja ter um serviço de e-mail, os e-mails aparecem no terminal
+const emailSender = new ConsoleEmailSender()
 
 const useCases = {
   checkHealth: makeCheckHealth(new PrismaDatabaseStatus(prisma)),
@@ -70,6 +77,8 @@ const useCases = {
   registerCustomer: makeRegisterCustomer(accounts),
   loginCustomer: makeLoginCustomer(accounts),
   logoutCustomer: makeLogoutCustomer(accounts.sessionRepository),
+  requestPasswordReset: makeRequestPasswordReset({ ...accounts, emailSender, siteUrl: config.siteUrl }),
+  resetPassword: makeResetPassword(accounts),
   updateProfile: makeUpdateProfile(accounts.customerRepository),
   listCustomerOrders: makeListCustomerOrders(orderRepository),
   // Painel da loja (/admin): só contas da equipe

@@ -4,6 +4,7 @@ const messages = {
   email_taken: 'Já existe uma conta com este e-mail. Tente entrar.',
   too_many_requests: 'Muitas tentativas seguidas. Aguarde um minuto e tente de novo.',
   network_error: 'Não conseguimos falar com o servidor. Confira sua conexão e tente de novo.',
+  invalid_token: 'Este link venceu ou já foi usado. Peça um novo para trocar a senha.',
   unauthorized: 'Sua sessão terminou. Entre de novo para continuar.',
 }
 

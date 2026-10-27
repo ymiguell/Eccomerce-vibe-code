@@ -38,6 +38,25 @@ export class HttpAccountRepository {
     await this.#api.post('/auth/logout')
   }
 
+  /** "Esqueci minha senha": { sent: true } — a API responde igual com ou sem conta — ou { error, fields? }. */
+  async requestPasswordReset({ email }) {
+    try {
+      await this.#api.post('/auth/forgot-password', { email })
+      return { sent: true }
+    } catch (error) {
+      return toFailure(error)
+    }
+  }
+
+  /** Senha nova pelo link do e-mail: { customer, token } ou { error } (ex.: invalid_token). */
+  async resetPassword({ token, password }) {
+    try {
+      return await this.#api.post('/auth/reset-password', { token, password })
+    } catch (error) {
+      return toFailure(error)
+    }
+  }
+
   /** Conta do token atual, ou null se a sessão venceu ou foi encerrada. */
   async getMe() {
     try {

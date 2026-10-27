@@ -5,6 +5,8 @@ import { makeListCustomerOrders } from '../src/application/useCases/listCustomer
 import { makeLoginCustomer } from '../src/application/useCases/loginCustomer.js'
 import { makeLogoutCustomer } from '../src/application/useCases/logoutCustomer.js'
 import { makeRegisterCustomer } from '../src/application/useCases/registerCustomer.js'
+import { makeRequestPasswordReset } from '../src/application/useCases/requestPasswordReset.js'
+import { makeResetPassword } from '../src/application/useCases/resetPassword.js'
 import { makeUpdateProfile } from '../src/application/useCases/updateProfile.js'
 import { buildApp } from '../src/http/app.js'
 import { ScryptPasswordHasher } from '../src/infrastructure/security/ScryptPasswordHasher.js'
@@ -15,11 +17,17 @@ let customers
 let sessions
 let orders
 let placedWith
+let resets
+let sentEmails
 
 const publicData = ({ passwordHash: _passwordHash, ...customer }) => customer
 
 const customerRepository = {
   emailExists: async (email) => customers.some((customer) => customer.email === email),
+  findByEmail: async (email) => {
+    const found = customers.find((customer) => customer.email === email)
+    return found ? publicData(found) : null
+  },
   findCredentialsByEmail: async (email) => {
     const found = customers.find((customer) => customer.email === email)
     return found ? { customer: publicData(found), passwordHash: found.passwordHash } : null
@@ -34,6 +42,11 @@ const customerRepository = {
     Object.assign(customer, data)
     return publicData(customer)
   },
+  updatePassword: async (id, passwordHash) => {
+    const customer = customers.find((item) => item.id === id)
+    customer.passwordHash = passwordHash
+    return publicData(customer)
+  },
 }
 const sessionRepository = {
   create: async (customerId) => {
@@ -46,9 +59,28 @@ const sessionRepository = {
     return customer ? publicData(customer) : null
   },
   delete: async (token) => sessions.delete(token),
+  deleteAllForCustomer: async (customerId) => {
+    for (const [token, owner] of sessions) if (owner === customerId) sessions.delete(token)
+  },
 }
+// Links de nova senha: token → { customerId, expiresAt }
+const passwordResetRepository = {
+  create: async (customerId) => {
+    for (const [token, reset] of resets) if (reset.customerId === customerId) resets.delete(token)
+    const token = generateSessionToken()
+    resets.set(token, { customerId, expiresAt: Date.now() + 60 * 60 * 1000 })
+    return token
+  },
+  consume: async (token) => {
+    const reset = resets.get(token)
+    resets.delete(token)
+    return reset && reset.expiresAt > Date.now() ? reset.customerId : null
+  },
+}
+// E-mails "enviados" ficam guardados para o teste ler o link
+const emailSender = { send: async (email) => sentEmails.push(email) }
 const passwordHasher = new ScryptPasswordHasher()
-const accounts = { customerRepository, sessionRepository, passwordHasher }
+const accounts = { customerRepository, sessionRepository, passwordHasher, passwordResetRepository }
 
 const app = await buildApp({
   corsOrigins: [],
@@ -60,6 +92,8 @@ const app = await buildApp({
     registerCustomer: makeRegisterCustomer(accounts),
     loginCustomer: makeLoginCustomer(accounts),
     logoutCustomer: makeLogoutCustomer(sessionRepository),
+    requestPasswordReset: makeRequestPasswordReset({ ...accounts, emailSender, siteUrl: 'https://loja.exemplo' }),
+    resetPassword: makeResetPassword(accounts),
     updateProfile: makeUpdateProfile(customerRepository),
     listCustomerOrders: makeListCustomerOrders({
       findByCustomer: async (customerId) => orders.filter((order) => order.customerId === customerId),
@@ -77,6 +111,8 @@ beforeEach(() => {
   sessions = new Map()
   orders = []
   placedWith = undefined
+  resets = new Map()
+  sentEmails = []
 })
 
 const call = async (method, url, { payload, token } = {}) => {
@@ -189,4 +225,62 @@ test('a senha protegida confere só com a senha certa', async () => {
   assert.equal(await passwordHasher.verify('senhaforte1', stored), true)
   assert.equal(await passwordHasher.verify('senhaforte2', stored), false)
   assert.notEqual(stored, await passwordHasher.hash('senhaforte1'), 'cada hash usa um sal diferente')
+})
+
+// "Esqueci minha senha"
+const forgot = (email) => call('POST', '/auth/forgot-password', { payload: { email } })
+const tokenFromEmail = (email) => new URL(email.text.match(/https:\/\/\S+/)[0]).searchParams.get('token')
+const resetTo = (token, password) => call('POST', '/auth/reset-password', { payload: { token, password } })
+
+test('esqueci minha senha: mesma resposta com ou sem conta; e-mail só para quem tem conta', async () => {
+  await register()
+
+  const known = await forgot(' ANA@exemplo.com ')
+  const unknown = await forgot('bia@exemplo.com')
+  assert.equal(known.status, 204)
+  assert.equal(unknown.status, 204)
+
+  await new Promise((resolve) => setImmediate(resolve)) // o envio não é esperado pela resposta
+  assert.equal(sentEmails.length, 1)
+  assert.equal(sentEmails[0].to, 'ana@exemplo.com')
+  assert.match(sentEmails[0].text, /https:\/\/loja\.exemplo\/redefinir-senha\?token=/)
+
+  assert.equal((await forgot('ana@')).status, 422)
+})
+
+test('nova senha pelo link: entra, sai dos outros aparelhos e o link vale uma vez só', async () => {
+  const oldSession = (await register()).body.token
+  await forgot('ana@exemplo.com')
+  await new Promise((resolve) => setImmediate(resolve))
+  const token = tokenFromEmail(sentEmails[0])
+
+  const weak = await resetTo(token, 'curta')
+  assert.equal(weak.status, 422)
+  assert.ok(weak.body.fields.password, 'senha fraca é recusada sem gastar o link')
+
+  const done = await resetTo(token, 'novasenha2')
+  assert.equal(done.status, 200)
+  assert.equal(done.body.customer.email, 'ana@exemplo.com')
+  assert.equal((await call('GET', '/me', { token: done.body.token })).status, 200)
+  assert.equal((await call('GET', '/me', { token: oldSession })).status, 401)
+
+  const login = (password) => call('POST', '/auth/login', { payload: { email: 'ana@exemplo.com', password } })
+  assert.equal((await login('senhaforte1')).status, 401)
+  assert.equal((await login('novasenha2')).status, 200)
+
+  const reused = await resetTo(token, 'outrasenha3')
+  assert.equal(reused.status, 422)
+  assert.equal(reused.body.error, 'invalid_token')
+})
+
+test('pedir o link de novo invalida o anterior; link inventado não vale', async () => {
+  await register()
+  await forgot('ana@exemplo.com')
+  await forgot('ana@exemplo.com')
+  await new Promise((resolve) => setImmediate(resolve))
+  const [first, second] = sentEmails.map(tokenFromEmail)
+
+  assert.equal((await resetTo(first, 'novasenha2')).body.error, 'invalid_token')
+  assert.equal((await resetTo('token-inventado', 'novasenha2')).body.error, 'invalid_token')
+  assert.equal((await resetTo(second, 'novasenha2')).status, 200)
 })

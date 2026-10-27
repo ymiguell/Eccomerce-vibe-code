@@ -71,6 +71,8 @@ export async function buildApp({ corsOrigins, useCases, logger = true, trustProx
     registerCustomer: useCases.registerCustomer,
     loginCustomer: useCases.loginCustomer,
     logoutCustomer: useCases.logoutCustomer,
+    requestPasswordReset: useCases.requestPasswordReset,
+    resetPassword: useCases.resetPassword,
     updateProfile: useCases.updateProfile,
     listCustomerOrders: useCases.listCustomerOrders,
   })
