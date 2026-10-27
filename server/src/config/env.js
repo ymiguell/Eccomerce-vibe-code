@@ -29,6 +29,8 @@ export function loadConfig() {
     // Frete pelo Melhor Envio (hospedagem). Sem o token, vale a tabela da loja (taxa fixa por região)
     melhorEnvioToken: process.env.MELHOR_ENVIO_TOKEN || null,
     melhorEnvioSandbox: process.env.MELHOR_ENVIO_SANDBOX === 'true',
+    // Ids dos serviços oferecidos, separados por vírgula (vazio = os padrões do MelhorEnvioShippingQuoter)
+    melhorEnvioServices: process.env.MELHOR_ENVIO_SERVICES?.split(',').map((id) => id.trim()).filter(Boolean) || null,
     // CEP de onde a loja posta os pacotes (só números)
     storeCep: (process.env.STORE_CEP ?? '13844110').replace(/\D/g, ''),
     // Endereço do site (sem / no fim): os links dos e-mails apontam para ele

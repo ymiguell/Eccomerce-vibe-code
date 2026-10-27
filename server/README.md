@@ -107,7 +107,8 @@ test/                testes com node:test
 - **Esqueci minha senha:** o link vale 1 hora e uma vez só (pedir de novo invalida o anterior). Trocar a senha
   sai da conta em todos os aparelhos. A resposta é a mesma com ou sem conta, para não revelar quem é cliente.
 - **Frete:** com `MELHOR_ENVIO_TOKEN` definido (hospedagem), cotado no Melhor Envio a partir de `STORE_CEP`, com caixa e peso por
-  categoria (`src/domain/services/packages.js`); sem ele, tabela da loja (R$ 19,90, prazo por região). A partir de R$ 199 a opção
+  categoria (`src/domain/services/packages.js`), só nos serviços de `MELHOR_ENVIO_SERVICES` (padrão: Correios, Jadlog e J&T) e com
+  no máximo 4 opções (sempre a mais barata e a mais rápida); sem ele, tabela da loja (R$ 19,90, prazo por região). A partir de R$ 199 a opção
   mais barata sai grátis. O pedido manda `shippingOptionId`: o servidor cota de novo e responde 409 `shipping_option_not_found` se ela sumiu.
 - **E-mails:** com `BREVO_API_KEY` definida (hospedagem), saem pelo Brevo em nome de `EMAIL_FROM`; sem ela,
   aparecem no terminal do `npm run dev` (com o link de nova senha). `SITE_URL` no `.env` define o endereço do site usado nos links.

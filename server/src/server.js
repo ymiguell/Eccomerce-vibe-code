@@ -78,6 +78,7 @@ const shippingQuoter = config.melhorEnvioToken
       token: config.melhorEnvioToken,
       fromCep: config.storeCep,
       sandbox: config.melhorEnvioSandbox,
+      ...(config.melhorEnvioServices?.length && { services: config.melhorEnvioServices }),
       contactEmail: config.emailFrom.email,
     })
   : new TableShippingQuoter()

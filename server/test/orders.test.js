@@ -265,3 +265,21 @@ test('cotação recusa CEP inválido e produto inexistente', async () => {
   const missing = await quote({ cep: '01310-100', items: [{ productId: 'nao-existe', quantity: 1 }] })
   assert.equal(missing.body.error, 'product_not_found')
 })
+
+test('mostra no máximo 4 opções: a mais barata, a mais rápida e as outras mais baratas', async () => {
+  shippingQuoter = {
+    quote: async () => [
+      { id: 'a', name: 'A', company: '', price: 10, minDays: 5, maxDays: 9 },
+      { id: 'b', name: 'B', company: '', price: 12, minDays: 4, maxDays: 8 },
+      { id: 'c', name: 'C', company: '', price: 13, minDays: 4, maxDays: 8 },
+      { id: 'd', name: 'D', company: '', price: 14, minDays: 3, maxDays: 7 },
+      { id: 'e', name: 'E', company: '', price: 15, minDays: 3, maxDays: 7 },
+      { id: 'rapida', name: 'Rápida', company: '', price: 40, minDays: 1, maxDays: 2 },
+    ],
+  }
+  const { body } = await quote({ cep: '01310-100', items: [{ productId: 'fritadeira', quantity: 1 }] })
+  assert.deepEqual(
+    body.options.map((option) => option.id),
+    ['a', 'b', 'c', 'rapida'],
+  )
+})

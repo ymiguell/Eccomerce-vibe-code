@@ -65,9 +65,28 @@ export function tableShippingOption(cep) {
   })
 }
 
+// Quantas opções de frete o cliente vê no máximo (lista curta no celular)
+export const MAX_SHIPPING_OPTIONS = 4
+
+const byPrice = (a, b) => a.price - b.price || a.maxDays - b.maxDays
+const bySpeed = (a, b) => a.maxDays - b.maxDays || a.price - b.price
+
+/** Escolhe até `max` opções: sempre a mais barata e a mais rápida; o resto, as mais baratas. */
+export function limitShippingOptions(options, max = MAX_SHIPPING_OPTIONS) {
+  if (options.length <= max) return options
+  const cheapest = [...options].sort(byPrice)
+  const fastest = [...options].sort(bySpeed)[0]
+  const picked = new Set([cheapest[0], fastest])
+  for (const option of cheapest) {
+    if (picked.size >= max) break
+    picked.add(option)
+  }
+  return [...picked]
+}
+
 /** Ordena da mais barata para a mais cara. Com frete grátis, a mais barata sai de graça (as outras seguem pagas). */
 export function applyFreeShipping(options, subtotal) {
-  const sorted = [...options].sort((a, b) => a.price - b.price || a.maxDays - b.maxDays)
+  const sorted = [...options].sort(byPrice)
   const free = hasFreeShipping(subtotal)
   return sorted.map((option, index) => Object.freeze({ ...option, price: free && index === 0 ? 0 : option.price }))
 }

@@ -1,9 +1,10 @@
 import { MAX_QUANTITY, calculateSubtotal } from '../../domain/entities/Cart.js'
-import { applyFreeShipping, isValidCep, normalizeCep } from '../../domain/services/shipping.js'
+import { applyFreeShipping, isValidCep, limitShippingOptions, normalizeCep } from '../../domain/services/shipping.js'
 
 /**
  * Opções de frete para um CEP e uma lista de { product, quantity } já carregados do banco.
  * Usado pela cotação (página do produto e checkout) e de novo ao gravar o pedido, para o preço valer o de agora.
+ * No máximo MAX_SHIPPING_OPTIONS opções (sempre com a mais barata e a mais rápida).
  * Retorna { options } ou { error: 'shipping_unavailable' } (transportadora fora do ar ou nenhuma atende o CEP).
  */
 export async function quoteOptions(shippingQuoter, cep, items) {
@@ -15,7 +16,7 @@ export async function quoteOptions(shippingQuoter, cep, items) {
     return { error: 'shipping_unavailable' }
   }
   if (options.length === 0) return { error: 'shipping_unavailable' }
-  return { options: applyFreeShipping(options, calculateSubtotal(items)) }
+  return { options: applyFreeShipping(limitShippingOptions(options), calculateSubtotal(items)) }
 }
 
 /**

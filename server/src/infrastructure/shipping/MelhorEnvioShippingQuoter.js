@@ -1,6 +1,9 @@
 import { packageFor } from '../../domain/services/packages.js'
 import { POSTING_DAYS } from '../../domain/services/shipping.js'
 
+// Serviços que a loja oferece (ids do Melhor Envio): Correios PAC e SEDEX, Jadlog .Package e .Com, J&T Standard
+export const DEFAULT_SERVICES = Object.freeze(['1', '2', '3', '4', '33'])
+
 const BASE_URLS = {
   production: 'https://melhorenvio.com.br',
   sandbox: 'https://sandbox.melhorenvio.com.br',
@@ -13,6 +16,7 @@ const BASE_URLS = {
  * - `fromCep`: CEP de onde a loja posta os pacotes.
  * - `sandbox`: true usa o ambiente de testes do Melhor Envio (conta e token próprios de lá).
  * - `contactEmail`: o Melhor Envio pede um e-mail de contato no User-Agent de cada chamada.
+ * - `services`: ids dos serviços de frete que a loja aceita postar (os outros nem são cotados).
  * - `fetch`: substituível nos testes.
  */
 export class MelhorEnvioShippingQuoter {
@@ -20,15 +24,17 @@ export class MelhorEnvioShippingQuoter {
   #fromCep
   #baseUrl
   #userAgent
+  #services
   #fetch
 
-  constructor({ token, fromCep, sandbox = false, contactEmail, fetch = globalThis.fetch }) {
+  constructor({ token, fromCep, sandbox = false, contactEmail, services = DEFAULT_SERVICES, fetch = globalThis.fetch }) {
     if (!token) throw new Error('MELHOR_ENVIO_TOKEN não definido')
     if (!/^\d{8}$/.test(fromCep ?? '')) throw new Error('STORE_CEP inválido: use os 8 números do CEP de postagem')
     this.#token = token
     this.#fromCep = fromCep
     this.#baseUrl = sandbox ? BASE_URLS.sandbox : BASE_URLS.production
     this.#userAgent = `Montreal Moda e Casa (${contactEmail})`
+    this.#services = services
     this.#fetch = fetch
   }
 
@@ -53,6 +59,7 @@ export class MelhorEnvioShippingQuoter {
           quantity,
         })),
         options: { receipt: false, own_hand: false },
+        services: this.#services.join(','),
       }),
       signal: AbortSignal.timeout(15_000),
     })

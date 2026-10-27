@@ -32,6 +32,7 @@ test('cota com o token, o CEP da loja e a caixa da categoria; ignora serviços c
   assert.match(sent.options.headers['user-agent'], /loja@exemplo\.com/)
   const body = JSON.parse(sent.options.body)
   assert.deepEqual(body.from, { postal_code: '13844110' })
+  assert.equal(body.services, '1,2,3,4,33', 'só os serviços que a loja posta')
   assert.deepEqual(body.products, [
     { id: 'camiseta', weight: 0.25, height: 4, width: 20, length: 28, insurance_value: 59.9, quantity: 2 },
   ])
