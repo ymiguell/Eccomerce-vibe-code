@@ -1,12 +1,12 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { BRAZILIAN_STATES, validateAddress } from '../../../domain/entities/Address.js'
 import { isValidCep, normalizeCep } from '../../../domain/services/shipping.js'
-import { formatPrice } from '../../formatters/currency.js'
 import { formatCep } from '../../formatters/masks.js'
-import { formatDeliveryWindow } from '../../formatters/order.js'
+import { formatShippingError } from '../../formatters/shippingErrors.js'
 import { useForm } from '../../hooks/useForm.js'
 import FormField from '../form/FormField.jsx'
 import { primaryButtonClass } from '../form/formStyles.js'
+import ShippingOptions from './ShippingOptions.jsx'
 
 const EMPTY_ADDRESS = { cep: '', street: '', number: '', complement: '', neighborhood: '', city: '', state: '' }
 
@@ -16,33 +16,66 @@ const lookupMessages = {
   unavailable: 'Não conseguimos buscar o endereço agora. Preencha os campos abaixo.',
 }
 
+const IDLE_QUOTE = { status: 'idle', options: null, error: null }
+
 /**
- * Etapa 2 do checkout: endereço de entrega.
- * Ao completar o CEP, preenche rua, bairro, cidade e estado (findAddressByCep) e mostra prazo e frete.
+ * Etapa 2 do checkout: endereço de entrega e escolha do frete.
+ * Ao completar o CEP, preenche rua, bairro, cidade e estado (findAddressByCep) e cota o frete da sacola (quoteShipping).
+ * `initialQuote`: { options, optionId } já escolhidos, ao voltar para esta etapa.
+ * `onSubmit(address, shipping, options)`: `shipping` é a opção escolhida.
  */
-function AddressForm({ initialValues = EMPTY_ADDRESS, initialEstimate = null, subtotal, findAddressByCep, estimateShipping, onSubmit }) {
+function AddressForm({ initialValues = EMPTY_ADDRESS, initialQuote = null, items, findAddressByCep, quoteShipping, onSubmit }) {
   const form = useForm(initialValues, validateAddress)
   const [lookupStatus, setLookupStatus] = useState('idle') // idle | loading | found | not_found | unavailable
-  const [estimate, setEstimate] = useState(initialEstimate)
+  const [quote, setQuote] = useState(initialQuote ? { status: 'done', options: initialQuote.options, error: null } : IDLE_QUOTE)
+  const [selectedId, setSelectedId] = useState(initialQuote?.optionId ?? null)
+  const [missingShipping, setMissingShipping] = useState(false)
   // Último CEP buscado: se a pessoa trocar o CEP antes da resposta, a resposta antiga é ignorada
   const latestCep = useRef(normalizeCep(initialValues.cep))
+
+  const runQuote = async (cep) => {
+    setQuote({ status: 'loading', options: null, error: null })
+    let result
+    try {
+      result = await quoteShipping(cep, items)
+    } catch (error) {
+      console.error('Falha ao calcular o frete:', error)
+      result = { error: 'shipping_unavailable' }
+    }
+    if (latestCep.current !== cep) return
+
+    if (result.options) {
+      setQuote({ status: 'done', options: result.options, error: null })
+      // Mantém a escolha se ela ainda existe; senão, já deixa marcada a mais barata
+      setSelectedId((current) => (result.options.some((option) => option.id === current) ? current : result.options[0].id))
+    } else {
+      setQuote({ status: 'error', options: null, error: result.error })
+    }
+  }
+
+  // Endereço já preenchido (última compra ou volta para esta etapa): cota o frete ao abrir
+  useEffect(() => {
+    if (!initialQuote && isValidCep(initialValues.cep)) runQuote(normalizeCep(initialValues.cep))
+    // Só ao abrir a etapa
+  }, [])
 
   const handleCepChange = async (value) => {
     const cep = normalizeCep(value)
     if (cep === latestCep.current) return
     latestCep.current = cep
+    setMissingShipping(false)
 
     if (!isValidCep(cep)) {
       setLookupStatus('idle')
-      setEstimate(null)
+      setQuote(IDLE_QUOTE)
       return
     }
 
     setLookupStatus('loading')
-    const [lookup, shipping] = await Promise.all([findAddressByCep(cep), estimateShipping(cep, subtotal)])
+    runQuote(cep)
+    const lookup = await findAddressByCep(cep)
     if (latestCep.current !== cep) return
 
-    setEstimate(shipping.estimate ?? null)
     if (lookup.address) {
       // Só o que o serviço trouxe: CEP de cidade inteira vem sem rua e bairro
       form.fill(Object.fromEntries(Object.entries(lookup.address).filter(([, text]) => text)))
@@ -52,25 +85,18 @@ function AddressForm({ initialValues = EMPTY_ADDRESS, initialEstimate = null, su
     }
   }
 
-  const cepHint = (
-    <>
-      {lookupMessages[lookupStatus] && <p>{lookupMessages[lookupStatus]}</p>}
-      {estimate && (
-        <p className="mt-2 flex items-center justify-between gap-3 rounded-sm bg-muted px-3 py-2.5 text-foreground">
-          <span>
-            <span className="font-semibold">Entrega padrão</span>
-            <span className="block text-xs text-muted-foreground">Chega em {formatDeliveryWindow(estimate)}</span>
-          </span>
-          <span className={`shrink-0 font-semibold ${estimate.fee === 0 ? 'text-primary' : ''}`}>
-            {estimate.fee === 0 ? 'Frete grátis' : formatPrice(estimate.fee)}
-          </span>
-        </p>
-      )}
-    </>
-  )
+  const selected = quote.options?.find((option) => option.id === selectedId) ?? null
+
+  const handleSubmit = (values) => {
+    if (!selected) {
+      setMissingShipping(true)
+      return
+    }
+    onSubmit(values, selected, quote.options)
+  }
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} noValidate className="grid grid-cols-6 gap-4">
+    <form onSubmit={form.handleSubmit(handleSubmit)} noValidate className="grid grid-cols-6 gap-4">
       <div className="col-span-6 sm:col-span-3">
         <FormField
           form={form}
@@ -82,7 +108,7 @@ function AddressForm({ initialValues = EMPTY_ADDRESS, initialEstimate = null, su
           maxLength={9}
           format={formatCep}
           onValueChange={handleCepChange}
-          hint={cepHint}
+          hint={lookupMessages[lookupStatus]}
         />
         <a
           href="https://buscacepinter.correios.com.br/app/endereco/index.php"
@@ -116,8 +142,46 @@ function AddressForm({ initialValues = EMPTY_ADDRESS, initialEstimate = null, su
         ))}
       </FormField>
 
+      <fieldset className="col-span-6" aria-describedby={missingShipping ? 'frete-erro' : undefined}>
+        <legend className="text-sm font-medium">Frete</legend>
+        <div aria-live="polite" className="mt-2 text-sm">
+          {quote.status === 'idle' && <p className="text-muted-foreground">Digite o CEP para ver as opções de entrega.</p>}
+          {quote.status === 'loading' && <p className="text-muted-foreground">Calculando o frete…</p>}
+          {quote.status === 'error' && (
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+              <p className="font-medium text-primary">{formatShippingError(quote.error)}</p>
+              {quote.error !== 'invalid_cep' && (
+                <button
+                  type="button"
+                  onClick={() => runQuote(latestCep.current)}
+                  className="inline-flex min-h-11 items-center font-semibold underline underline-offset-4 hover:text-primary"
+                >
+                  Tentar de novo
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+        {quote.status === 'done' && (
+          <ShippingOptions
+            name="frete"
+            options={quote.options}
+            selectedId={selectedId}
+            onSelect={(option) => {
+              setSelectedId(option.id)
+              setMissingShipping(false)
+            }}
+          />
+        )}
+        {missingShipping && (
+          <p id="frete-erro" className="mt-2 text-sm font-medium text-primary">
+            Escolha uma opção de frete para continuar.
+          </p>
+        )}
+      </fieldset>
+
       <div className="col-span-6">
-        <button type="submit" disabled={lookupStatus === 'loading'} className={primaryButtonClass}>
+        <button type="submit" disabled={lookupStatus === 'loading' || quote.status === 'loading'} className={primaryButtonClass}>
           Ir para o pagamento
         </button>
       </div>

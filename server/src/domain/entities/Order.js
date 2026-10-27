@@ -47,8 +47,8 @@ export class OutOfStockError extends Error {
 }
 
 /** Valores do pedido: os da sacola + 5% de desconto no Pix (sobre os produtos, já com o cupom). */
-export function calculateOrderTotals(items, coupon = null, payment = null) {
-  const totals = calculateTotals(items, coupon)
+export function calculateOrderTotals(items, coupon = null, payment = null, shipping = 0) {
+  const totals = calculateTotals(items, coupon, shipping)
 
   const productsValue = roundMoney(totals.subtotal - totals.discount)
   const pixDiscount =
@@ -63,11 +63,12 @@ export function calculateOrderTotals(items, coupon = null, payment = null) {
 /**
  * Monta o pedido pronto para gravar (o número e a data vêm do banco).
  * Cada item guarda nome, foto e preço do momento da compra: se o produto mudar depois, o pedido não muda.
+ * `shipping` é a opção de frete escolhida (ver applyFreeShipping): dá o valor do frete, o prazo e o serviço.
  */
-export function buildOrder({ customerId = null, items, coupon = null, customer, address, payment, delivery }) {
+export function buildOrder({ customerId = null, items, coupon = null, customer, address, payment, shipping }) {
   if (items.length === 0) throw new Error('Pedido sem itens')
 
-  const totals = calculateOrderTotals(items, coupon, payment)
+  const totals = calculateOrderTotals(items, coupon, payment, shipping.price)
   const installments = payment.method === PAYMENT_METHODS.CREDIT_CARD ? payment.installments : 1
 
   return Object.freeze({
@@ -81,7 +82,12 @@ export function buildOrder({ customerId = null, items, coupon = null, customer, 
       installments,
       installmentValue: roundMoney(totals.total / installments),
     }),
-    delivery: Object.freeze({ minDays: delivery.minDays, maxDays: delivery.maxDays }),
+    delivery: Object.freeze({
+      minDays: shipping.minDays,
+      maxDays: shipping.maxDays,
+      // Ex.: "Correios PAC": a equipe compra a etiqueta deste serviço
+      service: [shipping.company, shipping.name].filter(Boolean).join(' '),
+    }),
     totals: Object.freeze(totals),
     items: items.map((item) =>
       Object.freeze({

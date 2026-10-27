@@ -1,4 +1,5 @@
 import { PAYMENT_METHODS, getInstallments, getPixPrice } from '../services/payment.js'
+import { shippingServiceName } from '../services/shipping.js'
 import { createAddress } from './Address.js'
 import { calculateTotals } from './Cart.js'
 import { roundMoney } from './Coupon.js'
@@ -6,10 +7,11 @@ import { createCustomer } from './Customer.js'
 
 /**
  * Valores do pedido: os mesmos da sacola + 5% de desconto no Pix (sobre os produtos, já com o cupom).
- * `payment` pode ser null enquanto o cliente ainda não escolheu como pagar.
+ * `payment` pode ser null enquanto o cliente ainda não escolheu como pagar;
+ * `shipping` é o preço do frete escolhido (null antes de escolher, ver calculateTotals).
  */
-export function calculateOrderTotals(items, coupon = null, payment = null) {
-  const totals = calculateTotals(items, coupon)
+export function calculateOrderTotals(items, coupon = null, payment = null, shipping = null) {
+  const totals = calculateTotals(items, coupon, shipping)
 
   const productsValue = roundMoney(totals.subtotal - totals.discount)
   const pixDiscount =
@@ -23,14 +25,14 @@ export function calculateOrderTotals(items, coupon = null, payment = null) {
 
 /**
  * Pedido finalizado: o que foi comprado, por quem, para onde, como foi pago e quanto custou.
- * `delivery` é o prazo estimado ({ minDays, maxDays }, ver estimateShipping).
+ * `shipping` é a opção de frete escolhida ({ id, name, company, price, minDays, maxDays }).
  */
-export function createOrder({ id, number, createdAt, items, coupon = null, customer, address, payment, delivery }) {
-  if (!id || !number || !createdAt || items.length === 0 || !delivery) {
-    throw new Error('Pedido inválido: id, número, data, itens e prazo de entrega são obrigatórios')
+export function createOrder({ id, number, createdAt, items, coupon = null, customer, address, payment, shipping }) {
+  if (!id || !number || !createdAt || items.length === 0 || !shipping) {
+    throw new Error('Pedido inválido: id, número, data, itens e frete são obrigatórios')
   }
 
-  const totals = calculateOrderTotals(items, coupon, payment)
+  const totals = calculateOrderTotals(items, coupon, payment, shipping.price)
   const installments = payment.method === PAYMENT_METHODS.CREDIT_CARD ? payment.installments : 1
 
   return Object.freeze({
@@ -46,7 +48,7 @@ export function createOrder({ id, number, createdAt, items, coupon = null, custo
       installments,
       installmentValue: roundMoney(totals.total / installments),
     }),
-    delivery: Object.freeze({ minDays: delivery.minDays, maxDays: delivery.maxDays }),
+    delivery: Object.freeze({ minDays: shipping.minDays, maxDays: shipping.maxDays, service: shippingServiceName(shipping) }),
     totals: Object.freeze(totals),
   })
 }

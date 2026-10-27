@@ -52,6 +52,7 @@ test/                testes com node:test
 | GET | `/products/:id` | Um produto; 404 `product_not_found` se não existir |
 | GET | `/banners?placement=home` | Banners da página (home, moda, casa, tecnologia, saude, outlet) + os de todas as páginas |
 | GET | `/coupons/:code` | Cupom ativo (sem diferenciar maiúsculas); 404 `coupon_not_found` |
+| POST | `/shipping/quote` | Opções de frete `{ cep, items: [{ productId, quantity }] }` → `{ options }`, da mais barata para a mais cara; 503 `shipping_unavailable` |
 | POST | `/orders` | Cria o pedido (201). Veja abaixo |
 | GET | `/products/:id/reviews` | Avaliações do produto, das mais recentes para as mais antigas |
 | POST | `/products/:id/reviews` | Publica avaliação `{ author, rating, comment }` (201); 422 `invalid_data` com `fields` |
@@ -105,6 +106,9 @@ test/                testes com node:test
 - Login com e-mail inexistente ou senha errada dá a mesma resposta (e leva o mesmo tempo).
 - **Esqueci minha senha:** o link vale 1 hora e uma vez só (pedir de novo invalida o anterior). Trocar a senha
   sai da conta em todos os aparelhos. A resposta é a mesma com ou sem conta, para não revelar quem é cliente.
+- **Frete:** com `MELHOR_ENVIO_TOKEN` definido (hospedagem), cotado no Melhor Envio a partir de `STORE_CEP`, com caixa e peso por
+  categoria (`src/domain/services/packages.js`); sem ele, tabela da loja (R$ 19,90, prazo por região). A partir de R$ 199 a opção
+  mais barata sai grátis. O pedido manda `shippingOptionId`: o servidor cota de novo e responde 409 `shipping_option_not_found` se ela sumiu.
 - **E-mails:** com `BREVO_API_KEY` definida (hospedagem), saem pelo Brevo em nome de `EMAIL_FROM`; sem ela,
   aparecem no terminal do `npm run dev` (com o link de nova senha). `SITE_URL` no `.env` define o endereço do site usado nos links.
 - Pedidos feitos sem login **não** são ligados à conta pelo e-mail: sem confirmação de e-mail, alguém poderia

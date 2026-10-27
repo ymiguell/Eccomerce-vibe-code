@@ -2,7 +2,7 @@ import { Link, Navigate, useLocation } from 'react-router'
 import OrderItemList from '../components/checkout/OrderItemList.jsx'
 import OrderTotals from '../components/checkout/OrderTotals.jsx'
 import { formatPhone } from '../formatters/masks.js'
-import { formatAddressLines, formatDeliveryWindow, formatPayment } from '../formatters/order.js'
+import { formatAddressLines, formatDelivery, formatPayment } from '../formatters/order.js'
 import { usePageTitle } from '../hooks/usePageTitle.js'
 
 const dateFormatter = new Intl.DateTimeFormat('pt-BR', { dateStyle: 'long', timeStyle: 'short' })
@@ -49,7 +49,7 @@ function OrderConfirmationPage() {
 
       <div className="mt-10 grid gap-4 sm:grid-cols-2">
         <InfoCard title="Entrega">
-          <p className="font-medium text-foreground">Chega em {formatDeliveryWindow(order.delivery)}</p>
+          <p className="font-medium text-foreground">{formatDelivery(order.delivery)}</p>
           {formatAddressLines(order.address).map((line) => (
             <p key={line}>{line}</p>
           ))}

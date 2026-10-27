@@ -26,7 +26,7 @@ function toOrder(row) {
       installments: row.installments,
       installmentValue: money(row.installmentValue),
     },
-    delivery: { minDays: row.deliveryMinDays, maxDays: row.deliveryMaxDays },
+    delivery: { minDays: row.deliveryMinDays, maxDays: row.deliveryMaxDays, service: row.shippingService },
     trackingCode: row.trackingCode,
     totals: {
       subtotal: money(row.subtotal),
@@ -101,6 +101,7 @@ export class PrismaOrderRepository {
           total: totals.total,
           deliveryMinDays: delivery.minDays,
           deliveryMaxDays: delivery.maxDays,
+          shippingService: delivery.service,
           items: { create: order.items.map((item) => ({ ...item })) },
         },
         include: ITEMS,

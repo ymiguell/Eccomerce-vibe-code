@@ -1,23 +1,27 @@
 import { useId, useState } from 'react'
-import { formatPrice } from '../../formatters/currency.js'
 import { formatCep } from '../../formatters/masks.js'
+import { formatShippingError } from '../../formatters/shippingErrors.js'
+import ShippingOptions from '../checkout/ShippingOptions.jsx'
 
-/** "Quando chega na sua casa?": prazo e valor do frete a partir do CEP. */
-function ShippingCalculator({ subtotal, estimateShipping }) {
+/** "Quando chega na sua casa?": opções de frete (prazo e valor) de uma unidade do produto, a partir do CEP. */
+function ShippingCalculator({ product, quoteShipping }) {
   const inputId = useId()
   const resultId = useId()
   const [cep, setCep] = useState('')
-  const [result, setResult] = useState(null) // { estimate } | { error }
+  const [result, setResult] = useState(null) // { options } | { error }
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (event) => {
     event.preventDefault()
     setLoading(true)
-    setResult(await estimateShipping(cep, subtotal))
+    try {
+      setResult(await quoteShipping(cep, [{ product, quantity: 1 }]))
+    } catch (error) {
+      console.error('Falha ao calcular o frete:', error)
+      setResult({ error: 'shipping_unavailable' })
+    }
     setLoading(false)
   }
-
-  const estimate = result?.estimate
 
   return (
     <div className="rounded-sm bg-muted p-4 sm:p-5">
@@ -46,7 +50,7 @@ function ShippingCalculator({ subtotal, estimateShipping }) {
             autoComplete="postal-code"
             placeholder="00000-000"
             maxLength={9}
-            aria-invalid={Boolean(result?.error)}
+            aria-invalid={result?.error === 'invalid_cep'}
             aria-describedby={resultId}
             className="h-12 min-w-0 flex-1 rounded-l-sm border border-r-0 border-border bg-surface px-4 text-base aria-invalid:border-primary"
           />
@@ -61,18 +65,10 @@ function ShippingCalculator({ subtotal, estimateShipping }) {
       </form>
 
       <div id={resultId} aria-live="polite" className="text-sm">
-        {result?.error && <p className="mt-2 font-medium text-primary">CEP inválido. Digite os 8 números do seu CEP.</p>}
-        {estimate && (
-          <div className="mt-3 flex items-center justify-between gap-3 rounded-sm bg-surface px-4 py-3">
-            <p>
-              <span className="font-semibold">
-                Chega em {estimate.minDays} a {estimate.maxDays} dias úteis
-              </span>
-              <span className="block text-xs text-muted-foreground">Região {estimate.region}</span>
-            </p>
-            <p className={`shrink-0 font-semibold ${estimate.fee === 0 ? 'text-primary' : ''}`}>
-              {estimate.fee === 0 ? 'Frete grátis' : formatPrice(estimate.fee)}
-            </p>
+        {result?.error && <p className="mt-2 font-medium text-primary">{formatShippingError(result.error)}</p>}
+        {result?.options && (
+          <div className="mt-3">
+            <ShippingOptions options={result.options} />
           </div>
         )}
       </div>

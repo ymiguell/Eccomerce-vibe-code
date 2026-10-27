@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 import { formatPrice } from '../../formatters/currency.js'
-import { formatAddressLines, formatDeliveryWindow, formatOrderDate, formatPayment } from '../../formatters/order.js'
+import { formatAddressLines, formatDelivery, formatOrderDate, formatPayment } from '../../formatters/order.js'
 import OrderItemList from '../checkout/OrderItemList.jsx'
 import OrderTotals from '../checkout/OrderTotals.jsx'
 import OrderStatusBadge from '../order/OrderStatusBadge.jsx'
@@ -44,7 +44,7 @@ function OrderCard({ order }) {
           <div className="mt-2 grid gap-4 border-t border-border pt-4 text-sm sm:grid-cols-2">
             <div>
               <p className="font-semibold">Entrega</p>
-              <p className="mt-1 text-muted-foreground">Prazo: {formatDeliveryWindow(order.delivery)}</p>
+              <p className="mt-1 text-muted-foreground">Frete: {formatDelivery(order.delivery)}</p>
               {formatAddressLines(order.address).map((line) => (
                 <p key={line} className="text-muted-foreground">
                   {line}

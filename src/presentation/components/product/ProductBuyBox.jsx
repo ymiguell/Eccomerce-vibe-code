@@ -29,7 +29,7 @@ function Benefit({ icon, title, subtitle }) {
  * Coluna de compra: preço, formas de pagamento, benefícios, escolha de tamanho/cor,
  * botão de adicionar à sacola e cálculo de frete.
  */
-function ProductBuyBox({ product, estimateShipping }) {
+function ProductBuyBox({ product, quoteShipping }) {
   const { add, openCart } = useCartContext()
   const [size, setSize] = useState(null)
   const [color, setColor] = useState(null)
@@ -123,7 +123,7 @@ function ProductBuyBox({ product, estimateShipping }) {
         </button>
       )}
 
-      <ShippingCalculator subtotal={product.price} estimateShipping={estimateShipping} />
+      <ShippingCalculator product={product} quoteShipping={quoteShipping} />
     </div>
   )
 }

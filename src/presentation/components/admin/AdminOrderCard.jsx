@@ -1,7 +1,7 @@
 import { SHIPPED_STATUSES } from '../../../domain/entities/Order.js'
 import { formatPrice } from '../../formatters/currency.js'
 import { formatPhone } from '../../formatters/masks.js'
-import { formatAddressLines, formatDeliveryWindow, formatOrderDate, formatPayment } from '../../formatters/order.js'
+import { formatAddressLines, formatDelivery, formatOrderDate, formatPayment } from '../../formatters/order.js'
 import OrderItemList from '../checkout/OrderItemList.jsx'
 import OrderTotals from '../checkout/OrderTotals.jsx'
 import OrderStatusBadge from '../order/OrderStatusBadge.jsx'
@@ -57,7 +57,7 @@ function AdminOrderCard({ order, onChangeStatus, onSetTracking }) {
             </div>
             <div>
               <p className="font-semibold">Entrega</p>
-              <p className="mt-1 text-muted-foreground">Prazo: {formatDeliveryWindow(order.delivery)}</p>
+              <p className="mt-1 text-muted-foreground">Frete: {formatDelivery(order.delivery)}</p>
               {formatAddressLines(order.address).map((line) => (
                 <p key={line} className="text-muted-foreground">
                   {line}

@@ -140,6 +140,8 @@ model Order {
 
   deliveryMinDays Int @map("delivery_min_days")
   deliveryMaxDays Int @map("delivery_max_days")
+  /// Serviço de frete escolhido (ex.: "Correios PAC"); vazio nos pedidos anteriores ao Melhor Envio
+  shippingService String @default("") @map("shipping_service")
 
   /// Código de rastreio informado pela equipe ao enviar (o cliente vê em "Minha conta")
   trackingCode String? @map("tracking_code")

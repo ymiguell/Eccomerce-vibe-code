@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { calculateOrderTotals } from '../../domain/entities/Order.js'
 import { PAYMENT_METHODS } from '../../domain/services/payment.js'
+import { shippingServiceName } from '../../domain/services/shipping.js'
 import AddressForm from '../components/checkout/AddressForm.jsx'
 import LoadError from '../components/LoadError.jsx'
 import CheckoutSection from '../components/checkout/CheckoutSection.jsx'
@@ -15,6 +16,7 @@ import { useCartContext } from '../context/cartContext.js'
 import { formatPrice } from '../formatters/currency.js'
 import { formatCep, formatPhone } from '../formatters/masks.js'
 import { formatAddressLines, formatDeliveryWindow } from '../formatters/order.js'
+import { formatShippingError } from '../formatters/shippingErrors.js'
 import { usePageTitle } from '../hooks/usePageTitle.js'
 import { useSavedAddress } from '../hooks/useSavedAddress.js'
 
@@ -32,6 +34,8 @@ const placeOrderErrors = {
     `O cupom vale para compras a partir de ${formatPrice(minSubtotal)}. Remova-o ou adicione produtos.`,
   price_changed: ({ total }) =>
     `Os preços foram atualizados e o total agora é ${formatPrice(total)}. Atualize a página para ver os novos valores.`,
+  shipping_option_not_found: () => 'O valor do frete mudou. Escolha o frete de novo na etapa de entrega.',
+  shipping_unavailable: () => formatShippingError('shipping_unavailable'),
   network_error: () => 'Não conseguimos falar com o servidor. Confira sua conexão e tente de novo.',
   too_many_requests: () => 'Muitas tentativas seguidas. Aguarde um minuto e tente de novo.',
 }
@@ -66,7 +70,10 @@ function EmptyCheckout() {
  * Cada etapa concluída vira um resumo com "Alterar". O resumo do pedido acompanha ao lado (ou no topo, no celular).
  * Ao finalizar, vai para /pedido-confirmado levando o pedido e esvazia a sacola.
  */
-function CheckoutPage({ placeOrder, findAddressByCep, estimateShipping }) {
+// Muda quando a sacola muda (produto ou quantidade): aí o frete precisa ser cotado de novo
+const cartKey = (items) => items.map((item) => `${item.product.id}:${item.quantity}`).join('|')
+
+function CheckoutPage({ placeOrder, findAddressByCep, quoteShipping }) {
   usePageTitle('Finalizar compra')
   const cart = useCartContext()
   const auth = useAuthContext() // null quando as contas estão desligadas
@@ -78,7 +85,8 @@ function CheckoutPage({ placeOrder, findAddressByCep, estimateShipping }) {
   const [step, setStep] = useState(1)
   const [customer, setCustomer] = useState(null)
   const [address, setAddress] = useState(null)
-  const [delivery, setDelivery] = useState(null)
+  // Frete escolhido, as opções cotadas e para qual sacola elas valem
+  const [shippingQuote, setShippingQuote] = useState(null) // { shipping, options, cartKey }
   const [payment, setPayment] = useState({ method: null, installments: 1 })
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
@@ -97,7 +105,20 @@ function CheckoutPage({ placeOrder, findAddressByCep, estimateShipping }) {
     setStep(number)
   }
 
-  const totalsFor = (option) => calculateOrderTotals(cart.items, cart.coupon, option)
+  // A sacola pode mudar no meio do checkout (ela abre ao lado): o frete cotado deixa de valer
+  const currentCartKey = cartKey(cart.items)
+  const shipping = shippingQuote?.cartKey === currentCartKey ? shippingQuote.shipping : null
+  useEffect(() => {
+    if (shippingQuote && shippingQuote.cartKey !== currentCartKey) {
+      setShippingQuote(null)
+      if (step > 2) {
+        shouldFocusStep.current = true
+        setStep(2)
+      }
+    }
+  }, [currentCartKey, shippingQuote, step])
+
+  const totalsFor = (option) => calculateOrderTotals(cart.items, cart.coupon, option, shipping?.price ?? null)
   const totals = totalsFor(payment)
 
   // Se a sacola mudar e o total cair, as parcelas escolhidas podem passar do máximo permitido
@@ -115,10 +136,9 @@ function CheckoutPage({ placeOrder, findAddressByCep, estimateShipping }) {
     goToStep(address ? 3 : 2)
   }
 
-  const handleAddressSubmit = async (values) => {
-    const { estimate } = await estimateShipping(values.cep, totals.subtotal)
+  const handleAddressSubmit = (values, chosen, options) => {
     setAddress(values)
-    setDelivery(estimate)
+    setShippingQuote({ shipping: chosen, options, cartKey: currentCartKey })
     goToStep(3)
   }
 
@@ -128,7 +148,7 @@ function CheckoutPage({ placeOrder, findAddressByCep, estimateShipping }) {
 
     let result
     try {
-      result = await placeOrder({ items: cart.items, coupon: cart.coupon, customer, address, payment: effectivePayment })
+      result = await placeOrder({ items: cart.items, coupon: cart.coupon, customer, address, shipping, payment: effectivePayment })
     } catch (error) {
       // Erro inesperado (ex.: falha no servidor): o cliente pode tentar de novo
       console.error('Falha ao finalizar o pedido:', error)
@@ -144,6 +164,11 @@ function CheckoutPage({ placeOrder, findAddressByCep, estimateShipping }) {
 
     setSubmitting(false)
     setSubmitError((placeOrderErrors[result.error] ?? unknownError)(result))
+    // O frete mudou: volta para a entrega, que cota de novo
+    if (result.error === 'shipping_option_not_found') {
+      setShippingQuote(null)
+      goToStep(2)
+    }
   }
 
   const statusOf = (number) => (number < step ? 'done' : number === step ? 'current' : 'upcoming')
@@ -230,8 +255,10 @@ function CheckoutPage({ placeOrder, findAddressByCep, estimateShipping }) {
                   {formatAddressLines(address).map((line) => (
                     <p key={line}>{line}</p>
                   ))}
-                  {delivery && (
-                    <p className="mt-1.5 font-medium text-foreground">Chega em {formatDeliveryWindow(delivery)}</p>
+                  {shipping && (
+                    <p className="mt-1.5 font-medium text-foreground">
+                      {shippingServiceName(shipping)} · chega em {formatDeliveryWindow(shipping)}
+                    </p>
                   )}
                 </>
               )
@@ -242,14 +269,14 @@ function CheckoutPage({ placeOrder, findAddressByCep, estimateShipping }) {
                 Preenchemos com o endereço da sua última compra. Confira antes de continuar.
               </p>
             )}
-            {/* A `key` refaz o formulário quando o endereço salvo chega */}
+            {/* A `key` refaz o formulário quando o endereço salvo chega ou a sacola muda (o frete é cotado de novo) */}
             <AddressForm
-              key={savedAddress ? 'endereco-salvo' : 'endereco-novo'}
+              key={`${savedAddress ? 'endereco-salvo' : 'endereco-novo'}-${currentCartKey}`}
               initialValues={address ?? (savedAddress ? { ...savedAddress, cep: formatCep(savedAddress.cep) } : undefined)}
-              initialEstimate={delivery}
-              subtotal={totals.subtotal}
+              initialQuote={shipping && { options: shippingQuote.options, optionId: shipping.id }}
+              items={cart.items}
               findAddressByCep={findAddressByCep}
-              estimateShipping={estimateShipping}
+              quoteShipping={quoteShipping}
               onSubmit={handleAddressSubmit}
             />
           </CheckoutSection>

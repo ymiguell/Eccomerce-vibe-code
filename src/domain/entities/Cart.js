@@ -1,5 +1,5 @@
 import { getInstallments } from '../services/payment.js'
-import { FREE_SHIPPING_THRESHOLD, SHIPPING_FEE, hasFreeShipping } from '../services/shipping.js'
+import { FREE_SHIPPING_THRESHOLD, hasFreeShipping } from '../services/shipping.js'
 import { getCouponDiscount, roundMoney } from './Coupon.js'
 import { isInStock } from './Product.js'
 
@@ -100,18 +100,26 @@ export function getLineTotal(item) {
   return roundMoney(item.product.price * item.quantity)
 }
 
-/** Calcula todos os valores do resumo do pedido. */
-export function calculateTotals(items, coupon = null) {
-  const subtotal = roundMoney(items.reduce((sum, item) => sum + getLineTotal(item), 0))
+export function calculateSubtotal(items) {
+  return roundMoney(items.reduce((sum, item) => sum + getLineTotal(item), 0))
+}
+
+/**
+ * Calcula todos os valores do resumo do pedido.
+ * `shipping`: preço da opção de frete escolhida. Sem opção escolhida, o frete fica null ("calculado na entrega")
+ * e fora do total, a não ser que a compra já tenha frete grátis.
+ */
+export function calculateTotals(items, coupon = null, shipping = null) {
+  const subtotal = calculateSubtotal(items)
   const discount = getCouponDiscount(coupon, subtotal)
 
   const freeShipping = hasFreeShipping(subtotal)
-  const shipping = items.length === 0 || freeShipping ? 0 : SHIPPING_FEE
+  const shippingValue = items.length === 0 ? 0 : (shipping ?? (freeShipping ? 0 : null))
   const missingForFreeShipping = freeShipping ? 0 : roundMoney(FREE_SHIPPING_THRESHOLD - subtotal)
 
-  const total = roundMoney(subtotal - discount + shipping)
+  const total = roundMoney(subtotal - discount + (shippingValue ?? 0))
 
   const { count: installments, value: installmentValue } = getInstallments(total)
 
-  return { subtotal, discount, shipping, missingForFreeShipping, total, installments, installmentValue }
+  return { subtotal, discount, shipping: shippingValue, missingForFreeShipping, total, installments, installmentValue }
 }

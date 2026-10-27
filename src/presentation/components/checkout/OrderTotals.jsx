@@ -36,7 +36,9 @@ function OrderTotals({ totals, coupon, payment }) {
         )}
         <div className="flex justify-between">
           <dt className="text-muted-foreground">Frete</dt>
-          <dd>{totals.shipping === 0 ? 'Grátis' : formatPrice(totals.shipping)}</dd>
+          <dd className={totals.shipping === null ? 'text-muted-foreground' : undefined}>
+            {totals.shipping === null ? 'Calculado na entrega' : totals.shipping === 0 ? 'Grátis' : formatPrice(totals.shipping)}
+          </dd>
         </div>
         <div className="flex justify-between border-t border-border pt-3 text-base font-semibold">
           <dt>Total</dt>

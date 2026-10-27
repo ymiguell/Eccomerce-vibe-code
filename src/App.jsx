@@ -15,7 +15,7 @@ import { makeSetTrackingCode } from './application/useCases/admin/setTrackingCod
 import { makeUpdateProduct } from './application/useCases/admin/updateProduct.js'
 import { makeApplyCoupon } from './application/useCases/applyCoupon.js'
 import { makeGetBanners } from './application/useCases/getBanners.js'
-import { makeEstimateShipping } from './application/useCases/estimateShipping.js'
+import { makeQuoteShipping } from './application/useCases/quoteShipping.js'
 import { makeFindAddressByCep } from './application/useCases/findAddressByCep.js'
 import { makeGetCart } from './application/useCases/getCart.js'
 import { makeGetCurrentCustomer } from './application/useCases/getCurrentCustomer.js'
@@ -47,6 +47,7 @@ import { HttpNewsletterRepository } from './infrastructure/repositories/HttpNews
 import { HttpOrderRepository } from './infrastructure/repositories/HttpOrderRepository.js'
 import { HttpProductRepository } from './infrastructure/repositories/HttpProductRepository.js'
 import { HttpReviewRepository } from './infrastructure/repositories/HttpReviewRepository.js'
+import { HttpShippingRepository } from './infrastructure/repositories/HttpShippingRepository.js'
 import { LocalStorageCartRepository } from './infrastructure/repositories/LocalStorageCartRepository.js'
 import { MockBannerRepository } from './infrastructure/repositories/MockBannerRepository.js'
 import { MockCouponRepository } from './infrastructure/repositories/MockCouponRepository.js'
@@ -54,6 +55,7 @@ import { MockNewsletterRepository } from './infrastructure/repositories/MockNews
 import { MockOrderRepository } from './infrastructure/repositories/MockOrderRepository.js'
 import { MockProductRepository } from './infrastructure/repositories/MockProductRepository.js'
 import { MockReviewRepository } from './infrastructure/repositories/MockReviewRepository.js'
+import { MockShippingRepository } from './infrastructure/repositories/MockShippingRepository.js'
 import { ViaCepAddressLookup } from './infrastructure/services/ViaCepAddressLookup.js'
 import { LocalStorageSessionStore } from './infrastructure/storage/LocalStorageSessionStore.js'
 import AnnouncementBar from './presentation/components/AnnouncementBar.jsx'
@@ -110,7 +112,7 @@ const getProductById = makeGetProductById(productRepository)
 const getRelatedProducts = makeGetRelatedProducts(productRepository)
 const getProductReviews = makeGetProductReviews(reviewRepository)
 const submitReview = makeSubmitReview(reviewRepository)
-const estimateShipping = makeEstimateShipping()
+const quoteShipping = makeQuoteShipping(api ? new HttpShippingRepository(api) : new MockShippingRepository())
 // Checkout
 const placeOrder = makePlaceOrder(api ? new HttpOrderRepository(api) : new MockOrderRepository())
 const findAddressByCep = makeFindAddressByCep(new ViaCepAddressLookup())
@@ -201,14 +203,14 @@ function App() {
                 getRelatedProducts={getRelatedProducts}
                 getProductReviews={getProductReviews}
                 submitReview={submitReview}
-                estimateShipping={estimateShipping}
+                quoteShipping={quoteShipping}
               />
             }
           />
           <Route
             path="/checkout"
             element={
-              <CheckoutPage placeOrder={placeOrder} findAddressByCep={findAddressByCep} estimateShipping={estimateShipping} />
+              <CheckoutPage placeOrder={placeOrder} findAddressByCep={findAddressByCep} quoteShipping={quoteShipping} />
             }
           />
           <Route path="/pedido-confirmado" element={<OrderConfirmationPage />} />

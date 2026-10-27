@@ -198,6 +198,7 @@ test('pedido feito logado fica ligado à conta; sem login, não', async () => {
     customer: { name: 'Ana Silva', email: 'ana@exemplo.com', phone: '11900000000' },
     address: { cep: '01310100', street: 'Av. Paulista', number: '1000', neighborhood: 'Bela Vista', city: 'São Paulo', state: 'SP' },
     payment: { method: 'pix' },
+    shippingOptionId: 'padrao',
     expectedTotal: 1,
   }
 

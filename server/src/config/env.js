@@ -26,6 +26,11 @@ export function loadConfig() {
     brevoApiKey: process.env.BREVO_API_KEY || null,
     // Quem envia os e-mails da loja (precisa estar verificado no Brevo)
     emailFrom: { email: process.env.EMAIL_FROM ?? 'montrealmoda1@gmail.com', name: process.env.EMAIL_FROM_NAME ?? 'Montreal Moda e Casa' },
+    // Frete pelo Melhor Envio (hospedagem). Sem o token, vale a tabela da loja (taxa fixa por região)
+    melhorEnvioToken: process.env.MELHOR_ENVIO_TOKEN || null,
+    melhorEnvioSandbox: process.env.MELHOR_ENVIO_SANDBOX === 'true',
+    // CEP de onde a loja posta os pacotes (só números)
+    storeCep: (process.env.STORE_CEP ?? '13844110').replace(/\D/g, ''),
     // Endereço do site (sem / no fim): os links dos e-mails apontam para ele
     siteUrl: (process.env.SITE_URL ?? 'http://localhost:5173').replace(/\/+$/, ''),
     corsOrigins: (process.env.CORS_ORIGINS ?? 'http://localhost:5173')

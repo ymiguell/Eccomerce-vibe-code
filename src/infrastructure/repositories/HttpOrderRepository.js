@@ -33,7 +33,7 @@ export class HttpOrderRepository {
     this.#api = apiClient
   }
 
-  async submit({ items, coupon, customer, address, payment, expectedTotal }) {
+  async submit({ items, coupon, customer, address, shipping, payment, expectedTotal }) {
     try {
       const data = await this.#api.post('/orders', {
         // Mesmo formato que a sacola guarda no navegador: { productId, size, color, quantity }
@@ -42,6 +42,7 @@ export class HttpOrderRepository {
         customer,
         address,
         payment,
+        shippingOptionId: shipping.id,
         expectedTotal,
       })
       return { order: toOrder(data) }

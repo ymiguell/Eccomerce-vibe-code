@@ -50,7 +50,7 @@ function ProductNotFound() {
  * Página do produto (/produto/:productId):
  * trilha de navegação, galeria, compra, descrição, relacionados, avaliações e dúvidas frequentes.
  */
-function ProductPage({ getProductById, getRelatedProducts, getProductReviews, submitReview, estimateShipping }) {
+function ProductPage({ getProductById, getRelatedProducts, getProductReviews, submitReview, quoteShipping }) {
   const { productId } = useParams()
   const { loading, product, failed } = useProduct(getProductById, productId)
   const { reviews, summary, submit } = useProductReviews(getProductReviews, submitReview, productId)
@@ -106,7 +106,7 @@ function ProductPage({ getProductById, getRelatedProducts, getProductReviews, su
 
           {/* No desktop, a coluna de compra acompanha a rolagem enquanto a galeria passa */}
           <div className="lg:sticky lg:top-24 lg:self-start">
-            <ProductBuyBox key={product.id} product={product} estimateShipping={estimateShipping} />
+            <ProductBuyBox key={product.id} product={product} quoteShipping={quoteShipping} />
           </div>
         </div>
 

@@ -2,10 +2,12 @@ import assert from 'node:assert/strict'
 import { beforeEach, test } from 'node:test'
 import { makeGetCoupon } from '../src/application/useCases/getCoupon.js'
 import { makePlaceOrder } from '../src/application/useCases/placeOrder.js'
+import { makeQuoteShipping } from '../src/application/useCases/quoteShipping.js'
 import { createCoupon } from '../src/domain/entities/Coupon.js'
 import { OutOfStockError } from '../src/domain/entities/Order.js'
 import { createProduct } from '../src/domain/entities/Product.js'
 import { buildApp } from '../src/http/app.js'
+import { TableShippingQuoter } from '../src/infrastructure/shipping/TableShippingQuoter.js'
 
 // Repositórios em memória (sem PostgreSQL). O de pedidos imita a baixa de estoque do banco.
 let products
@@ -33,6 +35,10 @@ const orderRepository = {
   },
 }
 
+// Frete pela tabela da loja (R$ 19,90, prazo pela região); alguns testes trocam por uma transportadora de mentira
+let shippingQuoter
+const currentQuoter = { quote: (args) => shippingQuoter.quote(args) }
+
 const app = await buildApp({
   corsOrigins: [],
   logger: false,
@@ -40,12 +46,14 @@ const app = await buildApp({
   useCases: {
     checkHealth: async () => ({}),
     getCoupon: makeGetCoupon(couponRepository),
-    placeOrder: makePlaceOrder({ productRepository, couponRepository, orderRepository }),
+    quoteShipping: makeQuoteShipping({ productRepository, shippingQuoter: currentQuoter }),
+    placeOrder: makePlaceOrder({ productRepository, couponRepository, orderRepository, shippingQuoter: currentQuoter }),
   },
 })
 
 beforeEach(() => {
   savedOrders = []
+  shippingQuoter = new TableShippingQuoter()
   products = [
     createProduct({ id: 'fritadeira', name: 'Fritadeira', niche: 'casa', category: 'Cozinha', price: 100, colors: ['Preto'], stock: 5, image: 'f.jpg' }),
     createProduct({ id: 'camiseta', name: 'Camiseta', niche: 'moda', category: 'Camisetas', price: 50, sizes: ['P', 'M'], colors: ['Azul', 'Preto'], stock: 3 }),
@@ -58,6 +66,7 @@ const validOrder = (overrides = {}) => ({
   customer: { name: 'Ana Teste', email: 'ana@exemplo.com', phone: '(11) 90000-0000' },
   address: { cep: '01310-100', street: 'Av. Paulista', number: '1000', complement: '', neighborhood: 'Bela Vista', city: 'São Paulo', state: 'SP' },
   payment: { method: 'credit_card', installments: 2 },
+  shippingOptionId: 'padrao',
   expectedTotal: 200,
   ...overrides,
 })
@@ -75,7 +84,7 @@ test('cria o pedido com os valores calculados pelo servidor', async () => {
   // 2 × R$ 100 = R$ 200 → frete grátis (a partir de R$ 199)
   assert.deepEqual(body.totals, { subtotal: 200, discount: 0, pixDiscount: 0, shipping: 0, total: 200 })
   assert.deepEqual(body.payment, { method: 'credit_card', installments: 2, installmentValue: 100 })
-  assert.deepEqual(body.delivery, { minDays: 2, maxDays: 7 })
+  assert.deepEqual(body.delivery, { minDays: 2, maxDays: 7, service: 'Entrega padrão' })
   assert.equal(body.items[0].color, 'Preto', 'cor única é preenchida sozinha')
   assert.equal(body.customer.phone, '11900000000', 'telefone salvo só com os números')
 })
@@ -173,4 +182,86 @@ test('GET /coupons/:code encontra cupom sem diferenciar maiúsculas', async () =
 
   const missing = await app.inject({ method: 'GET', url: '/coupons/XPTO' })
   assert.equal(missing.statusCode, 404)
+})
+
+// Transportadora de mentira com duas opções (como o Melhor Envio devolveria)
+const carrier = {
+  quote: async () => [
+    { id: '2', name: 'SEDEX', company: 'Correios', price: 32.5, minDays: 1, maxDays: 4 },
+    { id: '1', name: 'PAC', company: 'Correios', price: 21.3, minDays: 3, maxDays: 8 },
+  ],
+}
+
+const quote = async (body) => {
+  const response = await app.inject({ method: 'POST', url: '/shipping/quote', payload: body })
+  return { status: response.statusCode, body: response.json() }
+}
+
+test('POST /shipping/quote lista as opções da mais barata para a mais cara', async () => {
+  shippingQuoter = carrier
+  const { status, body } = await quote({ cep: '01310-100', items: [{ productId: 'fritadeira', quantity: 1 }] })
+
+  assert.equal(status, 200)
+  assert.deepEqual(
+    body.options.map((option) => [option.id, option.price]),
+    [
+      ['1', 21.3],
+      ['2', 32.5],
+    ],
+  )
+})
+
+test('frete grátis a partir de R$ 199 vale só para a opção mais barata', async () => {
+  shippingQuoter = carrier
+  const { body } = await quote({ cep: '01310-100', items: [{ productId: 'fritadeira', quantity: 2 }] })
+  assert.deepEqual(
+    body.options.map((option) => [option.name, option.price]),
+    [
+      ['PAC', 0],
+      ['SEDEX', 32.5],
+    ],
+  )
+})
+
+test('o pedido cobra a opção escolhida e guarda o serviço', async () => {
+  shippingQuoter = carrier
+  const { status, body } = await post(
+    validOrder({ items: [{ productId: 'fritadeira', quantity: 1 }], shippingOptionId: '2', expectedTotal: 132.5 }),
+  )
+
+  assert.equal(status, 201)
+  assert.equal(body.totals.shipping, 32.5)
+  assert.deepEqual(body.delivery, { minDays: 1, maxDays: 4, service: 'Correios SEDEX' })
+})
+
+test('recusa opção de frete que não existe mais', async () => {
+  shippingQuoter = carrier
+  const { status, body } = await post(validOrder({ shippingOptionId: 'padrao' }))
+  assert.equal(status, 409)
+  assert.equal(body.error, 'shipping_option_not_found')
+  assert.equal(savedOrders.length, 0)
+})
+
+test('transportadora fora do ar: 503 na cotação e no pedido, sem gravar', async (t) => {
+  shippingQuoter = {
+    quote: async () => {
+      throw new Error('timeout')
+    },
+  }
+  t.mock.method(console, 'error', () => {})
+
+  assert.equal((await quote({ cep: '01310-100', items: [{ productId: 'fritadeira', quantity: 1 }] })).status, 503)
+  const { status, body } = await post(validOrder())
+  assert.equal(status, 503)
+  assert.equal(body.error, 'shipping_unavailable')
+  assert.equal(savedOrders.length, 0)
+})
+
+test('cotação recusa CEP inválido e produto inexistente', async () => {
+  const invalidCep = await quote({ cep: '123', items: [{ productId: 'fritadeira', quantity: 1 }] })
+  assert.equal(invalidCep.status, 422)
+  assert.equal(invalidCep.body.error, 'invalid_cep')
+
+  const missing = await quote({ cep: '01310-100', items: [{ productId: 'nao-existe', quantity: 1 }] })
+  assert.equal(missing.body.error, 'product_not_found')
 })

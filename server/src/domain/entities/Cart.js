@@ -1,5 +1,4 @@
 import { getInstallments } from '../services/payment.js'
-import { SHIPPING_FEE, hasFreeShipping } from '../services/shipping.js'
 import { getCouponDiscount, roundMoney } from './Coupon.js'
 
 /*
@@ -61,11 +60,17 @@ export function getLineTotal(item) {
   return roundMoney(item.product.price * item.quantity)
 }
 
-/** Subtotal, desconto do cupom, frete e total (sem o desconto do Pix, ver calculateOrderTotals). */
-export function calculateTotals(items, coupon = null) {
-  const subtotal = roundMoney(items.reduce((sum, item) => sum + getLineTotal(item), 0))
+export function calculateSubtotal(items) {
+  return roundMoney(items.reduce((sum, item) => sum + getLineTotal(item), 0))
+}
+
+/**
+ * Subtotal, desconto do cupom, frete e total (sem o desconto do Pix, ver calculateOrderTotals).
+ * `shipping` é o preço da opção de frete escolhida (já com o frete grátis aplicado, ver applyFreeShipping).
+ */
+export function calculateTotals(items, coupon = null, shipping = 0) {
+  const subtotal = calculateSubtotal(items)
   const discount = getCouponDiscount(coupon, subtotal)
-  const shipping = items.length === 0 || hasFreeShipping(subtotal) ? 0 : SHIPPING_FEE
   const total = roundMoney(subtotal - discount + shipping)
   const { count: installments, value: installmentValue } = getInstallments(total)
 

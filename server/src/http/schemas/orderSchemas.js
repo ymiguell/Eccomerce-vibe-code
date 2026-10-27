@@ -64,7 +64,7 @@ export const orderSchema = {
     },
     delivery: {
       type: 'object',
-      properties: { minDays: { type: 'integer' }, maxDays: { type: 'integer' } },
+      properties: { minDays: { type: 'integer' }, maxDays: { type: 'integer' }, service: { type: 'string' } },
     },
     trackingCode: { type: ['string', 'null'] },
     totals: {
@@ -102,7 +102,7 @@ export const getCouponSchema = {
 export const placeOrderSchema = {
   body: {
     type: 'object',
-    required: ['items', 'customer', 'address', 'payment', 'expectedTotal'],
+    required: ['items', 'customer', 'address', 'payment', 'shippingOptionId', 'expectedTotal'],
     properties: {
       items: {
         type: 'array',
@@ -146,8 +146,55 @@ export const placeOrderSchema = {
           installments: { type: 'integer', minimum: 1, default: 1 },
         },
       },
+      shippingOptionId: text(40),
       expectedTotal: { type: 'number', minimum: 0 },
     },
   },
-  response: { 201: orderSchema, 409: errorSchema, 422: errorSchema },
+  response: { 201: orderSchema, 409: errorSchema, 422: errorSchema, 503: errorSchema },
+}
+
+export const quoteShippingSchema = {
+  body: {
+    type: 'object',
+    required: ['cep', 'items'],
+    properties: {
+      cep: text(9),
+      items: {
+        type: 'array',
+        minItems: 1,
+        maxItems: 50,
+        items: {
+          type: 'object',
+          required: ['productId', 'quantity'],
+          properties: {
+            productId: text(120),
+            quantity: { type: 'integer', minimum: 1, maximum: MAX_QUANTITY },
+          },
+        },
+      },
+    },
+  },
+  response: {
+    200: {
+      type: 'object',
+      properties: {
+        options: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              id: { type: 'string' },
+              name: { type: 'string' },
+              company: { type: 'string' },
+              price: money,
+              minDays: { type: 'integer' },
+              maxDays: { type: 'integer' },
+            },
+          },
+        },
+      },
+    },
+    422: errorSchema,
+    503: errorSchema,
+  },
 }

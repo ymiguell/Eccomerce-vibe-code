@@ -22,6 +22,7 @@ import { makeListProducts } from './application/useCases/listProducts.js'
 import { makeLoginCustomer } from './application/useCases/loginCustomer.js'
 import { makeLogoutCustomer } from './application/useCases/logoutCustomer.js'
 import { makePlaceOrder } from './application/useCases/placeOrder.js'
+import { makeQuoteShipping } from './application/useCases/quoteShipping.js'
 import { makeRegisterCustomer } from './application/useCases/registerCustomer.js'
 import { makeRequestPasswordReset } from './application/useCases/requestPasswordReset.js'
 import { makeResetPassword } from './application/useCases/resetPassword.js'
@@ -44,6 +45,8 @@ import { PrismaPasswordResetRepository } from './infrastructure/repositories/Pri
 import { PrismaReviewRepository } from './infrastructure/repositories/PrismaReviewRepository.js'
 import { PrismaSessionRepository } from './infrastructure/repositories/PrismaSessionRepository.js'
 import { ScryptPasswordHasher } from './infrastructure/security/ScryptPasswordHasher.js'
+import { MelhorEnvioShippingQuoter } from './infrastructure/shipping/MelhorEnvioShippingQuoter.js'
+import { TableShippingQuoter } from './infrastructure/shipping/TableShippingQuoter.js'
 import { CloudinaryImageStorage } from './infrastructure/storage/CloudinaryImageStorage.js'
 import { LocalImageStorage } from './infrastructure/storage/LocalImageStorage.js'
 
@@ -69,6 +72,15 @@ const imageStorage = config.cloudinaryUrl
 const emailSender = config.brevoApiKey
   ? new BrevoEmailSender({ apiKey: config.brevoApiKey, sender: config.emailFrom })
   : new ConsoleEmailSender()
+// Frete pelo Melhor Envio quando configurado (hospedagem); senão pela tabela da loja (ambiente local)
+const shippingQuoter = config.melhorEnvioToken
+  ? new MelhorEnvioShippingQuoter({
+      token: config.melhorEnvioToken,
+      fromCep: config.storeCep,
+      sandbox: config.melhorEnvioSandbox,
+      contactEmail: config.emailFrom.email,
+    })
+  : new TableShippingQuoter()
 
 const useCases = {
   checkHealth: makeCheckHealth(new PrismaDatabaseStatus(prisma)),
@@ -78,7 +90,8 @@ const useCases = {
   listBanners: makeListBanners(new PrismaBannerRepository(prisma)),
   // Compra
   getCoupon: makeGetCoupon(couponRepository),
-  placeOrder: makePlaceOrder({ productRepository, couponRepository, orderRepository }),
+  quoteShipping: makeQuoteShipping({ productRepository, shippingQuoter }),
+  placeOrder: makePlaceOrder({ productRepository, couponRepository, orderRepository, shippingQuoter }),
   // Avaliações e newsletter
   listProductReviews: makeListProductReviews(reviewRepository),
   submitReview: makeSubmitReview({ productRepository, reviewRepository }),

@@ -4,7 +4,7 @@ import { isCouponApplicable } from '../../domain/entities/Coupon.js'
 import { validateCustomer } from '../../domain/entities/Customer.js'
 import { OutOfStockError, buildOrder, calculateOrderTotals } from '../../domain/entities/Order.js'
 import { validatePayment } from '../../domain/services/payment.js'
-import { estimateShipping } from '../../domain/services/shipping.js'
+import { quoteOptions } from './quoteShipping.js'
 
 // Diferença aceitável entre o total que o cliente viu e o recalculado (arredondamento de centavos)
 const TOTAL_TOLERANCE = 0.01
@@ -15,20 +15,23 @@ const hasErrors = (errors) => Object.keys(errors).length > 0
  * Caso de uso: finalizar a compra. Quem decide os valores é o servidor:
  * o navegador manda só produtos, variações, quantidades, cupom, dados de entrega e forma de pagamento;
  * preços, desconto, frete e total são recalculados aqui com os dados do banco.
+ * `shippingOptionId` é a opção de frete escolhida: o frete é cotado de novo aqui e vale o preço de agora.
  * `expectedTotal` é o total que o cliente viu: se não bater (ex.: o preço mudou), o pedido não é gravado.
  * `customerId`: conta de quem está logado (null em compra sem login), para o pedido aparecer em "Minha conta".
  *
  * Retorna { order } ou { error, ...detalhes }:
  * empty_cart · invalid_data { fields } · product_not_found { productId } · invalid_item { productId, message }
  * out_of_stock { productId } · invalid_coupon · coupon_min_subtotal { minSubtotal } · price_changed { total }
+ * shipping_unavailable · shipping_option_not_found (a opção escolhida não existe mais: cotar de novo)
  */
-export function makePlaceOrder({ productRepository, couponRepository, orderRepository }) {
+export function makePlaceOrder({ productRepository, couponRepository, orderRepository, shippingQuoter }) {
   return async function placeOrder({
     items: lines,
     couponCode = null,
     customer,
     address,
     payment,
+    shippingOptionId,
     expectedTotal,
     customerId = null,
   }) {
@@ -70,7 +73,12 @@ export function makePlaceOrder({ productRepository, couponRepository, orderRepos
       if (!coupon) return { error: 'invalid_coupon' }
     }
 
-    const totals = calculateOrderTotals(items, coupon, payment)
+    const quote = await quoteOptions(shippingQuoter, address.cep, items)
+    if (quote.error) return quote
+    const shipping = quote.options.find((option) => option.id === shippingOptionId)
+    if (!shipping) return { error: 'shipping_option_not_found' }
+
+    const totals = calculateOrderTotals(items, coupon, payment, shipping.price)
     if (coupon && !isCouponApplicable(coupon, totals.subtotal)) {
       return { error: 'coupon_min_subtotal', minSubtotal: coupon.minSubtotal }
     }
@@ -87,7 +95,7 @@ export function makePlaceOrder({ productRepository, couponRepository, orderRepos
       customer,
       address,
       payment,
-      delivery: estimateShipping(address.cep, totals.subtotal),
+      shipping,
     })
 
     try {

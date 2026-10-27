@@ -68,7 +68,11 @@ export async function buildApp({ corsOrigins, useCases, logger = true, trustProx
     getProduct: useCases.getProduct,
     listBanners: useCases.listBanners,
   })
-  await app.register(orderRoutes, { getCoupon: useCases.getCoupon, placeOrder: useCases.placeOrder })
+  await app.register(orderRoutes, {
+    getCoupon: useCases.getCoupon,
+    quoteShipping: useCases.quoteShipping,
+    placeOrder: useCases.placeOrder,
+  })
   await app.register(engagementRoutes, {
     listProductReviews: useCases.listProductReviews,
     submitReview: useCases.submitReview,

@@ -54,20 +54,34 @@ export function hasFreeShipping(subtotal) {
   return subtotal >= FREE_SHIPPING_THRESHOLD
 }
 
-/**
- * Estimativa de entrega para um CEP e um valor de compra.
- * Retorna { region, minDays, maxDays, fee } ou lança erro se o CEP for inválido.
+/*
+ * Opção de frete: { id, name, company, price, minDays, maxDays } (mesmo formato da API).
+ * Os prazos são em dias úteis e já contam a postagem (até POSTING_DAYS).
  */
-export function estimateShipping(cep, subtotal) {
+
+/** Opção da tabela da própria loja (sem transportadora): taxa fixa e prazo pela região do CEP. */
+export function tableShippingOption(cep) {
   if (!isValidCep(cep)) throw new Error('CEP inválido')
 
-  const region = getRegionByCep(cep)
-  const [minTransit, maxTransit] = TRANSIT_DAYS[region]
-
-  return {
-    region,
+  const [minTransit, maxTransit] = TRANSIT_DAYS[getRegionByCep(cep)]
+  return Object.freeze({
+    id: 'padrao',
+    name: 'Entrega padrão',
+    company: '',
+    price: SHIPPING_FEE,
     minDays: minTransit,
     maxDays: maxTransit + POSTING_DAYS,
-    fee: hasFreeShipping(subtotal) ? 0 : SHIPPING_FEE,
-  }
+  })
+}
+
+/** Ordena da mais barata para a mais cara. Com frete grátis, a mais barata sai de graça (as outras seguem pagas). */
+export function applyFreeShipping(options, subtotal) {
+  const sorted = [...options].sort((a, b) => a.price - b.price || a.maxDays - b.maxDays)
+  const free = hasFreeShipping(subtotal)
+  return sorted.map((option, index) => Object.freeze({ ...option, price: free && index === 0 ? 0 : option.price }))
+}
+
+/** Nome do serviço para mostrar, ex.: "Correios PAC" ou "Entrega padrão". */
+export function shippingServiceName(option) {
+  return [option.company, option.name].filter(Boolean).join(' ')
 }

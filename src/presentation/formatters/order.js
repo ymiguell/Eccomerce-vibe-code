@@ -16,6 +16,11 @@ export function formatDeliveryWindow({ minDays, maxDays }) {
   return `${minDays} a ${maxDays} dias úteis`
 }
 
+/** Ex.: "Correios PAC · 3 a 8 dias úteis" (pedidos antigos não têm o serviço: só o prazo). */
+export function formatDelivery(delivery) {
+  return [delivery.service, formatDeliveryWindow(delivery)].filter(Boolean).join(' · ')
+}
+
 /** Ex.: "Pix" ou "Cartão de crédito em 3x de R$ 66,63" */
 export function formatPayment(payment) {
   if (payment.method === PAYMENT_METHODS.PIX) return 'Pix'
