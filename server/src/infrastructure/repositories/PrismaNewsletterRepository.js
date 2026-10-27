@@ -14,4 +14,16 @@ export class PrismaNewsletterRepository {
     const { count } = await this.#prisma.newsletterSubscriber.createMany({ data: [{ email }], skipDuplicates: true })
     return count === 1
   }
+
+  /** Painel: todos os inscritos, dos mais recentes para os mais antigos. */
+  async findAll() {
+    const rows = await this.#prisma.newsletterSubscriber.findMany({ orderBy: { createdAt: 'desc' } })
+    return rows.map((row) => ({ email: row.email, createdAt: row.createdAt.toISOString() }))
+  }
+
+  /** Tira o e-mail da lista (pedido do próprio cliente). Retorna false se ele não estava inscrito. */
+  async remove(email) {
+    const { count } = await this.#prisma.newsletterSubscriber.deleteMany({ where: { email } })
+    return count === 1
+  }
 }

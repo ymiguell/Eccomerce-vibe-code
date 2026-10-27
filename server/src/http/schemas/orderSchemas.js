@@ -66,6 +66,7 @@ export const orderSchema = {
       type: 'object',
       properties: { minDays: { type: 'integer' }, maxDays: { type: 'integer' } },
     },
+    trackingCode: { type: ['string', 'null'] },
     totals: {
       type: 'object',
       properties: { subtotal: money, discount: money, pixDiscount: money, shipping: money, total: money },

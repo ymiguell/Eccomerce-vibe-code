@@ -3,9 +3,14 @@ import { Navigate, Route, Routes } from 'react-router'
 import { makeChangeOrderStatus } from './application/useCases/admin/changeOrderStatus.js'
 import { makeCreateCoupon } from './application/useCases/admin/createCoupon.js'
 import { makeGetAdminOrders } from './application/useCases/admin/getAdminOrders.js'
+import { makeGetAdminReviews } from './application/useCases/admin/getAdminReviews.js'
 import { makeGetCoupons } from './application/useCases/admin/getCoupons.js'
 import { makeGetInventory } from './application/useCases/admin/getInventory.js'
+import { makeGetSubscribers } from './application/useCases/admin/getSubscribers.js'
+import { makeRemoveSubscriber } from './application/useCases/admin/removeSubscriber.js'
 import { makeSetCouponActive } from './application/useCases/admin/setCouponActive.js'
+import { makeSetReviewHidden } from './application/useCases/admin/setReviewHidden.js'
+import { makeSetTrackingCode } from './application/useCases/admin/setTrackingCode.js'
 import { makeUpdateProduct } from './application/useCases/admin/updateProduct.js'
 import { makeApplyCoupon } from './application/useCases/applyCoupon.js'
 import { makeGetBanners } from './application/useCases/getBanners.js'
@@ -16,6 +21,7 @@ import { makeGetCurrentCustomer } from './application/useCases/getCurrentCustome
 import { makeGetFeaturedProducts } from './application/useCases/getFeaturedProducts.js'
 import { makeGetMyOrders } from './application/useCases/getMyOrders.js'
 import { makeGetProducts } from './application/useCases/getProducts.js'
+import { makeGetSavedAddress } from './application/useCases/getSavedAddress.js'
 import { makeGetOnSaleProducts } from './application/useCases/getOnSaleProducts.js'
 import { makeGetProductById } from './application/useCases/getProductById.js'
 import { makeGetProductReviews } from './application/useCases/getProductReviews.js'
@@ -56,10 +62,12 @@ import { CartContext } from './presentation/context/cartContext.js'
 import { useAuth } from './presentation/hooks/useAuth.js'
 import { useCart } from './presentation/hooks/useCart.js'
 import { useScrollOnNavigate } from './presentation/hooks/useScrollOnNavigate.js'
+import { INFO_PAGES } from './presentation/content/infoPages.js'
 import AccountPage from './presentation/pages/AccountPage.jsx'
 import AdminPage from './presentation/pages/AdminPage.jsx'
 import CheckoutPage from './presentation/pages/CheckoutPage.jsx'
 import HomePage from './presentation/pages/HomePage.jsx'
+import InfoPage from './presentation/pages/InfoPage.jsx'
 import LoginPage from './presentation/pages/LoginPage.jsx'
 import NichePage from './presentation/pages/NichePage.jsx'
 import OrderConfirmationPage from './presentation/pages/OrderConfirmationPage.jsx'
@@ -108,17 +116,23 @@ const account = accountRepository && {
   logoutCustomer: makeLogoutCustomer({ accountRepository, sessionStore }),
   updateProfile: makeUpdateProfile(accountRepository),
   getMyOrders: makeGetMyOrders(accountRepository),
+  getSavedAddress: makeGetSavedAddress(accountRepository),
 }
 // Painel da loja (só com a API; ela confere em cada chamada se a conta é da equipe)
 const adminRepository = api ? new HttpAdminRepository(api) : null
 const admin = adminRepository && {
   getAdminOrders: makeGetAdminOrders(adminRepository),
   changeOrderStatus: makeChangeOrderStatus(adminRepository),
+  setTrackingCode: makeSetTrackingCode(adminRepository),
   getInventory: makeGetInventory(adminRepository),
   updateProduct: makeUpdateProduct(adminRepository),
   getCoupons: makeGetCoupons(adminRepository),
   createCoupon: makeCreateCoupon(adminRepository),
   setCouponActive: makeSetCouponActive(adminRepository),
+  getAdminReviews: makeGetAdminReviews(adminRepository),
+  setReviewHidden: makeSetReviewHidden(adminRepository),
+  getSubscribers: makeGetSubscribers(adminRepository),
+  removeSubscriber: makeRemoveSubscriber(adminRepository),
 }
 
 function App() {
@@ -197,6 +211,10 @@ function App() {
               <Route path="/admin/*" element={<AdminPage admin={admin} />} />
             </>
           )}
+          {/* Páginas do rodapé (Sobre nós, Trocas e devoluções...), conteúdo em content/infoPages.js */}
+          {INFO_PAGES.map((page) => (
+            <Route key={page.slug} path={`/${page.slug}`} element={<InfoPage page={page} />} />
+          ))}
           {/* Endereço desconhecido volta para a Home */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

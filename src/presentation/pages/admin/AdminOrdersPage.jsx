@@ -16,7 +16,7 @@ const sum = (counts) => Object.values(counts).reduce((total, count) => total + c
  * Painel → Pedidos (/admin). Filtro por situação e página ficam no endereço (?situacao=paid&pagina=2):
  * o botão voltar e o link compartilhado mostram a mesma lista.
  */
-function AdminOrdersPage({ getAdminOrders, changeOrderStatus }) {
+function AdminOrdersPage({ getAdminOrders, changeOrderStatus, setTrackingCode }) {
   usePageTitle('Painel: pedidos')
   const [params, setParams] = useSearchParams()
   const status = ORDER_STATUSES.includes(params.get('situacao')) ? params.get('situacao') : null
@@ -31,13 +31,26 @@ function AdminOrdersPage({ getAdminOrders, changeOrderStatus }) {
     setParams({ ...(nextStatus && { situacao: nextStatus }), ...(nextPage > 1 && { pagina: String(nextPage) }) })
   }
 
-  const handleChangeStatus = async (order, nextStatus) => {
-    const result = await changeOrderStatus(order, nextStatus)
+  // Troca o pedido na lista pela versão salva, sem esperar recarregar
+  const replaceOrder = (saved) =>
+    orders.update((data) => ({ ...data, orders: data.orders.map((item) => (item.id === saved.id ? saved : item)) }))
+
+  const handleChangeStatus = async (order, nextStatus, options) => {
+    const result = await changeOrderStatus(order, nextStatus, options)
     if (result.order) {
       setNotice(`Pedido nº ${order.number}: ${formatOrderStatus(nextStatus).toLowerCase()}.`)
       // Mostra a nova situação na hora e recarrega para atualizar os números dos filtros
-      orders.update((data) => ({ ...data, orders: data.orders.map((item) => (item.id === order.id ? result.order : item)) }))
+      replaceOrder(result.order)
       orders.reload()
+    }
+    return result
+  }
+
+  const handleSetTracking = async (order, code) => {
+    const result = await setTrackingCode(order, code)
+    if (result.order) {
+      setNotice(`Pedido nº ${order.number}: rastreio salvo.`)
+      replaceOrder(result.order)
     }
     return result
   }
@@ -70,7 +83,7 @@ function AdminOrdersPage({ getAdminOrders, changeOrderStatus }) {
           className={`space-y-3 transition-opacity duration-200 ${orders.status === 'loading' ? 'opacity-60' : ''}`}
         >
           {orders.data.orders.map((order) => (
-            <AdminOrderCard key={order.id} order={order} onChangeStatus={handleChangeStatus} />
+            <AdminOrderCard key={order.id} order={order} onChangeStatus={handleChangeStatus} onSetTracking={handleSetTracking} />
           ))}
         </ul>
       )}

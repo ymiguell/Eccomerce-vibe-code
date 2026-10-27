@@ -6,6 +6,9 @@
 
 const FRIDAY = 5
 const CAMPAIGN_DAYS = 3 // sexta, sábado e domingo
+// A contagem regressiva só aparece nas semanas antes da campanha (um relógio de 300 dias não chama ninguém)
+export const ANNOUNCE_DAYS = 45
+const DAY_MS = 24 * 60 * 60 * 1000
 
 /** Última sexta-feira de novembro do ano informado, à meia-noite. */
 export function getBlackFridayDate(year) {
@@ -16,9 +19,9 @@ export function getBlackFridayDate(year) {
 
 /**
  * Situação da campanha em um momento:
- * - 'upcoming': ainda não começou; `startsAt` é quando começa.
+ * - 'off': falta mais de ANNOUNCE_DAYS dias (ou a campanha do ano já acabou); não há o que anunciar.
+ * - 'upcoming': começa em breve; `startsAt` é quando começa.
  * - 'live': está acontecendo; `endsAt` é quando termina.
- * Depois que a campanha do ano acaba, passa a contar para a do ano seguinte.
  */
 export function getBlackFridayStatus(now) {
   const year = now.getFullYear()
@@ -28,7 +31,10 @@ export function getBlackFridayStatus(now) {
     const endsAt = new Date(startsAt)
     endsAt.setDate(endsAt.getDate() + CAMPAIGN_DAYS)
 
-    if (now < startsAt) return { phase: 'upcoming', startsAt, endsAt }
+    if (now < startsAt) {
+      const phase = startsAt - now > ANNOUNCE_DAYS * DAY_MS ? 'off' : 'upcoming'
+      return { phase, startsAt, endsAt }
+    }
     if (now < endsAt) return { phase: 'live', startsAt, endsAt }
   }
 }

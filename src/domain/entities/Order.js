@@ -68,3 +68,24 @@ export const ORDER_STATUS_TRANSITIONS = Object.freeze({
 export function canChangeOrderStatus(from, to) {
   return ORDER_STATUS_TRANSITIONS[from]?.includes(to) ?? false
 }
+
+/** Situações em que o pedido já saiu da loja (pode ter código de rastreio). */
+export const SHIPPED_STATUSES = Object.freeze(['shipped', 'delivered'])
+
+// Letras, números e hífen (mesma regra do servidor). Correios: AA123456789BR
+const TRACKING_CODE_PATTERN = /^[A-Z0-9-]{4,40}$/
+
+/** " aa 123456789 br " → "AA123456789BR" */
+export function normalizeTrackingCode(value) {
+  return value.replace(/\s/g, '').toUpperCase()
+}
+
+export function isValidTrackingCode(code) {
+  return TRACKING_CODE_PATTERN.test(code)
+}
+
+/** Para formulários: { trackingCode: mensagem } se o código digitado é inválido; vazio é aceito (sem rastreio). */
+export function validateTrackingCode(value) {
+  const code = normalizeTrackingCode(value)
+  return code && !isValidTrackingCode(code) ? { trackingCode: 'Use de 4 a 40 letras, números ou hífen.' } : {}
+}

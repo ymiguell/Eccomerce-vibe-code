@@ -4,7 +4,12 @@ import { makeChangeOrderStatus } from '../src/application/useCases/admin/changeO
 import { makeCreateCoupon } from '../src/application/useCases/admin/createCoupon.js'
 import { makeListCoupons } from '../src/application/useCases/admin/listCoupons.js'
 import { makeListOrders } from '../src/application/useCases/admin/listOrders.js'
+import { makeListReviews } from '../src/application/useCases/admin/listReviews.js'
+import { makeListSubscribers } from '../src/application/useCases/admin/listSubscribers.js'
+import { makeRemoveSubscriber } from '../src/application/useCases/admin/removeSubscriber.js'
 import { makeSetCouponActive } from '../src/application/useCases/admin/setCouponActive.js'
+import { makeSetReviewHidden } from '../src/application/useCases/admin/setReviewHidden.js'
+import { makeSetTrackingCode } from '../src/application/useCases/admin/setTrackingCode.js'
 import { makeUpdateProduct } from '../src/application/useCases/admin/updateProduct.js'
 import { buildApp } from '../src/http/app.js'
 
@@ -12,6 +17,8 @@ import { buildApp } from '../src/http/app.js'
 let orders
 let products
 let coupons
+let reviews
+let subscribers
 
 const accountsByToken = {
   equipe: { id: 'a1', name: 'Equipe', email: 'equipe@loja.com', isAdmin: true },
@@ -29,15 +36,17 @@ const orderRepository = {
     return counts
   },
   findById: async (id) => orders.find((order) => order.id === id) ?? null,
-  changeStatus: async (id, { from, to, restoreStock }) => {
+  changeStatus: async (id, { from, to, restoreStock, trackingCode }) => {
     const order = orders.find((item) => item.id === id && item.status === from)
     if (!order) return null
     order.status = to
+    if (trackingCode !== undefined) order.trackingCode = trackingCode
     if (restoreStock) {
       for (const item of order.items) products.find((product) => product.id === item.productId).stock += item.quantity
     }
     return order
   },
+  setTrackingCode: async (id, trackingCode) => Object.assign(orders.find((order) => order.id === id), { trackingCode }),
 }
 
 const productRepository = {
@@ -61,6 +70,30 @@ const couponRepository = {
   },
 }
 
+const reviewRepository = {
+  findPage: async ({ hidden, page, pageSize }) => {
+    const found = reviews.filter((review) => hidden === null || review.hidden === hidden)
+    return { reviews: found.slice((page - 1) * pageSize, page * pageSize), total: found.length }
+  },
+  countByVisibility: async () => ({
+    visible: reviews.filter((review) => !review.hidden).length,
+    hidden: reviews.filter((review) => review.hidden).length,
+  }),
+  setHidden: async (id, hidden) => {
+    const review = reviews.find((item) => item.id === id)
+    return review ? Object.assign(review, { hidden }) : null
+  },
+}
+
+const newsletterRepository = {
+  findAll: async () => subscribers,
+  remove: async (email) => {
+    const before = subscribers.length
+    subscribers = subscribers.filter((item) => item.email !== email)
+    return subscribers.length < before
+  },
+}
+
 const app = await buildApp({
   corsOrigins: [],
   logger: false,
@@ -71,10 +104,15 @@ const app = await buildApp({
     admin: {
       listOrders: makeListOrders(orderRepository),
       changeOrderStatus: makeChangeOrderStatus(orderRepository),
+      setTrackingCode: makeSetTrackingCode(orderRepository),
       updateProduct: makeUpdateProduct(productRepository),
       listCoupons: makeListCoupons(couponRepository),
       createCoupon: makeCreateCoupon(couponRepository),
       setCouponActive: makeSetCouponActive(couponRepository),
+      listReviews: makeListReviews(reviewRepository),
+      setReviewHidden: makeSetReviewHidden(reviewRepository),
+      listSubscribers: makeListSubscribers(newsletterRepository),
+      removeSubscriber: makeRemoveSubscriber(newsletterRepository),
     },
   },
 })
@@ -89,6 +127,11 @@ beforeEach(() => {
     { id: 'o2', number: 2, status: 'paid', items: [{ productId: 'vestido', quantity: 1 }] },
     { id: 'o3', number: 3, status: 'pending_payment', items: [{ productId: 'vestido', quantity: 1 }] },
   ]
+  reviews = [
+    { id: 'r1', productId: 'camiseta', productName: 'Camiseta', author: 'Ana', rating: 5, comment: 'Ótima!', hidden: false },
+    { id: 'r2', productId: 'vestido', productName: 'Vestido', author: 'Spam', rating: 1, comment: 'Compre em outro site', hidden: false },
+  ]
+  subscribers = [{ email: 'ana@exemplo.com', createdAt: '2026-10-26T12:00:00.000Z' }]
   coupons = [{ code: 'BEMVINDO10', type: 'percent', value: 10, minSubtotal: 0, description: '', active: true, timesUsed: 4 }]
 })
 
@@ -145,6 +188,33 @@ test('cancelar devolve os produtos ao estoque', async () => {
   const again = await call('PATCH', '/admin/orders/o1', { payload: { status: 'canceled' } })
   assert.equal(again.status, 422)
   assert.equal(products[0].stock, 5)
+})
+
+test('ao enviar, grava o código de rastreio (normalizado); depois dá para corrigir', async () => {
+  const shipped = await call('PATCH', '/admin/orders/o2', { payload: { status: 'shipped', trackingCode: ' aa 123456789 br ' } })
+  assert.equal(shipped.status, 200)
+  assert.equal(shipped.body.trackingCode, 'AA123456789BR')
+
+  const fixed = await call('PATCH', '/admin/orders/o2/tracking', { payload: { trackingCode: 'AB987654321BR' } })
+  assert.equal(fixed.status, 200)
+  assert.equal(orders[1].trackingCode, 'AB987654321BR')
+
+  const cleared = await call('PATCH', '/admin/orders/o2/tracking', { payload: { trackingCode: null } })
+  assert.equal(cleared.body.trackingCode, null)
+})
+
+test('rastreio inválido, ou em pedido que não foi enviado, é recusado', async () => {
+  const invalid = await call('PATCH', '/admin/orders/o2', { payload: { status: 'shipped', trackingCode: 'código?' } })
+  assert.equal(invalid.status, 422)
+  assert.ok(invalid.body.fields.trackingCode)
+  assert.equal(orders[1].status, 'paid')
+
+  const notShipping = await call('PATCH', '/admin/orders/o1', { payload: { status: 'paid', trackingCode: 'AA123456789BR' } })
+  assert.equal(notShipping.status, 422)
+
+  const notShipped = await call('PATCH', '/admin/orders/o1/tracking', { payload: { trackingCode: 'AA123456789BR' } })
+  assert.equal(notShipped.status, 422)
+  assert.equal(notShipped.body.error, 'not_shipped')
 })
 
 test('se outra pessoa mudou o pedido antes, responde 409', async () => {
@@ -210,4 +280,30 @@ test('lista cupons e liga/desliga sem apagar', async () => {
   assert.equal(coupons[0].active, false)
 
   assert.equal((await call('PATCH', '/admin/coupons/NADA', { payload: { active: true } })).status, 404)
+})
+
+test('oculta e mostra avaliações, e filtra por visibilidade', async () => {
+  const hidden = await call('PATCH', '/admin/reviews/r2', { payload: { hidden: true } })
+  assert.equal(hidden.status, 200)
+  assert.equal(hidden.body.hidden, true)
+
+  const onlyHidden = await call('GET', '/admin/reviews?visibility=hidden')
+  assert.deepEqual(onlyHidden.body.reviews.map((review) => review.id), ['r2'])
+  assert.deepEqual(onlyHidden.body.counts, { visible: 1, hidden: 1 })
+
+  assert.equal((await call('PATCH', '/admin/reviews/r2', { payload: { hidden: false } })).body.hidden, false)
+  assert.equal((await call('PATCH', '/admin/reviews/nada', { payload: { hidden: true } })).status, 404)
+  assert.equal((await call('GET', '/admin/reviews', { token: 'cliente' })).status, 403)
+})
+
+test('lista inscritos da newsletter e tira um e-mail a pedido do cliente', async () => {
+  const list = await call('GET', '/admin/newsletter')
+  assert.deepEqual(list.body.map((item) => item.email), ['ana@exemplo.com'])
+
+  const removed = await call('DELETE', '/admin/newsletter/ANA@exemplo.com')
+  assert.equal(removed.status, 204)
+  assert.equal(subscribers.length, 0)
+
+  assert.equal((await call('DELETE', '/admin/newsletter/ana@exemplo.com')).status, 404)
+  assert.equal((await call('DELETE', '/admin/newsletter/ana@exemplo.com', { token: 'cliente' })).status, 403)
 })

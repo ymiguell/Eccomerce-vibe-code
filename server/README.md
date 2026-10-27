@@ -69,11 +69,16 @@ test/                testes com node:test
 | Método | Rota | Resposta |
 |---|---|---|
 | GET | `/admin/orders?status=&page=` | Página de 20 pedidos (mais recentes primeiro) + `counts` por situação |
-| PATCH | `/admin/orders/:id` | Muda a situação `{ status }`; 422 `invalid_transition`, 409 `status_changed` |
+| PATCH | `/admin/orders/:id` | Muda a situação `{ status, trackingCode? }` (rastreio só ao enviar); 422 `invalid_transition`, 409 `status_changed` |
+| PATCH | `/admin/orders/:id/tracking` | Informa ou corrige `{ trackingCode }` de pedido enviado (`null` apaga); 422 `not_shipped` |
 | PATCH | `/admin/products/:id` | Edita `{ price, originalPrice, stock, isFeatured }` (só o que vier); `originalPrice: null` tira a promoção |
 | GET | `/admin/coupons` | Todos os cupons, com `active` e `timesUsed` |
 | POST | `/admin/coupons` | Cria `{ code, type, value, minSubtotal?, description? }` (201); 409 `code_taken` |
 | PATCH | `/admin/coupons/:code` | Liga/desliga `{ active }` (não apaga: pedidos antigos apontam para o cupom) |
+| GET | `/admin/reviews?visibility=&page=` | Avaliações de todos os produtos (20 por página) + `counts` visíveis/ocultas |
+| PATCH | `/admin/reviews/:id` | Oculta ou mostra `{ hidden }`: oculta some da loja e não conta na nota |
+| GET | `/admin/newsletter` | Inscritos na newsletter |
+| DELETE | `/admin/newsletter/:email` | Tira o e-mail da lista, a pedido do cliente (204); 404 `subscriber_not_found` |
 
 ### Painel da loja
 
@@ -82,6 +87,7 @@ test/                testes com node:test
 - Caminhos da situação do pedido: aguardando pagamento → pago → enviado → entregue. Dá para cancelar enquanto
   não foi enviado, e **cancelar devolve os produtos ao estoque** (na mesma transação).
 - Até o pagamento online chegar, a equipe marca "pago" à mão depois de conferir o Pix ou o cartão.
+- Ao marcar como enviado, a equipe pode informar o código de rastreio; o cliente vê em "Minha conta".
 
 ### Contas e login
 

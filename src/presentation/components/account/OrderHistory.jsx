@@ -4,6 +4,7 @@ import { formatAddressLines, formatDeliveryWindow, formatOrderDate, formatPaymen
 import OrderItemList from '../checkout/OrderItemList.jsx'
 import OrderTotals from '../checkout/OrderTotals.jsx'
 import OrderStatusBadge from '../order/OrderStatusBadge.jsx'
+import TrackingCode from '../order/TrackingCode.jsx'
 
 const countItems = (order) => order.items.reduce((sum, item) => sum + item.quantity, 0)
 
@@ -49,6 +50,7 @@ function OrderCard({ order }) {
                   {line}
                 </p>
               ))}
+              {order.trackingCode && <TrackingCode code={order.trackingCode} />}
             </div>
             <div>
               <p className="font-semibold">Pagamento</p>

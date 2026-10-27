@@ -57,5 +57,6 @@ export function useAuth(account) {
       setState({ status: 'ready', customer: null })
     },
     getMyOrders: account.getMyOrders,
+    getSavedAddress: account.getSavedAddress,
   }
 }

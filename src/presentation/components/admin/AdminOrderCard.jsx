@@ -1,3 +1,4 @@
+import { SHIPPED_STATUSES } from '../../../domain/entities/Order.js'
 import { formatPrice } from '../../formatters/currency.js'
 import { formatPhone } from '../../formatters/masks.js'
 import { formatAddressLines, formatDeliveryWindow, formatOrderDate, formatPayment } from '../../formatters/order.js'
@@ -5,12 +6,13 @@ import OrderItemList from '../checkout/OrderItemList.jsx'
 import OrderTotals from '../checkout/OrderTotals.jsx'
 import OrderStatusBadge from '../order/OrderStatusBadge.jsx'
 import OrderStatusActions from './OrderStatusActions.jsx'
+import TrackingCodeEditor from './TrackingCodeEditor.jsx'
 
 /**
  * Pedido no painel: resumo (número, data, cliente, situação, total); clicando, abre itens, cliente,
- * entrega, pagamento e os botões do próximo passo.
+ * entrega (com o rastreio, depois de enviado), pagamento e os botões do próximo passo.
  */
-function AdminOrderCard({ order, onChangeStatus }) {
+function AdminOrderCard({ order, onChangeStatus, onSetTracking }) {
   return (
     <li className="rounded-sm border border-border">
       {/* <details>: abre e fecha sem JavaScript e funciona no teclado */}
@@ -61,6 +63,11 @@ function AdminOrderCard({ order, onChangeStatus }) {
                   {line}
                 </p>
               ))}
+              {SHIPPED_STATUSES.includes(order.status) && (
+                <div className="mt-3">
+                  <TrackingCodeEditor order={order} onSave={onSetTracking} />
+                </div>
+              )}
             </div>
             <div>
               <p className="font-semibold">Pagamento</p>

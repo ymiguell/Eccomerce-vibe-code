@@ -13,9 +13,10 @@ import PaymentForm from '../components/checkout/PaymentForm.jsx'
 import { useAuthContext } from '../context/authContext.js'
 import { useCartContext } from '../context/cartContext.js'
 import { formatPrice } from '../formatters/currency.js'
-import { formatPhone } from '../formatters/masks.js'
+import { formatCep, formatPhone } from '../formatters/masks.js'
 import { formatAddressLines, formatDeliveryWindow } from '../formatters/order.js'
 import { usePageTitle } from '../hooks/usePageTitle.js'
+import { useSavedAddress } from '../hooks/useSavedAddress.js'
 
 const container = 'mx-auto max-w-6xl px-4 sm:px-6 lg:px-8'
 
@@ -70,6 +71,8 @@ function CheckoutPage({ placeOrder, findAddressByCep, estimateShipping }) {
   const cart = useCartContext()
   const auth = useAuthContext() // null quando as contas estão desligadas
   const accountCustomer = auth?.customer ?? null
+  // Logado: o endereço da última compra já vem preenchido na etapa de entrega
+  const savedAddress = useSavedAddress(auth?.getSavedAddress, accountCustomer?.id)
   const navigate = useNavigate()
 
   const [step, setStep] = useState(1)
@@ -234,8 +237,15 @@ function CheckoutPage({ placeOrder, findAddressByCep, estimateShipping }) {
               )
             }
           >
+            {!address && savedAddress && (
+              <p className="mb-4 text-sm text-muted-foreground">
+                Preenchemos com o endereço da sua última compra. Confira antes de continuar.
+              </p>
+            )}
+            {/* A `key` refaz o formulário quando o endereço salvo chega */}
             <AddressForm
-              initialValues={address ?? undefined}
+              key={savedAddress ? 'endereco-salvo' : 'endereco-novo'}
+              initialValues={address ?? (savedAddress ? { ...savedAddress, cep: formatCep(savedAddress.cep) } : undefined)}
               initialEstimate={delivery}
               subtotal={totals.subtotal}
               findAddressByCep={findAddressByCep}

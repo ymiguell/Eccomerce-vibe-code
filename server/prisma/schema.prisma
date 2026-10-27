@@ -141,6 +141,9 @@ model Order {
   deliveryMinDays Int @map("delivery_min_days")
   deliveryMaxDays Int @map("delivery_max_days")
 
+  /// Código de rastreio informado pela equipe ao enviar (o cliente vê em "Minha conta")
+  trackingCode String? @map("tracking_code")
+
   createdAt DateTime @default(now()) @map("created_at")
 
   items OrderItem[]
@@ -181,6 +184,8 @@ model Review {
   comment          String
   /// Marcado quando a avaliação vem de quem comprou o produto
   verifiedPurchase Boolean  @default(false) @map("verified_purchase")
+  /// Ocultada pela equipe (ofensa, propaganda...): continua no banco, mas some da loja
+  hidden           Boolean  @default(false) @map("is_hidden")
   createdAt        DateTime @default(now()) @map("created_at")
 
   @@index([productId, createdAt])

@@ -19,7 +19,7 @@ async function attempt(key, run) {
 /**
  * Painel da loja pela API (/admin). O token de quem está logado vai pelo apiClient; a API confere se é da equipe.
  * Leituras sempre sem cache (a equipe precisa ver o estado atual).
- * Escritas retornam { order | product | coupon } ou { error, fields? }.
+ * Escritas retornam { order | product | coupon | review | removed } ou { error, fields? }.
  */
 export class HttpAdminRepository {
   #api
@@ -34,9 +34,22 @@ export class HttpAdminRepository {
     return { ...data, orders: data.orders.map(toOrder) }
   }
 
-  changeOrderStatus(orderId, status) {
+  /** `trackingCode`: opcional, ao marcar como enviado. */
+  changeOrderStatus(orderId, status, { trackingCode = null } = {}) {
     return attempt('order', async () =>
-      toOrder(await this.#api.patch(`/admin/orders/${encodeURIComponent(orderId)}`, { status })),
+      toOrder(
+        await this.#api.patch(`/admin/orders/${encodeURIComponent(orderId)}`, {
+          status,
+          ...(trackingCode && { trackingCode }),
+        }),
+      ),
+    )
+  }
+
+  /** Informa, corrige ou apaga (null) o rastreio de um pedido enviado. */
+  setTrackingCode(orderId, trackingCode) {
+    return attempt('order', async () =>
+      toOrder(await this.#api.patch(`/admin/orders/${encodeURIComponent(orderId)}/tracking`, { trackingCode })),
     )
   }
 
@@ -61,5 +74,28 @@ export class HttpAdminRepository {
 
   setCouponActive(code, active) {
     return attempt('coupon', () => this.#api.patch(`/admin/coupons/${encodeURIComponent(code)}`, { active }))
+  }
+
+  /** `visibility`: 'visible' | 'hidden' | null (todas). */
+  async listReviews({ visibility = null, page = 1 } = {}) {
+    const query = new URLSearchParams({ page: String(page), ...(visibility && { visibility }) })
+    return this.#api.get(`/admin/reviews?${query}`, { cache: false })
+  }
+
+  setReviewHidden(reviewId, hidden) {
+    return attempt('review', () => this.#api.patch(`/admin/reviews/${encodeURIComponent(reviewId)}`, { hidden }))
+  }
+
+  listSubscribers() {
+    return this.#api.get('/admin/newsletter', { cache: false })
+  }
+
+  async removeSubscriber(email) {
+    try {
+      await this.#api.delete(`/admin/newsletter/${encodeURIComponent(email)}`)
+      return { removed: true }
+    } catch (error) {
+      return toFailure(error)
+    }
   }
 }

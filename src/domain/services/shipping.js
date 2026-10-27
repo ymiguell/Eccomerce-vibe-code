@@ -41,6 +41,15 @@ export function getRegionByCep(value) {
   return CEP_REGIONS.find(([min, max]) => prefix >= min && prefix <= max)?.[2] ?? null
 }
 
+/** Prazo de entrega (já com a postagem) de cada região, para tabelas informativas. */
+export function getDeliveryWindows() {
+  return Object.entries(TRANSIT_DAYS).map(([region, [minTransit, maxTransit]]) => ({
+    region,
+    minDays: minTransit,
+    maxDays: maxTransit + POSTING_DAYS,
+  }))
+}
+
 export function hasFreeShipping(subtotal) {
   return subtotal >= FREE_SHIPPING_THRESHOLD
 }

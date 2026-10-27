@@ -22,6 +22,21 @@ export function canChangeOrderStatus(from, to) {
   return ORDER_STATUS_TRANSITIONS[from]?.includes(to) ?? false
 }
 
+/** Situações em que o pedido já saiu da loja (pode ter código de rastreio). */
+export const SHIPPED_STATUSES = Object.freeze(['shipped', 'delivered'])
+
+// Letras, números e hífen. Correios: AA123456789BR; outras transportadoras usam outros formatos
+const TRACKING_CODE_PATTERN = /^[A-Z0-9-]{4,40}$/
+
+/** " aa 123456789 br " → "AA123456789BR" */
+export function normalizeTrackingCode(value) {
+  return value.replace(/\s/g, '').toUpperCase()
+}
+
+export function isValidTrackingCode(code) {
+  return TRACKING_CODE_PATTERN.test(code)
+}
+
 /** O produto esgotou (ou não tem a quantidade pedida) no momento de gravar o pedido. */
 export class OutOfStockError extends Error {
   constructor(productId) {

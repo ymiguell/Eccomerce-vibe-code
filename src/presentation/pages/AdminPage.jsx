@@ -3,8 +3,10 @@ import AdminTabs from '../components/admin/AdminTabs.jsx'
 import { useAuthContext } from '../context/authContext.js'
 import { usePageTitle } from '../hooks/usePageTitle.js'
 import AdminCouponsPage from './admin/AdminCouponsPage.jsx'
+import AdminNewsletterPage from './admin/AdminNewsletterPage.jsx'
 import AdminOrdersPage from './admin/AdminOrdersPage.jsx'
 import AdminProductsPage from './admin/AdminProductsPage.jsx'
+import AdminReviewsPage from './admin/AdminReviewsPage.jsx'
 
 function NotAllowed() {
   usePageTitle('Painel da loja')
@@ -20,7 +22,7 @@ function NotAllowed() {
 }
 
 /**
- * Painel da loja (/admin, /admin/produtos, /admin/cupons). Só para contas da equipe (isAdmin).
+ * Painel da loja (/admin, /admin/produtos, /admin/cupons, /admin/avaliacoes, /admin/newsletter). Só para contas da equipe (isAdmin).
  * Esconder a página é só conforto: quem protege de verdade é a API, que confere a conta em cada chamada.
  * `admin`: os casos de uso do painel (App.jsx).
  */
@@ -35,7 +37,7 @@ function AdminPage({ admin }) {
   return (
     <main className="mx-auto max-w-6xl px-4 pt-8 pb-16 sm:px-6 lg:px-8">
       <h1 className="text-3xl font-semibold sm:text-4xl">Painel da loja</h1>
-      <p className="mt-1 text-sm text-muted-foreground">Pedidos, estoque, preços e cupons.</p>
+      <p className="mt-1 text-sm text-muted-foreground">Pedidos, estoque, preços, cupons, avaliações e newsletter.</p>
 
       <div className="mt-6">
         <AdminTabs />
@@ -43,13 +45,30 @@ function AdminPage({ admin }) {
 
       <div className="mt-6">
         <Routes>
-          <Route index element={<AdminOrdersPage getAdminOrders={admin.getAdminOrders} changeOrderStatus={admin.changeOrderStatus} />} />
+          <Route
+            index
+            element={
+              <AdminOrdersPage
+                getAdminOrders={admin.getAdminOrders}
+                changeOrderStatus={admin.changeOrderStatus}
+                setTrackingCode={admin.setTrackingCode}
+              />
+            }
+          />
           <Route path="produtos" element={<AdminProductsPage getInventory={admin.getInventory} updateProduct={admin.updateProduct} />} />
           <Route
             path="cupons"
             element={
               <AdminCouponsPage getCoupons={admin.getCoupons} createCoupon={admin.createCoupon} setCouponActive={admin.setCouponActive} />
             }
+          />
+          <Route
+            path="avaliacoes"
+            element={<AdminReviewsPage getAdminReviews={admin.getAdminReviews} setReviewHidden={admin.setReviewHidden} />}
+          />
+          <Route
+            path="newsletter"
+            element={<AdminNewsletterPage getSubscribers={admin.getSubscribers} removeSubscriber={admin.removeSubscriber} />}
           />
           <Route path="*" element={<Navigate to="/admin" replace />} />
         </Routes>

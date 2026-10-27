@@ -27,6 +27,7 @@ function toOrder(row) {
       installmentValue: money(row.installmentValue),
     },
     delivery: { minDays: row.deliveryMinDays, maxDays: row.deliveryMaxDays },
+    trackingCode: row.trackingCode,
     totals: {
       subtotal: money(row.subtotal),
       discount: money(row.discount),
@@ -139,10 +140,12 @@ export class PrismaOrderRepository {
   /**
    * Muda a situação só se ela ainda for `from` (se outra pessoa mudou antes, retorna null).
    * Com `restoreStock`, devolve ao estoque os produtos do pedido — tudo na mesma transação.
+   * `trackingCode` (opcional) é gravado junto, ao marcar como enviado.
    */
-  async changeStatus(id, { from, to, restoreStock = false }) {
+  async changeStatus(id, { from, to, restoreStock = false, trackingCode }) {
     return this.#prisma.$transaction(async (tx) => {
-      const { count } = await tx.order.updateMany({ where: { id, status: from }, data: { status: to } })
+      const data = { status: to, ...(trackingCode !== undefined && { trackingCode }) }
+      const { count } = await tx.order.updateMany({ where: { id, status: from }, data })
       if (count === 0) return null
 
       const row = await tx.order.findUnique({ where: { id }, include: ITEMS })
@@ -153,6 +156,12 @@ export class PrismaOrderRepository {
       }
       return toOrder(row)
     })
+  }
+
+  /** Informa ou apaga (null) o código de rastreio. */
+  async setTrackingCode(id, trackingCode) {
+    const row = await this.#prisma.order.update({ where: { id }, data: { trackingCode }, include: ITEMS })
+    return toOrder(row)
   }
 
   /** Pedidos de uma conta, dos mais recentes para os mais antigos. */

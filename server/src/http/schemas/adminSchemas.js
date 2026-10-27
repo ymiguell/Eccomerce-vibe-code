@@ -45,19 +45,35 @@ export const listOrdersSchema = {
   },
 }
 
+// :id de pedido ou avaliação (uuid)
+const orderParams = {
+  type: 'object',
+  properties: { id: { type: 'string', minLength: 1, maxLength: 64 } },
+  required: ['id'],
+}
+// Opcional ao marcar como enviado; null apaga (o formato é conferido no domínio)
+const trackingCode = { type: ['string', 'null'], maxLength: 60 }
+
 export const changeOrderStatusSchema = {
-  params: {
-    type: 'object',
-    properties: { id: { type: 'string', minLength: 1, maxLength: 64 } },
-    required: ['id'],
-  },
+  params: orderParams,
   body: {
     type: 'object',
     required: ['status'],
-    properties: { status: { type: 'string', enum: ORDER_STATUSES } },
+    properties: { status: { type: 'string', enum: ORDER_STATUSES }, trackingCode },
     additionalProperties: false,
   },
   response: { 200: orderSchema, 404: errorSchema, 409: errorSchema, 422: errorSchema, ...errors },
+}
+
+export const setTrackingCodeSchema = {
+  params: orderParams,
+  body: {
+    type: 'object',
+    required: ['trackingCode'],
+    properties: { trackingCode },
+    additionalProperties: false,
+  },
+  response: { 200: orderSchema, 404: errorSchema, 422: errorSchema, ...errors },
 }
 
 export const updateProductSchema = {
@@ -124,4 +140,73 @@ export const setCouponActiveSchema = {
     additionalProperties: false,
   },
   response: { 200: adminCouponSchema, 404: errorSchema, ...errors },
+}
+
+const adminReviewSchema = {
+  type: 'object',
+  properties: {
+    id: { type: 'string' },
+    productId: { type: 'string' },
+    productName: { type: 'string' },
+    author: { type: 'string' },
+    rating: { type: 'integer' },
+    comment: { type: 'string' },
+    date: { type: 'string' },
+    verifiedPurchase: { type: 'boolean' },
+    hidden: { type: 'boolean' },
+  },
+}
+
+export const listReviewsSchema = {
+  querystring: {
+    type: 'object',
+    properties: {
+      visibility: { type: 'string', enum: ['visible', 'hidden'] },
+      page: { type: 'integer', minimum: 1, maximum: 10_000, default: 1 },
+    },
+    additionalProperties: false,
+  },
+  response: {
+    200: {
+      type: 'object',
+      properties: {
+        reviews: { type: 'array', items: adminReviewSchema },
+        total: { type: 'integer' },
+        page: { type: 'integer' },
+        pageSize: { type: 'integer' },
+        counts: { type: 'object', properties: { visible: { type: 'integer' }, hidden: { type: 'integer' } } },
+      },
+    },
+    ...errors,
+  },
+}
+
+export const setReviewHiddenSchema = {
+  params: orderParams,
+  body: {
+    type: 'object',
+    required: ['hidden'],
+    properties: { hidden: { type: 'boolean' } },
+    additionalProperties: false,
+  },
+  response: { 200: adminReviewSchema, 404: errorSchema, ...errors },
+}
+
+export const listSubscribersSchema = {
+  response: {
+    200: {
+      type: 'array',
+      items: { type: 'object', properties: { email: { type: 'string' }, createdAt: { type: 'string' } } },
+    },
+    ...errors,
+  },
+}
+
+export const removeSubscriberSchema = {
+  params: {
+    type: 'object',
+    properties: { email: { type: 'string', minLength: 3, maxLength: 254 } },
+    required: ['email'],
+  },
+  response: { 404: errorSchema, ...errors },
 }

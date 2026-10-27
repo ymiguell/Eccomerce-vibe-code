@@ -25,11 +25,13 @@ function TimeUnit({ value, unit }) {
 
 /**
  * Faixa acima da NavBar com contagem regressiva para a Black Friday.
- * Antes da data: "A Black Friday está chegando" + relógio. Durante: "A Black Friday começou" + tempo até acabar.
+ * Semanas antes: "A Black Friday está chegando" + relógio. Durante: "A Black Friday começou" + tempo até acabar.
+ * Fora dessa janela a faixa some.
  */
 function AnnouncementBar() {
   const now = useNow()
   const status = getBlackFridayStatus(now)
+  if (status.phase === 'off') return null
   const isLive = status.phase === 'live'
   const remaining = getTimeRemaining(isLive ? status.endsAt : status.startsAt, now)
 

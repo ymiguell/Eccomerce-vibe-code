@@ -38,7 +38,7 @@ export async function buildApp({ corsOrigins, useCases, logger = true, trustProx
   )
 
   // Só o site da loja (e o ambiente local) pode chamar a API pelo navegador
-  await app.register(cors, { origin: corsOrigins, methods: ['GET', 'HEAD', 'POST', 'PATCH'] })
+  await app.register(cors, { origin: corsOrigins, methods: ['GET', 'HEAD', 'POST', 'PATCH', 'DELETE'] })
 
   // Quem está logado (request.customer), a partir do token de sessão
   if (useCases.authenticate) addAuthentication(app, useCases.authenticate)

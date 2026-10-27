@@ -2,7 +2,12 @@ import { makeChangeOrderStatus } from './application/useCases/admin/changeOrderS
 import { makeCreateCoupon } from './application/useCases/admin/createCoupon.js'
 import { makeListCoupons } from './application/useCases/admin/listCoupons.js'
 import { makeListOrders } from './application/useCases/admin/listOrders.js'
+import { makeListReviews } from './application/useCases/admin/listReviews.js'
+import { makeListSubscribers } from './application/useCases/admin/listSubscribers.js'
+import { makeRemoveSubscriber } from './application/useCases/admin/removeSubscriber.js'
 import { makeSetCouponActive } from './application/useCases/admin/setCouponActive.js'
+import { makeSetReviewHidden } from './application/useCases/admin/setReviewHidden.js'
+import { makeSetTrackingCode } from './application/useCases/admin/setTrackingCode.js'
 import { makeUpdateProduct } from './application/useCases/admin/updateProduct.js'
 import { makeAuthenticate } from './application/useCases/authenticate.js'
 import { makeCheckHealth } from './application/useCases/checkHealth.js'
@@ -40,6 +45,7 @@ const productRepository = new PrismaProductRepository(prisma)
 const couponRepository = new PrismaCouponRepository(prisma)
 const reviewRepository = new PrismaReviewRepository(prisma)
 const orderRepository = new PrismaOrderRepository(prisma)
+const newsletterRepository = new PrismaNewsletterRepository(prisma)
 const accounts = {
   customerRepository: new PrismaCustomerRepository(prisma),
   sessionRepository: new PrismaSessionRepository(prisma),
@@ -58,7 +64,7 @@ const useCases = {
   // Avaliações e newsletter
   listProductReviews: makeListProductReviews(reviewRepository),
   submitReview: makeSubmitReview({ productRepository, reviewRepository }),
-  subscribeToNewsletter: makeSubscribeToNewsletter(new PrismaNewsletterRepository(prisma)),
+  subscribeToNewsletter: makeSubscribeToNewsletter(newsletterRepository),
   // Contas
   authenticate: makeAuthenticate(accounts.sessionRepository),
   registerCustomer: makeRegisterCustomer(accounts),
@@ -70,10 +76,15 @@ const useCases = {
   admin: {
     listOrders: makeListOrders(orderRepository),
     changeOrderStatus: makeChangeOrderStatus(orderRepository),
+    setTrackingCode: makeSetTrackingCode(orderRepository),
     updateProduct: makeUpdateProduct(productRepository),
     listCoupons: makeListCoupons(couponRepository),
     createCoupon: makeCreateCoupon(couponRepository),
     setCouponActive: makeSetCouponActive(couponRepository),
+    listReviews: makeListReviews(reviewRepository),
+    setReviewHidden: makeSetReviewHidden(reviewRepository),
+    listSubscribers: makeListSubscribers(newsletterRepository),
+    removeSubscriber: makeRemoveSubscriber(newsletterRepository),
   },
 }
 
