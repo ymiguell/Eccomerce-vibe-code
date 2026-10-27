@@ -26,14 +26,17 @@ const reviews = readJson('reviews.json').map((data) => {
 const prisma = createPrismaClient(process.env.DATABASE_URL)
 
 try {
-  await prisma.$transaction([
-    ...products.map((product) =>
-      prisma.product.upsert({ where: { id: product.id }, create: product, update: product }),
-    ),
-    ...banners.map((banner) => prisma.banner.upsert({ where: { id: banner.id }, create: banner, update: banner })),
-    ...coupons.map((coupon) => prisma.coupon.upsert({ where: { code: coupon.code }, create: coupon, update: coupon })),
-    ...reviews.map((review) => prisma.review.upsert({ where: { id: review.id }, create: review, update: review })),
-  ])
+  // Tudo ou nada. Prazo largo: no banco da hospedagem cada gravação vai e volta pela internet,
+  // e as ~130 passam do limite padrão de 5 segundos
+  await prisma.$transaction(
+    async (tx) => {
+      for (const product of products) await tx.product.upsert({ where: { id: product.id }, create: product, update: product })
+      for (const banner of banners) await tx.banner.upsert({ where: { id: banner.id }, create: banner, update: banner })
+      for (const coupon of coupons) await tx.coupon.upsert({ where: { code: coupon.code }, create: coupon, update: coupon })
+      for (const review of reviews) await tx.review.upsert({ where: { id: review.id }, create: review, update: review })
+    },
+    { maxWait: 20_000, timeout: 120_000 },
+  )
   console.log(
     `Seed concluído: ${products.length} produtos, ${banners.length} banners, ${coupons.length} cupons e ${reviews.length} avaliações.`,
   )

@@ -43,6 +43,7 @@ import { PrismaPasswordResetRepository } from './infrastructure/repositories/Pri
 import { PrismaReviewRepository } from './infrastructure/repositories/PrismaReviewRepository.js'
 import { PrismaSessionRepository } from './infrastructure/repositories/PrismaSessionRepository.js'
 import { ScryptPasswordHasher } from './infrastructure/security/ScryptPasswordHasher.js'
+import { CloudinaryImageStorage } from './infrastructure/storage/CloudinaryImageStorage.js'
 import { LocalImageStorage } from './infrastructure/storage/LocalImageStorage.js'
 
 // Composição: liga a infraestrutura (banco) aos casos de uso e sobe a API. É o "App.jsx" do servidor.
@@ -59,8 +60,10 @@ const accounts = {
   passwordHasher: new ScryptPasswordHasher(),
   passwordResetRepository: new PrismaPasswordResetRepository(prisma),
 }
-// Fotos do painel numa pasta do servidor (até a loja ter um serviço de imagens)
-const imageStorage = new LocalImageStorage({ directory: config.uploadsDir, publicUrl: `${config.publicUrl}/uploads` })
+// Fotos do painel: no Cloudinary quando configurado (hospedagem); senão numa pasta do servidor (ambiente local)
+const imageStorage = config.cloudinaryUrl
+  ? new CloudinaryImageStorage({ cloudinaryUrl: config.cloudinaryUrl })
+  : new LocalImageStorage({ directory: config.uploadsDir, publicUrl: `${config.publicUrl}/uploads` })
 // Até a loja ter um serviço de e-mail, os e-mails aparecem no terminal
 const emailSender = new ConsoleEmailSender()
 
@@ -107,7 +110,7 @@ const useCases = {
 const app = await buildApp({
   corsOrigins: config.corsOrigins,
   trustProxy: config.trustProxy,
-  uploadsDir: config.uploadsDir,
+  uploadsDir: config.cloudinaryUrl ? null : config.uploadsDir,
   useCases,
 })
 

@@ -18,6 +18,8 @@ export function loadConfig() {
     trustProxy: process.env.TRUST_PROXY === 'true',
     // Endereço desta API na internet (sem / no fim): forma o link das fotos enviadas pelo painel
     publicUrl: (process.env.PUBLIC_URL ?? `http://localhost:${process.env.PORT ?? 3333}`).replace(/\/+$/, ''),
+    // Serviço de imagens (hospedagem). Sem ele, as fotos do painel ficam na pasta uploadsDir
+    cloudinaryUrl: process.env.CLOUDINARY_URL || null,
     // Pasta das fotos enviadas pelo painel (ambiente local)
     uploadsDir: process.env.UPLOADS_DIR ?? fileURLToPath(new URL('../../uploads/', import.meta.url)),
     // Endereço do site (sem / no fim): os links dos e-mails apontam para ele
