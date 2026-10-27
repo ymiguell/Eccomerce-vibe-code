@@ -105,8 +105,8 @@ test/                testes com node:test
 - Login com e-mail inexistente ou senha errada dá a mesma resposta (e leva o mesmo tempo).
 - **Esqueci minha senha:** o link vale 1 hora e uma vez só (pedir de novo invalida o anterior). Trocar a senha
   sai da conta em todos os aparelhos. A resposta é a mesma com ou sem conta, para não revelar quem é cliente.
-- **E-mails:** enquanto a loja não tem serviço de e-mail, eles aparecem no terminal do `npm run dev`
-  (com o link de nova senha). `SITE_URL` no `.env` define o endereço do site usado nos links.
+- **E-mails:** com `BREVO_API_KEY` definida (hospedagem), saem pelo Brevo em nome de `EMAIL_FROM`; sem ela,
+  aparecem no terminal do `npm run dev` (com o link de nova senha). `SITE_URL` no `.env` define o endereço do site usado nos links.
 - Pedidos feitos sem login **não** são ligados à conta pelo e-mail: sem confirmação de e-mail, alguém poderia
   criar conta com o e-mail de outra pessoa e ver os pedidos dela.
 

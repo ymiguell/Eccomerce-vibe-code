@@ -32,6 +32,7 @@ import { loadConfig } from './config/env.js'
 import { buildApp } from './http/app.js'
 import { PrismaDatabaseStatus } from './infrastructure/database/PrismaDatabaseStatus.js'
 import { createPrismaClient } from './infrastructure/database/prismaClient.js'
+import { BrevoEmailSender } from './infrastructure/email/BrevoEmailSender.js'
 import { ConsoleEmailSender } from './infrastructure/email/ConsoleEmailSender.js'
 import { PrismaBannerRepository } from './infrastructure/repositories/PrismaBannerRepository.js'
 import { PrismaCouponRepository } from './infrastructure/repositories/PrismaCouponRepository.js'
@@ -64,8 +65,10 @@ const accounts = {
 const imageStorage = config.cloudinaryUrl
   ? new CloudinaryImageStorage({ cloudinaryUrl: config.cloudinaryUrl })
   : new LocalImageStorage({ directory: config.uploadsDir, publicUrl: `${config.publicUrl}/uploads` })
-// Até a loja ter um serviço de e-mail, os e-mails aparecem no terminal
-const emailSender = new ConsoleEmailSender()
+// E-mails pelo Brevo quando configurado (hospedagem); senão aparecem no terminal (ambiente local)
+const emailSender = config.brevoApiKey
+  ? new BrevoEmailSender({ apiKey: config.brevoApiKey, sender: config.emailFrom })
+  : new ConsoleEmailSender()
 
 const useCases = {
   checkHealth: makeCheckHealth(new PrismaDatabaseStatus(prisma)),
